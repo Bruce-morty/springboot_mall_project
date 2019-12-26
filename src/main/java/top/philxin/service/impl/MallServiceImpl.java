@@ -64,4 +64,17 @@ public class MallServiceImpl implements MallService {
         baseDataVo.setTotal((int) pageInfo.getTotal());
         return baseDataVo;
     }
+
+    /**
+     * 此方法为更新品牌商信息的具体实现
+     * @param brand
+     * @return
+     */
+    @Override
+    public Brand updateBrand(Brand brand) {
+        brandMapper.updateByPrimaryKeySelective(brand);
+        //将刚刚更改后的品牌商查出并返回
+        Brand newBrand = brandMapper.selectByPrimaryKey(brand.getId());
+        return newBrand;
+    }
 }

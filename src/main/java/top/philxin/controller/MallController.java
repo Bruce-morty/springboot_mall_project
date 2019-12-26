@@ -3,7 +3,6 @@ package top.philxin.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.MallModel.Brand;
 import top.philxin.model.MallModel.BrandCondition;
@@ -39,5 +38,17 @@ public class MallController {
         BaseDataVo<Brand> baseDataVo = mallService.getBrandListByPage(brandCondition);
         BaseRespVo baseRespVo = BaseRespVo.success(baseDataVo);
         return baseRespVo;
+    }
+
+    /**
+     * 此方法用于更新品牌制造商信息
+     * @param brand
+     * @return
+     */
+    @RequestMapping("brand/update")
+    public BaseRespVo updateBrand(@RequestBody Brand brand) {
+        Brand newBrand = mallService.updateBrand(brand);
+        BaseRespVo<Brand> baseRespVo = BaseRespVo.success(newBrand);
+        return  baseRespVo;
     }
 }

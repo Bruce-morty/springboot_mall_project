@@ -13,4 +13,6 @@ public interface MallService {
     List<Region> getAllRegion();
 
     BaseDataVo<Brand> getBrandListByPage(BrandCondition brandCondition);
+
+    Brand updateBrand(Brand brand);
 }
