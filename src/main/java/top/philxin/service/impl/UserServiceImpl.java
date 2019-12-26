@@ -28,6 +28,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     BaseDataVo baseDataVo;
 
+    /**
+     * 获取用户信息 + 模糊查询
+     * @param pageHelperVo
+     * @param username
+     * @param mobile
+     * @return
+     */
     @Override
     public BaseDataVo queryUsers(PageHelperVo pageHelperVo,String username, String mobile) {
         // 开启分页
@@ -46,7 +53,7 @@ public class UserServiceImpl implements UserService {
         baseDataVo.setItems(userList);
         PageInfo<User> pageInfo = new PageInfo<>(userList);
         long total = pageInfo.getTotal();
-        // 纯如 totals
+        // 存入 totals
         baseDataVo.setTotal((int)total);
         return baseDataVo;
     }

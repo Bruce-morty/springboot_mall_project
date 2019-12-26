@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.MallModel.Region;
-import top.philxin.model.responseModel.BaseRespVo;
+import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.MallService;
 
 import java.util.List;

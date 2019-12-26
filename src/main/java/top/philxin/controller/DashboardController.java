@@ -25,7 +25,6 @@ public class DashboardController {
     public BaseRespVo getDashboard() {
 
         DashboardVo dashboard = dashboardService.getDashboard();
-        //ggggggggggggggggg
         return BaseRespVo.success(dashboard);
     }
 }
