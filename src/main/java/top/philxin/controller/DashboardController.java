@@ -24,6 +24,7 @@ public class DashboardController {
     @RequestMapping("dashboard")
     public BaseRespVo getDashboard() {
         DashboardVo dashboard = dashboardService.getDashboard();
+        //ggggggggggggggggg
         return BaseRespVo.success(dashboard);
     }
 }
