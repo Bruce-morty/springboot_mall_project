@@ -1,8 +1,8 @@
 server:
   port: 8080
 
-pagehelper:
-  dialect: mysql
+#pagehelper:
+  ##  dialect: mysql
 
 spring:
   profiles:

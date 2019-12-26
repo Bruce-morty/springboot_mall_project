@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.responseModel.BaseRespVo;
+import top.philxin.model.responseModel.DashboardVo;
 import top.philxin.service.DashboardService;
 
 /**
@@ -22,6 +23,7 @@ public class DashboardController {
 
 //    @RequestMapping("dashboard")
 //    public BaseRespVo getDashboard() {
-//
+//        DashboardVo dashboard = dashboardService.getDashboard();
+//        dashboar
 //    }
 }

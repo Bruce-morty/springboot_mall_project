@@ -1,5 +1,7 @@
 package top.philxin.service;
 
+import top.philxin.model.responseModel.DashboardVo;
+
 /**
  * @ClassName: DashboardService
  * @Description: TODO
@@ -8,4 +10,5 @@ package top.philxin.service;
  * @version: v1.0
  */
 public interface DashboardService {
+    DashboardVo getDashboard();
 }

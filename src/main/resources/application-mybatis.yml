@@ -1,3 +1,4 @@
 mybatis:
-  mapper-locations: top.philxin.mapper
-  config-location:
+  mapper-locations: classpath:top/philxin/mapper/*.xml
+  type-aliases-package: top.philxin.bean
+  type-handlers-package: top.philxin.typehandler

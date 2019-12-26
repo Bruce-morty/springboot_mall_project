@@ -23,16 +23,11 @@ public class AuthController {
 
     @RequestMapping("login")
     public BaseRespVo adminLogin(@RequestBody LoginVo loginVo) {
-        BaseRespVo baseRespVo = new BaseRespVo();
-        baseRespVo.setErrno(0);
-        baseRespVo.setData("455d9fc7-ee3b-45bf-8968-2baa88bef5e8");
-        baseRespVo.setErrmsg("成功");
-        return baseRespVo;
+        return BaseRespVo.success("455d9fc7-ee3b-45bf-8968-2baa88bef5e8");
     }
 
     @RequestMapping("info")
     public BaseRespVo adminInfo() {
-        BaseRespVo baseRespVo = new BaseRespVo();
         AdminInfoVo adminInfoVo = new AdminInfoVo();
         adminInfoVo.setName("admin123");
         adminInfoVo.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
@@ -42,9 +37,6 @@ public class AuthController {
         roleList.add("超级管理员");
         adminInfoVo.setPerms(permList);
         adminInfoVo.setRoles(roleList);
-        baseRespVo.setData(adminInfoVo);
-        baseRespVo.setErrno(0);
-        baseRespVo.setErrmsg("成功");
-        return baseRespVo;
+        return BaseRespVo.success(adminInfoVo);
     }
 }

@@ -1,6 +1,7 @@
 package top.philxin.service.impl;
 
 import org.springframework.stereotype.Service;
+import top.philxin.model.responseModel.DashboardVo;
 import top.philxin.service.DashboardService;
 
 /**
@@ -12,4 +13,8 @@ import top.philxin.service.DashboardService;
  */
 @Service
 public class DashboardServiceImpl implements DashboardService{
+    @Override
+    public DashboardVo getDashboard() {
+        return null;
+    }
 }
