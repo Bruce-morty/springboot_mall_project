@@ -18,9 +18,22 @@ public class Generalize_AdServiceImpl implements Generalize_AdService {
 
 
     @Override
-    public List<Ad> getAd(PageHelperVo pageHelperVo) {
+    public List<Ad> getAd(PageHelperVo pageHelperVo,String name,String content) {
         PageHelper.startPage(pageHelperVo.getPage(),pageHelperVo.getLimit());
-        List<Ad> ads = adMapper.selectByExample(new AdExample());
+        AdExample adExample = new AdExample();
+        AdExample.Criteria criteria = adExample.createCriteria();
+        //按什么排序
+        adExample.setOrderByClause(pageHelperVo.getSort()+" "+pageHelperVo.getOrder());
+        if(name!=null&&name.length()!=0)
+        {
+            criteria.andNameLike("%"+name+"%");
+        }
+        if(content!=null&&content.length()!=0)
+        {
+            criteria.andNameLike("%"+content+"%");
+        }
+
+        List<Ad> ads = adMapper.selectByExample(adExample);
         return ads;
     }
 }

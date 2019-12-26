@@ -17,9 +17,9 @@ public class Generalize_AdController {
   @Autowired
   Generalize_AdService generalize_adService;
     @RequestMapping("admin/ad/list")
-    public BaseRespVo getAd(PageHelperVo pageHelperVo)
+    public BaseRespVo getAd(PageHelperVo pageHelperVo,String name,String content)
     {
-        List<Ad> ad = generalize_adService.getAd(pageHelperVo);
+        List<Ad> ad = generalize_adService.getAd(pageHelperVo,name,content);
         HashMap<Object, Object> map = new HashMap<>();
         map.put("items",ad);
         map.put("total",ad.size());
