@@ -1,6 +1,15 @@
 package top.philxin.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.philxin.mapper.GoodsMapper;
+import top.philxin.mapper.GoodsProductMapper;
+import top.philxin.mapper.OrderMapper;
+import top.philxin.mapper.UserMapper;
+import top.philxin.model.GoodsExample;
+import top.philxin.model.GoodsProductExample;
+import top.philxin.model.OrderExample;
+import top.philxin.model.UserExample;
 import top.philxin.model.responseModel.DashboardVo;
 import top.philxin.service.DashboardService;
 
@@ -13,8 +22,29 @@ import top.philxin.service.DashboardService;
  */
 @Service
 public class DashboardServiceImpl implements DashboardService{
+    @Autowired
+    GoodsMapper goodsMapper;
+
+    @Autowired
+    UserMapper userMapper;
+
+    @Autowired
+    GoodsProductMapper goodsProductMapper;
+
+    @Autowired
+    OrderMapper orderMapper;
+
     @Override
     public DashboardVo getDashboard() {
-        return null;
+        DashboardVo dashboardVo = new DashboardVo();
+        int goodsTotal = (int) goodsMapper.countByExample(new GoodsExample());
+        int userTotal = (int) userMapper.countByExample(new UserExample());
+        int productTotal = (int) goodsProductMapper.countByExample(new GoodsProductExample());
+        int orderTotal = (int) orderMapper.countByExample(new OrderExample());
+        dashboardVo.setGoodsTotal(goodsTotal);
+        dashboardVo.setUserTotal(userTotal);
+        dashboardVo.setProductTotal(productTotal);
+        dashboardVo.setOrderTotal(orderTotal);
+        return dashboardVo;
     }
 }

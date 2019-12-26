@@ -1,11 +1,13 @@
 package top.philxin.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.philxin.model.User;
 import top.philxin.model.UserExample;
 
 import java.util.List;
 
+@Mapper
 public interface UserMapper {
     long countByExample(UserExample example);
 

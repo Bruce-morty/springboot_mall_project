@@ -21,9 +21,9 @@ public class DashboardController {
     @Autowired
     DashboardService dashboardService;
 
-//    @RequestMapping("dashboard")
-//    public BaseRespVo getDashboard() {
-//        DashboardVo dashboard = dashboardService.getDashboard();
-//        dashboar
-//    }
+    @RequestMapping("dashboard")
+    public BaseRespVo getDashboard() {
+        DashboardVo dashboard = dashboardService.getDashboard();
+        return BaseRespVo.success(dashboard);
+    }
 }

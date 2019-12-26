@@ -1,11 +1,13 @@
 package top.philxin.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.philxin.model.Order;
 import top.philxin.model.OrderExample;
 
 import java.util.List;
 
+@Mapper
 public interface OrderMapper {
     long countByExample(OrderExample example);
 
