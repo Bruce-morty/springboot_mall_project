@@ -1,0 +1,3 @@
+mybatis:
+  mapper-locations: top.philxin.mapper
+  config-location:
