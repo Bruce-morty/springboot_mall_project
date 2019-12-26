@@ -1,11 +1,10 @@
 server:
   port: 8080
 
-#pagehelper:
-  ##  dialect: mysql
-
 spring:
   profiles:
-    active: druid
+    active: druid,mybatis
 
+pagehelper:
+  helper-dialect: mysql
 

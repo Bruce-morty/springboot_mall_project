@@ -25,14 +25,14 @@ public class BaseRespVo<T>{
     public static BaseRespVo success() {
         BaseRespVo BaseRespVo = new BaseRespVo();
         BaseRespVo.setErrno(0);
-        BaseRespVo.setErrmsg("success");
+        BaseRespVo.setErrmsg("成功");
         return BaseRespVo;
     }
 
     public static <V> BaseRespVo<V> success(V data) {
         BaseRespVo<V> BaseRespVo = new BaseRespVo<>();
         BaseRespVo.setErrno(0);
-        BaseRespVo.setErrmsg("success");
+        BaseRespVo.setErrmsg("成功");
         BaseRespVo.setData(data);
         return BaseRespVo;
     }

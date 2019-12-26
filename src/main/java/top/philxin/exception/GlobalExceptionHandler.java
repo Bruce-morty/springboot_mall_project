@@ -17,4 +17,10 @@ public class GlobalExceptionHandler {
         logger.error("未知错误",e);
         return BaseRespVo.error(-99, "未知错误，请联系系统管理员");
     }
+
+    @ExceptionHandler
+    public BaseRespVo classCastException(ClassCastException e) {
+        logger.error("参数类型不匹配",e);
+        return BaseRespVo.error(-98,"参数类型不匹配");
+    }
 }
