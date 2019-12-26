@@ -7,7 +7,7 @@ import top.philxin.model.responseModel.BaseRespVo;
 
 @ControllerAdvice
 @ResponseBody
-public class GloabExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public BaseRespVo unknownException(Exception e) {
