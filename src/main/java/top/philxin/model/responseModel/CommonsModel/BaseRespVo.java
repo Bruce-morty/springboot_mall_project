@@ -1,4 +1,4 @@
-package top.philxin.model.responseModel;
+package top.philxin.model.responseModel.CommonsModel;
 
 import lombok.Data;
 

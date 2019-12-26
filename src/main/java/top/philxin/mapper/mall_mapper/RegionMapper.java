@@ -1,8 +1,8 @@
-package top.philxin.mapper;
+package top.philxin.mapper.mall_mapper;
 
 import org.apache.ibatis.annotations.Param;
-import top.philxin.model.Region;
-import top.philxin.model.RegionExample;
+import top.philxin.model.MallModel.Region;
+import top.philxin.model.MallModel.RegionExample;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ public interface RegionMapper {
     int insertSelective(Region record);
 
     List<Region> selectByExample(RegionExample example);
+
+    List<Region> selectByTypeAndPid(@Param("type") Integer type, @Param("pid") Integer Pid);
 
     Region selectByPrimaryKey(Integer id);
 

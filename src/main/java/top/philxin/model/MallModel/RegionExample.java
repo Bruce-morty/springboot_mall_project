@@ -1,4 +1,4 @@
-package top.philxin.model;
+package top.philxin.model.MallModel;
 
 import java.util.ArrayList;
 import java.util.List;

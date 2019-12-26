@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.requestModel.LoginVo;
 import top.philxin.model.responseModel.AdminInfoVo;
-import top.philxin.model.responseModel.BaseRespVo;
+import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 
 import java.util.ArrayList;
 import java.util.List;
