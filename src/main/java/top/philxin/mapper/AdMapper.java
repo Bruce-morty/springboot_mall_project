@@ -1,11 +1,13 @@
 package top.philxin.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.mybatis.spring.annotation.MapperScan;
 import top.philxin.model.Ad;
 import top.philxin.model.AdExample;
 
 import java.util.List;
-
+@Mapper
 public interface AdMapper {
     long countByExample(AdExample example);
 
