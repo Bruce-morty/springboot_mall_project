@@ -1,4 +1,4 @@
-package top.philxin.model.requestModel;
+package top.philxin.model.requestModel.CommonsModel;
 
 import io.swagger.models.auth.In;
 import lombok.Data;
