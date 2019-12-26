@@ -1,4 +1,4 @@
-package top.philxin.model;
+package top.philxin.model.MallModel;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
