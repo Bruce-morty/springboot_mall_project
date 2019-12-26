@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.AdMapper;
 import top.philxin.model.*;
-import top.philxin.model.requestModel.PageHelperVo;
+import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.service.Generalize_AdService;
 
 import java.util.List;
