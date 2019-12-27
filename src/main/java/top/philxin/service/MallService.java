@@ -1,10 +1,12 @@
 package top.philxin.service;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import top.philxin.model.*;
 import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface MallService {
@@ -26,4 +28,10 @@ public interface MallService {
     void updateCategory(Category category);
 
     BaseDataVo<Order> getOrderListByPage(OrderCondition orderCondition);
+
+    Map<String, Object> getOrderDetail(int id);
+
+    void refund(Integer orderId);
+
+    void ship( Map map);
 }

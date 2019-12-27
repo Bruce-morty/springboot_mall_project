@@ -1,4 +1,4 @@
-package top.philxin.model.GoodsModel;
+package top.philxin.model;
 
 import lombok.Data;
 

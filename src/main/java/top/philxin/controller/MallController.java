@@ -11,6 +11,7 @@ import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.MallService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("admin")
@@ -119,9 +120,30 @@ public class MallController {
      * @param id
      * @return
      */
-//    @RequestMapping("/order/detail")
-//    public BaseRespVo getOrderDetail(int id) {
-//        Map<String Object> result = or
-//        return BaseRespVo.success(result);
-//    }
+    @RequestMapping("/order/detail")
+    public BaseRespVo getOrderDetail(int id) {
+        Map<String, Object> result = mallService.getOrderDetail(id);
+        return BaseRespVo.success(result);
+    }
+
+    /**
+     * 此方法用于实现退款，即将order表中的order_status置为203
+     * @param map
+     * @return
+     */
+    @RequestMapping("/order/refund")
+    public BaseRespVo refund(@RequestBody Map map) {
+        mallService.refund((Integer) map.get("orderId"));
+        return BaseRespVo.success();
+    }
+    /**
+     * 此方法用于实现商品发货
+     * @param map
+     * @return
+     */
+    @RequestMapping("/order/ship")
+    public BaseRespVo ship(@RequestBody Map map) {
+        mallService.ship(map);
+        return BaseRespVo.success();
+    }
 }

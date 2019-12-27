@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.philxin.mapper.GoodsMapper;
 import top.philxin.mapper.StorageMapper;
-import top.philxin.model.GoodsModel.Goods;
+import top.philxin.model.Goods;
 import top.philxin.model.Storage;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;

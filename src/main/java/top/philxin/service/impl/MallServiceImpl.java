@@ -4,16 +4,17 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.philxin.mapper.BrandMapper;
-import top.philxin.mapper.CategoryMapper;
-import top.philxin.mapper.OrderMapper;
-import top.philxin.mapper.RegionMapper;
+import top.philxin.mapper.*;
 import top.philxin.model.*;
 import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.service.MallService;
+
+import java.lang.System;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MallServiceImpl implements MallService {
@@ -25,6 +26,10 @@ public class MallServiceImpl implements MallService {
     CategoryMapper categoryMapper;
     @Autowired
     OrderMapper orderMapper;
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    OrderGoodsMapper orderGoodsMapper;
     /**
      * 获取全部的行政区域并以list的形式返回
      * @return
@@ -178,6 +183,53 @@ public class MallServiceImpl implements MallService {
         baseDataVo.setTotal((int) pageInfo.getTotal());
         baseDataVo.setItems(orders);
         return baseDataVo;
+    }
+
+    /**
+     * 此方法根据订单的id查询订单的详情
+     * @param id
+     * @return
+     */
+    @Override
+    public Map<String, Object> getOrderDetail(int id) {
+        Map<String, Object> map = new HashMap<>();
+        Order order = orderMapper.selectByPrimaryKey(id);
+        map.put("order",order);
+        User user = userMapper.selectByPrimaryKey(order.getUserId());
+        map.put("user",user);
+        OrderGoodsExample example = new OrderGoodsExample();
+        example.createCriteria().andDeletedEqualTo(false).andOrderIdEqualTo(id);
+        List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(example);
+        map.put("orderGoods",orderGoods);
+        return map;
+    }
+
+    /**
+     * 此方法用于退款，将订单状态改为203
+     * @param orderId
+     * @param orderId
+     */
+    @Override
+    public void refund(Integer orderId) {
+        //此方法用于将指定id的订单改为指定状态，此处改为203
+        orderMapper.updateOrderState(orderId,203);
+    }
+
+    /**
+     * 此方法用于发货，将订单状态改为301
+     * @param map
+     */
+    @Override
+    public void ship( Map map) {
+        //封装Order
+        Order order = new Order();
+        order.setShipTime(new Date());
+        order.setId((Integer) map.get("orderId"));
+        order.setShipChannel((String) map.get("shipChannel"));
+        order.setShipSn((String) map.get("shipSn"));
+        order.setOrderStatus((short) 301);
+        //数据库中修改
+        orderMapper.updateByPrimaryKeySelective(order);
     }
 
 }
