@@ -1,8 +1,9 @@
-package top.philxin.mapper.mall_mapper;
+package top.philxin.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import top.philxin.model.MallModel.Brand;
 import top.philxin.model.MallModel.BrandExample;
+import top.philxin.model.MallModel.Category;
 
 import java.util.List;
 
@@ -28,4 +29,7 @@ public interface BrandMapper {
     int updateByPrimaryKeySelective(Brand record);
 
     int updateByPrimaryKey(Brand record);
+
+    void deleteBrandById(Integer id);
+
 }

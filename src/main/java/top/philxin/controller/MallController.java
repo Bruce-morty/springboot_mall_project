@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.philxin.model.MallModel.Brand;
-import top.philxin.model.MallModel.BrandCondition;
-import top.philxin.model.MallModel.Region;
+import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.MallService;
@@ -50,5 +48,37 @@ public class MallController {
         Brand newBrand = mallService.updateBrand(brand);
         BaseRespVo<Brand> baseRespVo = BaseRespVo.success(newBrand);
         return  baseRespVo;
+    }
+
+    /**
+     * 此方法用于删除品牌制造商；
+     * 假删，将数据库中的deleted设置为1。
+     * @param brand
+     * @return
+     */
+    @RequestMapping("brand/delete")
+    public BaseRespVo deleteBrand(@RequestBody Brand brand) {
+        mallService.deleteBrand(brand.getId());
+        return BaseRespVo.success();
+    }
+
+    /**
+     * 获取全部的商品类目
+     * @return
+     */
+    @RequestMapping("category/list")
+    public BaseRespVo getCategoryList() {
+        List<Category> categories = mallService.getCategoryList();
+        return  BaseRespVo.success(categories);
+    }
+
+    /**
+     * 获取一级商品类目
+     * @return
+     */
+    @RequestMapping("category/l1")
+    public BaseRespVo getCategoryL1() {
+        List<CategoryByLevel> categories = mallService.getCategoryByLevel("L1");
+        return  BaseRespVo.success(categories);
     }
 }

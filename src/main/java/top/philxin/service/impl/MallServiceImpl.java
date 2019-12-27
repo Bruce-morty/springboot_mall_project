@@ -4,15 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.philxin.mapper.mall_mapper.BrandMapper;
-import top.philxin.mapper.mall_mapper.RegionMapper;
-import top.philxin.model.MallModel.Brand;
-import top.philxin.model.MallModel.BrandCondition;
-import top.philxin.model.MallModel.BrandExample;
-import top.philxin.model.MallModel.Region;
+import top.philxin.mapper.BrandMapper;
+import top.philxin.mapper.CategoryMapper;
+import top.philxin.mapper.RegionMapper;
+import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.service.MallService;
-
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,6 +19,8 @@ public class MallServiceImpl implements MallService {
     RegionMapper regionMapper;
     @Autowired
     BrandMapper brandMapper;
+    @Autowired
+    CategoryMapper categoryMapper;
     /**
      * 获取全部的行政区域并以list的形式返回
      * @return
@@ -56,6 +56,8 @@ public class MallServiceImpl implements MallService {
         if(brandCondition.getName() != null) {
             criteria.andNameLike("%" + brandCondition.getName() + "%");
         }
+        //设置deleted为false，即未被删除的品牌商
+        criteria.andDeletedEqualTo(false);
         //得到brandList并封入data中返回。
         List<Brand> brands = brandMapper.selectByExample(brandExample);
         PageInfo<Brand> pageInfo = new PageInfo<>(brands);
@@ -72,9 +74,52 @@ public class MallServiceImpl implements MallService {
      */
     @Override
     public Brand updateBrand(Brand brand) {
+        // new Date()为获取当前系统时间,更新updateTime
+        brand.setUpdateTime(new Date());
+        //更改数据中的品牌商信息
         brandMapper.updateByPrimaryKeySelective(brand);
-        //将刚刚更改后的品牌商查出并返回
+        //将更改后的品牌商查出并返回
         Brand newBrand = brandMapper.selectByPrimaryKey(brand.getId());
         return newBrand;
     }
+
+    /**
+     * 此方法为删除品牌商的具体实现
+     * 将数据库中的deleted值改为1
+     * @param id
+     */
+    @Override
+    public void deleteBrand(Integer id) {
+        brandMapper.deleteBrandById(id);
+    }
+
+    /**
+     * 此方法用于获得全部的商品类目
+     * @return
+     */
+    @Override
+    public List<Category> getCategoryList() {
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.createCriteria().andLevelEqualTo("L1");
+        List<Category> categories = categoryMapper.selectByExample(categoryExample);
+        //封装二级类目
+        for (Category category : categories) {
+            categoryExample.clear();
+            categoryExample.createCriteria().andPidEqualTo(category.getId());
+            category.setChildren(categoryMapper.selectByExample(categoryExample));
+        }
+        return categories;
+    }
+
+    /**
+     * 此方法用户获得某个level的商品类目
+     * @param level
+     * @return
+     */
+    @Override
+    public List<CategoryByLevel> getCategoryByLevel(String level) {
+        return categoryMapper.selectByLevel(level);
+    }
+
+
 }

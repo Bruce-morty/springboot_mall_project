@@ -1,8 +1,6 @@
 package top.philxin.service;
 
-import top.philxin.model.MallModel.Brand;
-import top.philxin.model.MallModel.BrandCondition;
-import top.philxin.model.MallModel.Region;
+import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 
 import java.util.List;
@@ -15,4 +13,10 @@ public interface MallService {
     BaseDataVo<Brand> getBrandListByPage(BrandCondition brandCondition);
 
     Brand updateBrand(Brand brand);
+
+    void deleteBrand(Integer id);
+
+    List<Category> getCategoryList();
+
+    List<CategoryByLevel> getCategoryByLevel(String l1);
 }
