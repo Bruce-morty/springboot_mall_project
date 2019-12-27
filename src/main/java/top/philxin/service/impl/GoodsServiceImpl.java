@@ -4,11 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import top.philxin.mapper.GoodsMapper;
+import top.philxin.mapper.StorageMapper;
 import top.philxin.model.GoodsModel.Goods;
+import top.philxin.model.Storage;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.service.GoodsService;
+import top.philxin.util.FileUploadUtils;
 
 import java.util.List;
 
@@ -24,6 +28,10 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     GoodsMapper goodsMapper;
+
+    @Autowired
+    StorageMapper storageMapper;
+
 
     /**
      * 查询商品信息列表
@@ -60,5 +68,15 @@ public class GoodsServiceImpl implements GoodsService {
         long total = pageInfo.getTotal();
         baseDataVo.setTotal((int) total);
         return baseDataVo;
+    }
+
+    @Override
+    public Storage uploadImage(MultipartFile file) {
+        Storage storage = FileUploadUtils.processUploadFile(file);
+        int insert = storageMapper.insert(storage);
+        if(insert != 1) {
+            return null;
+        }
+        return storage;
     }
 }
