@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import top.philxin.model.Storage;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
+import top.philxin.model.responseModel.GoodsModel.GoodsInfoDetailVo;
 
 /**
  * @ClassName: GoodsService
@@ -16,5 +17,5 @@ import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 public interface GoodsService {
     BaseDataVo queryGoods(PageHelperVo pageHelperVo, String goodsSn, String name);
 
-    Storage uploadImage(MultipartFile file);
+    GoodsInfoDetailVo getGoodDetail(Integer goodsId);
 }
