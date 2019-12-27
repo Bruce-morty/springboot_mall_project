@@ -38,19 +38,6 @@ public class Generalize_AdController {
 
     }
 
-    /**
-     * 按条件查询优惠券
-     * @return
-     */
-    @Autowired
-    Generalize_couponService couponService;
-@RequestMapping("admin/coupon/list")
-    public BaseRespVo getCoupon(PageHelperVo pageHelperVo,String name,Integer type,Integer status )
-   {
-      List<Coupon> couponList= couponService.queryCoupon(pageHelperVo,name,type,status);
-       HashMap<Object, Object> map = new HashMap<>();
-       map.put("items",couponList);
-       map.put("total",couponList.size());
-       return BaseRespVo.success(map);
-   }
+
+
 }
