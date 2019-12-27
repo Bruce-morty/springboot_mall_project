@@ -12,7 +12,6 @@ import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.GoodsModel.GoodsInfoDetailVo;
 import top.philxin.service.GoodsService;
-import top.philxin.util.FileUploadUtils;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class GoodsServiceImpl implements GoodsService {
     StorageMapper storageMapper;
 
     @Autowired
-    CateGoryMapper categoryMapper;
+    CategoryMapper categoryMapper;
 
     @Autowired
     GoodsAttributeMapper goodsAttributeMapper;

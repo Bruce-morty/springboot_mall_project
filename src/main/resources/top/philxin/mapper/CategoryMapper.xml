@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.philxin.mapper.CateGoryMapper">
-  <resultMap id="BaseResultMap" type="top.philxin.model.CateGory">
+<mapper namespace="top.philxin.mapper.CategoryMapper">
+  <resultMap id="BaseResultMap" type="top.philxin.model.MallModel.Category">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
@@ -74,10 +74,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `name`, keywords, `desc`, pid, icon_url, pic_url, `level`, sort_order, add_time, update_time,
-    deleted
+    id, `name`, keywords, `desc`, pid, icon_url, pic_url, `level`, sort_order, add_time, update_time,deleted
   </sql>
-  <select id="selectByExample" parameterType="top.philxin.model.CateGoryExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="top.philxin.model.MallModel.CategoryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -101,13 +100,13 @@
     delete from cskaoyan_mall_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="top.philxin.model.CateGoryExample">
+  <delete id="deleteByExample" parameterType="top.philxin.model.MallModel.CategoryExample">
     delete from cskaoyan_mall_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.CateGory">
+  <insert id="insert" parameterType="top.philxin.model.MallModel.Category">
     insert into cskaoyan_mall_category (id, name, keywords,
       desc, pid, icon_url,
       pic_url, level, sort_order,
@@ -119,7 +118,7 @@
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="top.philxin.model.CateGory">
+  <insert id="insertSelective" parameterType="top.philxin.model.MallModel.Category">
     insert into cskaoyan_mall_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -198,7 +197,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="top.philxin.model.CateGoryExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="top.philxin.model.MallModel.CategoryExample" resultType="java.lang.Long">
     select count(*) from cskaoyan_mall_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -266,7 +265,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="top.philxin.model.CateGory">
+  <update id="updateByPrimaryKeySelective" parameterType="top.philxin.model.MallModel.Category">
     update cskaoyan_mall_category
     <set>
       <if test="name != null">
@@ -305,7 +304,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="top.philxin.model.CateGory">
+  <update id="updateByPrimaryKey" parameterType="top.philxin.model.MallModel.Category">
     update cskaoyan_mall_category
     set name = #{name,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
@@ -322,5 +321,13 @@
   </update>
   <select id="selectCategoryIdsByPid" resultType="java.lang.Integer">
     select id from cskaoyan_mall_category where pid = #{id} and deleted = false
+  </select>
+  <select id="getCategoryList" resultType="top.philxin.model.MallModel.Category">
+    select id,name,keywords,`desc`,pid,icon_url as iconUrl,pic_url as picUrl,
+    level,sort_order as sortOrder,add_time as addTime,update_time as updateTime,deleted
+    from cskaoyan_mall_category where deleted = 0;
+  </select>
+  <select id="selectByLevel" resultType="top.philxin.model.MallModel.CategoryByLevel">
+    select id as value, name as label from cskaoyan_mall_category where level = #{level}
   </select>
 </mapper>

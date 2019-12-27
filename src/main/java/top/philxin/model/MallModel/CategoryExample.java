@@ -1,17 +1,17 @@
-package top.philxin.model;
+package top.philxin.model.MallModel;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CateGoryExample {
+public class CategoryExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CateGoryExample() {
+    public CategoryExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

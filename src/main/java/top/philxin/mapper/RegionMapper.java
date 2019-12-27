@@ -1,4 +1,4 @@
-package top.philxin.mapper.mall_mapper;
+package top.philxin.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import top.philxin.model.MallModel.Region;

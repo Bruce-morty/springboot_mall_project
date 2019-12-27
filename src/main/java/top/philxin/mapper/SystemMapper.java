@@ -1,6 +1,7 @@
 package top.philxin.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import top.philxin.model.ConfigModel.ConfigMallVo;
 import top.philxin.model.System;
 import top.philxin.model.SystemExample;
 
