@@ -11,7 +11,7 @@ public class Storage {
 
     private String type;
 
-    private Integer size;
+    private Long size;
 
     private String url;
 
@@ -53,11 +53,11 @@ public class Storage {
         this.type = type == null ? null : type.trim();
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 

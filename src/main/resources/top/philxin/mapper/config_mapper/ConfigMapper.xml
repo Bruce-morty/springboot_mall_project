@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.philxin.mapper.config_mapper.ConfigMapper">
+
+
+    <select id="selectByPhone" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{phoneId}
+    </select>
+    <select id="selectByName" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{nameId}
+
+    </select>
+    <select id="selectByQQ" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{qqId}
+
+    </select>
+    <select id="selectByAddress" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{addressId}
+
+    </select>
+
+    <update id="updatePhone">
+        update cskaoyan_mall_system set key_value=#{configMallVo.cskaoyan_mall_mall_phone} where id=#{phoneId}
+    </update>
+    <update id="updateName">
+        update cskaoyan_mall_system set key_value=#{configMallVo.cskaoyan_mall_mall_name} where id=#{nameId}
+
+    </update>
+    <update id="updateQQ">
+        update cskaoyan_mall_system set key_value=#{configMallVo.cskaoyan_mall_mall_qq} where id=#{qqId}
+
+    </update>
+    <update id="updateAddress">
+        update cskaoyan_mall_system set key_value=#{configMallVo.cskaoyan_mall_mall_address} where id=#{addressId}
+    </update>
+    <select id="selectExpressValueById" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{valueId}
+    </select>
+    <select id="selectExpressMinById" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{minId}
+    </select>
+    <update id="updateExpressValue">
+        update cskaoyan_mall_system set key_value=#{configExpressVo.cskaoyan_mall_express_freight_value} where id=#{valueId}
+    </update>
+    <update id="updateExpressMin">
+        update cskaoyan_mall_system set key_value=#{configExpressVo.cskaoyan_mall_express_freight_min} where id=#{minId}
+    </update>
+    <select id="selectOrderComment" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{commentId}
+    </select>
+    <select id="selectOrderUnpaid" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{unpaidId}
+    </select>
+    <select id="selectOrderUnconfirm" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{unconfirmId}
+    </select>
+    <update id="updateOrderComment">
+        update cskaoyan_mall_system set key_value=#{configOrderVo.cskaoyan_mall_order_comment} where id=#{commentId}
+    </update>
+    <update id="updateOrderUnpaid">
+        update cskaoyan_mall_system set key_value=#{configOrderVo.cskaoyan_mall_order_unpaid} where id=#{unpaidId}
+    </update>
+    <update id="updateOrderUnconfirm">
+        update cskaoyan_mall_system set key_value=#{configOrderVo.cskaoyan_mall_order_unconfirm} where id=#{unconfirmId}
+    </update>
+    <select id="selectWxnew" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{newId}
+    </select>
+    <select id="selectWxgoods" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{goodsId}
+    </select>
+    <select id="selectWxlist" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{listId}
+    </select>
+    <select id="selectWxshare" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{shareId}
+    </select>
+    <select id="selectWxbrand" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{brandId}
+    </select>
+    <select id="selectWxhot" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{hotId}
+    </select>
+    <select id="selectWxtopic" resultType="java.lang.String">
+        select key_value from cskaoyan_mall_system where id=#{topicId}
+    </select>
+    <update id="updateWxnew">
+        update cskaoyan_mall_system set key_value=#{configWxVo.cskaoyan_mall_wx_index_new} where id=#{newId}
+    </update>
+    <update id="updateWxgoods">
+        update cskaoyan_mall_system set key_value=#{configWxVo.cskaoyan_mall_wx_catlog_goods} where id=#{goodsId}
+    </update>
+    <update id="updateWxlist">
+        update cskaoyan_mall_system set key_value=#{configWxVo.cskaoyan_mall_wx_catlog_list} where id=#{listId}
+    </update>
+    <update id="updateWxshare">
+        update cskaoyan_mall_system set key_value=#{configWxVo.cskaoyan_mall_wx_share} where id=#{shareId}
+    </update>
+    <update id="updateWxbrand">
+        update cskaoyan_mall_system set key_value=#{configWxVo.cskaoyan_mall_wx_index_brand} where id=#{brandId}
+    </update>
+    <update id="updateWxhot">
+        update cskaoyan_mall_system set key_value=#{configWxVo.cskaoyan_mall_wx_index_hot} where id=#{hotId}
+    </update>
+    <update id="updateWxtopic">
+        update cskaoyan_mall_system set key_value=#{configWxVo.cskaoyan_mall_wx_index_topic} where id=#{topicId}
+    </update>
+</mapper>
