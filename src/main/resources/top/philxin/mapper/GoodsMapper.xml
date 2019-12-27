@@ -542,6 +542,7 @@
       <if test="name != null and name != ''">
           AND INSTR(name,#{name}) > 0
        </if>
+          AND deleted = false
     </where>
   </select>
 </mapper>

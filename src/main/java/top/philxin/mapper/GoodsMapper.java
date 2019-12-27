@@ -7,7 +7,6 @@ import top.philxin.model.GoodsExample;
 
 import java.util.List;
 
-@Mapper
 public interface GoodsMapper {
     long countByExample(GoodsExample example);
 

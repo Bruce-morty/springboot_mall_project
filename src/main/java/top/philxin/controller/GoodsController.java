@@ -10,6 +10,7 @@ import top.philxin.model.Storage;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
+import top.philxin.model.responseModel.GoodsModel.GoodsInfoDetailVo;
 import top.philxin.service.GoodsService;
 
 import javax.validation.Valid;
@@ -28,15 +29,27 @@ public class GoodsController {
     @Autowired
     GoodsService goodsService;
 
+    /**
+     * 获取商品列表
+     * @param pageHelperVo
+     * @param goodsSn
+     * @param name
+     * @return
+     */
     @RequestMapping("goods/list")
     public BaseRespVo getGoodsList(PageHelperVo pageHelperVo, String goodsSn, String name) {
         BaseDataVo baseDataVo = goodsService.queryGoods(pageHelperVo, goodsSn, name);
         return BaseRespVo.success(baseDataVo);
     }
 
-    @RequestMapping("storage/create")
-    public BaseRespVo uploadImage(MultipartFile file) {
-        Storage storage = goodsService.uploadImage(file);
-        return BaseRespVo.success(storage);
+    /**
+     * 获取商品详细信息
+     * @param id
+     * @return
+     */
+    @RequestMapping("goods/detail")
+    public BaseRespVo getGoodsDetail(Integer id) {
+        GoodsInfoDetailVo goodsInfoDetailVo = goodsService.getGoodDetail(id);
+        return BaseRespVo.success(goodsInfoDetailVo);
     }
 }

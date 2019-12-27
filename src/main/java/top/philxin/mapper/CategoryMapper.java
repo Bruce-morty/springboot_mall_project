@@ -30,7 +30,12 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
 
+    List<Category> getCategoryList();
+
     List<CategoryByLevel> selectByLevel(String level);
 
+    List<Integer> selectCategoryIdsByPid(int id);
+
     int deleteCategory(Integer id);
+
 }
