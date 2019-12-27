@@ -39,4 +39,10 @@ public class Generalize_topicServiceImpl implements Generalize_topicService {
         List<Topic> topics = topicMapper.selectByExampleWithBLOBs(topicExample);
         return topics;
     }
+
+    @Override
+    public int deleteTopic(Topic topic) {
+        int i = topicMapper.deleteByUpdate(topic);
+        return i;
+    }
 }
