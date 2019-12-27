@@ -12,6 +12,8 @@ import top.philxin.model.CouponUser;
 import top.philxin.model.CouponUserExample;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.service.Generalize_couponService;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,6 +40,7 @@ public class Generalize_couponServiceImpl implements Generalize_couponService {
       {
           criteria.andStatusEqualTo(status.shortValue());
       }
+        criteria.andDeletedEqualTo(false);
         List<Coupon> coupons = couponMapper.selectByExample(couponExample);
 
         return coupons;
@@ -69,18 +72,21 @@ public class Generalize_couponServiceImpl implements Generalize_couponService {
         {
             criteria.andStatusEqualTo(status.shortValue());
         }
+        criteria.andDeletedEqualTo(false);
         List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
         return couponUsers;
     }
 
     @Override
     public int updateCoupon(Coupon coupon) {
+        coupon.setUpdateTime(new Date());
         int i = couponMapper.updateByPrimaryKeySelective(coupon);
         return i;
     }
 
     @Override
     public int addCoupon(Coupon coupon) {
+        coupon.setAddTime(new Date());
         int insert = couponMapper.insert(coupon);
         return insert;
     }

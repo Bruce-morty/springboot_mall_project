@@ -32,7 +32,7 @@ public class Generalize_AdServiceImpl implements Generalize_AdService {
         {
             criteria.andNameLike("%"+content+"%");
         }
-
+        criteria.andDeletedEqualTo(false);
         List<Ad> ads = adMapper.selectByExample(adExample);
         return ads;
     }

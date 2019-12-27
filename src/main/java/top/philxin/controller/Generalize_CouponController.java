@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.Ad;
 import top.philxin.model.Coupon;
 import top.philxin.model.CouponUser;
+import top.philxin.model.Topic;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.Generalize_AdService;
 import top.philxin.service.Generalize_couponService;
+import top.philxin.service.Generalize_topicService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -87,5 +89,21 @@ public class Generalize_CouponController {
     {
         couponService.deleteCoupon(coupon);
         return BaseRespVo.success();
+    }
+
+    /**
+     * 按条件查询专题
+     */
+  @Autowired
+    Generalize_topicService topicService;
+    @RequestMapping("admin/topic/list")
+    public BaseRespVo getTopic(PageHelperVo pageHelperVo,String title,String subtitle)
+    {
+
+        List<Topic> topics = topicService.queryTopic(pageHelperVo, title, subtitle);
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("items",topics);
+        map.put("total",topics.size());
+        return BaseRespVo.success(map);
     }
 }
