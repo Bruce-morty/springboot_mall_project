@@ -1,9 +1,13 @@
 package top.philxin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.philxin.model.MallModel.Brand;
+import top.philxin.model.MallModel.BrandCondition;
 import top.philxin.model.MallModel.Region;
+import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.MallService;
 
@@ -21,19 +25,30 @@ public class MallController {
     @RequestMapping("region/list")
     public BaseRespVo getAllRegion() {
         List<Region> regionList = mallService.getAllRegion();
-        BaseRespVo baseRespVo = new BaseRespVo();
-        baseRespVo.setErrno(0);
-        baseRespVo.setErrmsg("成功");
-        baseRespVo.setData(regionList);
+        BaseRespVo baseRespVo = BaseRespVo.success(regionList);
         return baseRespVo;
     }
 
     /**
-     * 获取全部的品牌制造商及相关信息
+     * 根据名称和id获取制造商信息
      * @return
      */
     @RequestMapping("brand/list")
-    public BaseRespVo getBrandList() {
-        return null;
+    public BaseRespVo getBrandListByPage(BrandCondition brandCondition) {
+        BaseDataVo<Brand> baseDataVo = mallService.getBrandListByPage(brandCondition);
+        BaseRespVo baseRespVo = BaseRespVo.success(baseDataVo);
+        return baseRespVo;
+    }
+
+    /**
+     * 此方法用于更新品牌制造商信息
+     * @param brand
+     * @return
+     */
+    @RequestMapping("brand/update")
+    public BaseRespVo updateBrand(@RequestBody Brand brand) {
+        Brand newBrand = mallService.updateBrand(brand);
+        BaseRespVo<Brand> baseRespVo = BaseRespVo.success(newBrand);
+        return  baseRespVo;
     }
 }

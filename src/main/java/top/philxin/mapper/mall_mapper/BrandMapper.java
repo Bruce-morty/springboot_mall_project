@@ -1,8 +1,8 @@
-package top.philxin.mapper;
+package top.philxin.mapper.mall_mapper;
 
 import org.apache.ibatis.annotations.Param;
-import top.philxin.model.Brand;
-import top.philxin.model.BrandExample;
+import top.philxin.model.MallModel.Brand;
+import top.philxin.model.MallModel.BrandExample;
 
 import java.util.List;
 

@@ -3,7 +3,11 @@ server:
 
 spring:
   profiles:
-    active: druid
+    active: druid,mybatis
 
 pagehelper:
   helper-dialect: mysql
+<<<<<<< HEAD
+=======
+
+>>>>>>> 13da69ab8cab376cb19e63851d10976f92303edf

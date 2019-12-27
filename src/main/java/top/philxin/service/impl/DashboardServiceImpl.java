@@ -6,7 +6,7 @@ import top.philxin.mapper.GoodsMapper;
 import top.philxin.mapper.GoodsProductMapper;
 import top.philxin.mapper.OrderMapper;
 import top.philxin.mapper.UserMapper;
-import top.philxin.model.GoodsExample;
+import top.philxin.model.GoodsModel.GoodsExample;
 import top.philxin.model.GoodsProductExample;
 import top.philxin.model.OrderExample;
 import top.philxin.model.UserExample;
