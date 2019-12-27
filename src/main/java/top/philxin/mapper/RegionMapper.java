@@ -1,8 +1,8 @@
 package top.philxin.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import top.philxin.model.MallModel.Region;
-import top.philxin.model.MallModel.RegionExample;
+import top.philxin.model.Region;
+import top.philxin.model.RegionExample;
 
 import java.util.List;
 

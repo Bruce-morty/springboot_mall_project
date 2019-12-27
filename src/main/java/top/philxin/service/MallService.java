@@ -1,5 +1,6 @@
 package top.philxin.service;
 
+import top.philxin.model.*;
 import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 
@@ -19,4 +20,10 @@ public interface MallService {
     List<Category> getCategoryList();
 
     List<CategoryByLevel> getCategoryByLevel(String l1);
+
+    void deleteCategory(Integer id);
+
+    void updateCategory(Category category);
+
+    BaseDataVo<Order> getOrderListByPage(OrderCondition orderCondition);
 }

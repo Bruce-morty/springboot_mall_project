@@ -1,9 +1,9 @@
 package top.philxin.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import top.philxin.model.MallModel.Category;
-import top.philxin.model.MallModel.CategoryByLevel;
-import top.philxin.model.MallModel.CategoryExample;
+import top.philxin.model.Category;
+import top.philxin.model.CategoryByLevel;
+import top.philxin.model.CategoryExample;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
 
-    List<Category> getCategoryList();
-
     List<CategoryByLevel> selectByLevel(String level);
+
+    int deleteCategory(Integer id);
 }
