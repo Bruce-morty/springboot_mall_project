@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.philxin.model.*;
 import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
@@ -28,7 +29,7 @@ public class MallController {
     }
 
     /**
-     * 根据名称和id获取制造商信息
+     * 根据名称和id获取制造商信息（分页）
      * @return
      */
     @RequestMapping("brand/list")
@@ -81,4 +82,46 @@ public class MallController {
         List<CategoryByLevel> categories = mallService.getCategoryByLevel("L1");
         return  BaseRespVo.success(categories);
     }
+
+    /**
+     * 此方法用于删除商品类目
+     * @return
+     */
+    @RequestMapping("category/delete")
+    public BaseRespVo deleteCategory(@RequestBody Category category) {
+        mallService.deleteCategory(category.getId());
+        return BaseRespVo.success();
+    }
+
+
+    /**
+     * 此方法用于更新商品类目
+     * @return
+     */
+    @RequestMapping("/category/update")
+    public BaseRespVo updateCategory(@RequestBody Category category) {
+        mallService.updateCategory(category);
+        return BaseRespVo.success();
+    }
+
+    /**
+     * 此方法根据用户id，订单编号以及订单状态分页获得订单
+     * @return
+     */
+    @RequestMapping("/order/list")
+    public BaseRespVo getOrderListByCondition(OrderCondition orderCondition){
+        BaseDataVo<Order> baseDataVo = mallService.getOrderListByPage(orderCondition);
+        return BaseRespVo.success(baseDataVo);
+    }
+
+    /**
+     * 此方法根据订单的id获取订单详情
+     * @param id
+     * @return
+     */
+//    @RequestMapping("/order/detail")
+//    public BaseRespVo getOrderDetail(int id) {
+//        Map<String Object> result = or
+//        return BaseRespVo.success(result);
+//    }
 }
