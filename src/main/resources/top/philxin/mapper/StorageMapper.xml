@@ -270,4 +270,7 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateDeletedCondition">
+    update cskaoyan_mall_storage set deleted = #{condition} where url = #{imageUrl}
+  </update>
 </mapper>

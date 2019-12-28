@@ -2,18 +2,18 @@ package top.philxin.service.impl;
 
 
 import com.github.pagehelper.PageHelper;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import top.philxin.mapper.CouponMapper;
-import top.philxin.model.Ad;
-import top.philxin.model.AdExample;
+import top.philxin.mapper.CouponUserMapper;
 import top.philxin.model.Coupon;
 import top.philxin.model.CouponExample;
+import top.philxin.model.CouponUser;
+import top.philxin.model.CouponUserExample;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.service.Generalize_couponService;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -40,10 +40,61 @@ public class Generalize_couponServiceImpl implements Generalize_couponService {
       {
           criteria.andStatusEqualTo(status.shortValue());
       }
+        criteria.andDeletedEqualTo(false);
         List<Coupon> coupons = couponMapper.selectByExample(couponExample);
 
         return coupons;
 
+    }
+
+    @Override
+    public Coupon queryCouponById(Integer id) {
+        Coupon coupon = couponMapper.selectByPrimaryKey(id);
+        return coupon;
+    }
+
+    @Autowired
+    CouponUserMapper couponUserMapper;
+    @Override
+    public List<CouponUser> queryCouponUser(PageHelperVo pageHelperVo, Integer couponId, Integer userId, Integer status) {
+
+        PageHelper.startPage(pageHelperVo.getPage(),pageHelperVo.getLimit());
+
+        CouponUserExample couponUserExample = new CouponUserExample();
+        CouponUserExample.Criteria criteria = couponUserExample.createCriteria();
+        criteria.andCouponIdEqualTo(couponId);
+        couponUserExample.setOrderByClause(pageHelperVo.getSort()+" "+pageHelperVo.getOrder());
+        if(userId!=null)
+        {
+            criteria.andUserIdEqualTo(userId);
+        }
+        if(status!=null)
+        {
+            criteria.andStatusEqualTo(status.shortValue());
+        }
+        criteria.andDeletedEqualTo(false);
+        List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
+        return couponUsers;
+    }
+
+    @Override
+    public int updateCoupon(Coupon coupon) {
+        coupon.setUpdateTime(new Date());
+        int i = couponMapper.updateByPrimaryKeySelective(coupon);
+        return i;
+    }
+
+    @Override
+    public int addCoupon(Coupon coupon) {
+        coupon.setAddTime(new Date());
+        int insert = couponMapper.insert(coupon);
+        return insert;
+    }
+
+    @Override
+    public int deleteCoupon(Coupon coupon) {
+        int i =  couponMapper.deleteByUpdate(coupon);
+        return i;
     }
 
 }
