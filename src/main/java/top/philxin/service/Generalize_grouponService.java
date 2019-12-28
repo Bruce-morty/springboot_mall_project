@@ -16,4 +16,6 @@ public interface Generalize_grouponService {
     int updateGroupon(GrouponRules grouponRules);
 
     GrouponRules insertGroupon(GrouponRules grouponRules);
+
+    int  deleteGroupon(GrouponRules grouponRules);
 }

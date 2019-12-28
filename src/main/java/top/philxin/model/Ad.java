@@ -1,5 +1,7 @@
 package top.philxin.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Ad {
@@ -14,15 +16,14 @@ public class Ad {
     private Byte position;
 
     private String content;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone ="GTM+8")
     private Date startTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone ="GTM+8")
     private Date endTime;
-
     private Boolean enabled;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone ="GTM+8")
     private Date addTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone ="GTM+8")
     private Date updateTime;
 
     private Boolean deleted;

@@ -12,4 +12,7 @@ public interface Generalize_topicService {
 
     int deleteTopic(Topic topic);
 
+    Topic addTopic(Topic topic);
+
+    Topic updateTopic(Topic topic);
 }

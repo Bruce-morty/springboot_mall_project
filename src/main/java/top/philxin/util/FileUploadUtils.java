@@ -45,6 +45,7 @@ public class FileUploadUtils {
         File path = null;
         try {
              path = new File(ResourceUtils.getURL("classpath:").getPath().replace("%20"," ").replace('/', '\\'));
+            System.out.println(path);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -60,7 +61,7 @@ public class FileUploadUtils {
             return null;
         }
         // 图片上传后 默认是删除状态，提交后自行更改状态
-        storage.setDeleted(true);
+        storage.setDeleted(false);
         return storage;
     }
 }

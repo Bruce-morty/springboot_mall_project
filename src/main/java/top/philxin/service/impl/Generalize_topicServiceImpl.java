@@ -12,6 +12,7 @@ import top.philxin.model.TopicExample;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.service.Generalize_topicService;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,5 +45,23 @@ public class Generalize_topicServiceImpl implements Generalize_topicService {
     public int deleteTopic(Topic topic) {
         int i = topicMapper.deleteByUpdate(topic);
         return i;
+    }
+
+    @Override
+    public Topic addTopic(Topic topic) {
+        topic.setAddTime(new Date());
+        topic.setUpdateTime(new Date());
+        topicMapper.insertSelective(topic);
+        List<Topic> topics = topicMapper.selectByExample(new TopicExample());
+        Topic topic1 = topics.get(topics.size() - 1);
+        topic.setId(topic1.getId());
+
+        return topic;
+    }
+
+    @Override
+    public Topic updateTopic(Topic topic) {
+        int i = topicMapper.updateByPrimaryKey(topic);
+        return topic;
     }
 }

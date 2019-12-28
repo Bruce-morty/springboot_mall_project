@@ -12,6 +12,7 @@ import top.philxin.service.Generalize_couponService;
 import top.philxin.service.Generalize_grouponService;
 import top.philxin.service.Generalize_topicService;
 
+import java.lang.System;
 import java.util.HashMap;
 import java.util.List;
 
@@ -113,6 +114,34 @@ public class Generalize_CouponController {
     }
 
     /**
+     * 增加专题
+     */
+ @RequestMapping("admin/topic/create")
+    public BaseRespVo addTopic(@RequestBody Topic topic)
+    {
+
+        if(!"".equals(topic.getContent())&&topic.getPicUrl()!=null&&topic.getPrice()!=null&&topic.getReadCount()!=null) {
+
+            Topic topic1 = topicService.addTopic(topic);
+            return BaseRespVo.success(topic1);
+        }
+        return BaseRespVo.error(401,"参数不对");
+    }
+/**
+ * 更新专题
+ */
+@RequestMapping("admin/topic/update")
+  public BaseRespVo updateTopic(@RequestBody Topic topic)
+{
+    if(topic.getReadCount()!=null&&topic.getPrice()!=null)
+    {
+        Topic topic1 = topicService.updateTopic(topic);
+        return BaseRespVo.success(topic1);
+    }
+    return BaseRespVo.error(401,"参数不对");
+}
+
+    /**
      * 删除专题
      */
     @RequestMapping("admin/topic/delete")
@@ -149,18 +178,16 @@ public class Generalize_CouponController {
     @RequestMapping("admin/groupon/update")
     public BaseRespVo updateGroupOn(@RequestBody GrouponRules grouponRules)
     {
+        if (grouponRules.getDiscount()!=null && grouponRules.getDiscountMember()!=null){
 
-
-        Goods hasGood= grouponService.selectGoodsIs(grouponRules);
-        if(hasGood!=null)
-        {
+           Goods hasGood = grouponService.selectGoodsIs(grouponRules);
+           if (hasGood != null) {
                grouponService.updateGroupon(grouponRules);
-              return BaseRespVo.success();
-        }
-        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
-        baseRespVo.setErrmsg("参数值不对");
-        baseRespVo.setErrno(402);
-        return baseRespVo;
+               return BaseRespVo.success();
+           }
+           return BaseRespVo.error(402,"参数值不对");
+       }
+        return BaseRespVo.error(401, "参数不对");
 
     }
     /**
@@ -169,17 +196,33 @@ public class Generalize_CouponController {
     @RequestMapping("admin/groupon/create")
     public BaseRespVo createGroupon(@RequestBody GrouponRules grouponRules)
     {
-        Goods goodsIs = grouponService.selectGoodsIs(grouponRules);
-        if(goodsIs!=null)
-        {
-            grouponRules.setGoodsName(goodsIs.getName());
-            GrouponRules grouponRules1 = grouponService.insertGroupon(grouponRules);
-            return BaseRespVo.success(grouponRules1);
-        }
-        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
-        baseRespVo.setErrmsg("参数值不对");
-        baseRespVo.setErrno(402);
-        return baseRespVo;
+
+           if (grouponRules.getDiscount()!=null && grouponRules.getDiscountMember()!=null) {
+
+               Goods goodsIs = grouponService.selectGoodsIs(grouponRules);
+               if (goodsIs != null) {
+                   grouponRules.setGoodsName(goodsIs.getName());
+                   grouponRules.setPicUrl(goodsIs.getPicUrl());
+                   GrouponRules grouponRules1 = grouponService.insertGroupon(grouponRules);
+                   return BaseRespVo.success(grouponRules1);
+               }
+
+               return BaseRespVo.error(402,"参数值不对");
+
+           }
+           return BaseRespVo.error(401, "参数不对");
+
     }
+    /**
+     * 删除商品团购规则
+     */
+    public BaseRespVo deleteGroupon(@RequestBody GrouponRules grouponRules)
+    {
+
+           grouponService.deleteGroupon(grouponRules);
+          return BaseRespVo.success();
+
+    }
+
 
 }

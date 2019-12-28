@@ -12,7 +12,7 @@ import top.philxin.service.Generalize_grouponService;
 import java.util.Date;
 import java.util.List;
 @Service
-public class Generalize_grouponServiceIMpl implements Generalize_grouponService {
+public class Generalize_grouponServiceImpl implements Generalize_grouponService {
 
 
     @Autowired
@@ -38,7 +38,7 @@ public class Generalize_grouponServiceIMpl implements Generalize_grouponService 
     GoodsMapper goodsMapper;
     @Override
     public Goods selectGoodsIs(GrouponRules grouponRules) {
-
+        grouponRules.setDeleted(false);
         Goods goods1 = goodsMapper.selectByPrimaryKey(grouponRules.getGoodsId());
 
         return goods1;
@@ -57,5 +57,12 @@ public class Generalize_grouponServiceIMpl implements Generalize_grouponService 
         grouponRules.setAddTime(new Date());
         grouponRulesMapper.insertSelective(grouponRules);
         return grouponRules;
+    }
+
+    @Override
+    public int deleteGroupon(GrouponRules grouponRules) {
+          grouponRules.setDeleted(true);
+        int i = grouponRulesMapper.updateByPrimaryKey(grouponRules);
+        return i;
     }
 }

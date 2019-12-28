@@ -2,6 +2,7 @@ package top.philxin.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,5 +23,12 @@ public class GlobalExceptionHandler {
     public BaseRespVo classCastException(ClassCastException e) {
         logger.error("参数类型不匹配",e);
         return BaseRespVo.error(-98,"参数类型不匹配");
+    }
+
+
+    @ExceptionHandler
+    public BaseRespVo HttpMessageNotReadableException(HttpMessageNotReadableException e) {
+
+        return BaseRespVo.error(402,"参数值不对");
     }
 }

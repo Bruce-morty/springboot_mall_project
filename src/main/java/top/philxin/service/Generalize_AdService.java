@@ -8,4 +8,10 @@ import java.util.List;
 public interface Generalize_AdService {
      List<Ad> getAd(PageHelperVo pageHelperVo,String name,String content);
 
+    Ad addAd(Ad ad);
+
+
+    Ad updateAd(Ad ad);
+
+    int deleteAd(Ad ad);
 }

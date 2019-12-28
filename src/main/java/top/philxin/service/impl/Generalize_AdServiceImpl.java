@@ -9,6 +9,7 @@ import top.philxin.model.*;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.service.Generalize_AdService;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,4 +37,30 @@ public class Generalize_AdServiceImpl implements Generalize_AdService {
         List<Ad> ads = adMapper.selectByExample(adExample);
         return ads;
     }
+
+    @Override
+    public Ad addAd(Ad ad) {
+        ad.setAddTime(new Date());
+        ad.setUpdateTime(new Date());
+        adMapper.insertSelective(ad);
+        List<Ad> ads = adMapper.selectByExample(new AdExample());
+        Ad ad1 = ads.get(ads.size() - 1);
+        ad.setId(ad1.getId());
+        return ad;
+    }
+
+    @Override
+    public Ad updateAd(Ad ad) {
+        adMapper.updateByPrimaryKey(ad);
+        return ad;
+    }
+
+    @Override
+    public int deleteAd(Ad ad) {
+        ad.setDeleted(true);
+        int i = adMapper.updateByPrimaryKey(ad);
+        return i;
+    }
+
+
 }
