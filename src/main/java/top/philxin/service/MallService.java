@@ -34,4 +34,24 @@ public interface MallService {
     void refund(Integer orderId);
 
     void ship( Map map);
+
+    BaseDataVo<Issue> getIssueListByQuestion(IssueCondition issueCondition);
+
+    Issue createIssue(Issue issue);
+
+    Issue updateIssue(Issue issue);
+
+    void deleteIssue(Integer id);
+
+    BaseDataVo<Keyword> getKeywordListByCondition(KeywordCondition keywordCondition);
+
+    Keyword createKeyword(Keyword keyword);
+
+    Keyword updateKeyword(Keyword keyword);
+
+    void deleteKeyword(Integer id);
+
+    Category createCategory(Category category);
+
+    Brand createBrand(Brand brand);
 }

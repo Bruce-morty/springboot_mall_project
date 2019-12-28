@@ -100,7 +100,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.Issue">
+  <insert id="insert" parameterType="top.philxin.model.Issue" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_issue (id, question, answer, 
       add_time, update_time, deleted
       )
@@ -224,5 +224,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="deleteIssue">
+    update cskaoyan_mall_issue set deleted = 1 where id = #{id}
   </update>
 </mapper>

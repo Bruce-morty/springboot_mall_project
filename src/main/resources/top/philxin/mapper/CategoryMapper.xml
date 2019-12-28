@@ -106,10 +106,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.Category">
+  <insert id="insert" parameterType="top.philxin.model.Category" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_category (id, name, keywords,
-      desc, pid, icon_url,
-      pic_url, level, sort_order,
+      `desc`, pid, icon_url,
+      pic_url, `level`, sort_order,
       add_time, update_time, deleted
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR},
