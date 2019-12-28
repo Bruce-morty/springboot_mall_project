@@ -144,14 +144,15 @@ public class Generalize_CouponController {
     }
 
     /**
-     * 团购规则编辑
+     * 商品团购规则编辑
      */
     @RequestMapping("admin/groupon/update")
     public BaseRespVo updateGroupOn(@RequestBody GrouponRules grouponRules)
     {
 
-        boolean sameGoodsIs = grouponService.isSameGoodsIs(grouponRules);
-        if(sameGoodsIs)
+
+        Goods hasGood= grouponService.selectGoodsIs(grouponRules);
+        if(hasGood!=null)
         {
                grouponService.updateGroupon(grouponRules);
               return BaseRespVo.success();
@@ -161,6 +162,24 @@ public class Generalize_CouponController {
         baseRespVo.setErrno(402);
         return baseRespVo;
 
+    }
+    /**
+     * 商品团购规则增加
+     */
+    @RequestMapping("admin/groupon/create")
+    public BaseRespVo createGroupon(@RequestBody GrouponRules grouponRules)
+    {
+        Goods goodsIs = grouponService.selectGoodsIs(grouponRules);
+        if(goodsIs!=null)
+        {
+            grouponRules.setGoodsName(goodsIs.getName());
+            GrouponRules grouponRules1 = grouponService.insertGroupon(grouponRules);
+            return BaseRespVo.success(grouponRules1);
+        }
+        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
+        baseRespVo.setErrmsg("参数值不对");
+        baseRespVo.setErrno(402);
+        return baseRespVo;
     }
 
 }
