@@ -88,7 +88,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_brand
     where id = #{id,jdbcType=INTEGER}
@@ -104,12 +104,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="top.philxin.model.Brand">
-    insert into cskaoyan_mall_brand (id, name, desc, 
-      pic_url, sort_order, floor_price, 
+    insert into cskaoyan_mall_brand (id, name, desc,
+      pic_url, sort_order, floor_price,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
-      #{picUrl,jdbcType=VARCHAR}, #{sortOrder,jdbcType=TINYINT}, #{floorPrice,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR},
+      #{picUrl,jdbcType=VARCHAR}, #{sortOrder,jdbcType=TINYINT}, #{floorPrice,jdbcType=DECIMAL},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -273,6 +273,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="deleteBrandById">
-    update cskaoyan_mall_brand set deleted = 1 where id = #{id}
+    update cskaoyan_mall_brand set deleted = true where id = #{id}
   </update>
+    <select id="selectBrandList"
+            resultType="top.philxin.model.GoodsModel.CatAndBrandChildInfoVo">
+      select id as value,name as label from cskaoyan_mall_brand where deleted = false
+    </select>
 </mapper>

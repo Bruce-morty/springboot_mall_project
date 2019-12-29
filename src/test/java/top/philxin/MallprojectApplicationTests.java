@@ -17,6 +17,13 @@ class MallprojectApplicationTests {
 
     @Test
     public void test() {
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath().replace("%20"," ").replace('/', '\\'));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println(path);
     }
 
 }

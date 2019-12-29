@@ -1,9 +1,8 @@
 package top.philxin.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import top.philxin.model.GoodsModel.Goods;
-import top.philxin.model.GoodsModel.GoodsExample;
+import top.philxin.model.Goods;
+import top.philxin.model.GoodsExample;
 
 import java.util.List;
 
@@ -37,4 +36,6 @@ public interface GoodsMapper {
     int updateByPrimaryKey(Goods record);
 
     List<Goods> selectGoods(@Param("goodsSn") String goodsSn, @Param("name") String name);
+
+    Integer getCategoryIdByGoodsId(Integer id);
 }

@@ -2,6 +2,7 @@ package top.philxin.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import top.philxin.model.GoodsModel.GoodsProductVo;
 import top.philxin.model.GoodsProduct;
 import top.philxin.model.GoodsProductExample;
 
@@ -30,4 +31,10 @@ public interface GoodsProductMapper {
     int updateByPrimaryKeySelective(GoodsProduct record);
 
     int updateByPrimaryKey(GoodsProduct record);
+
+    int updateProductDeletedCondition(@Param("idList") List<Integer> idList, @Param("goodsId") Integer id);
+
+    int insertProductList(@Param("productList") List<GoodsProductVo> productListToInsert);
+
+//    int updateProductList(@Param("productList") List<GoodsProduct> productListToUpdate, @Param("idStr") String idStr);
 }

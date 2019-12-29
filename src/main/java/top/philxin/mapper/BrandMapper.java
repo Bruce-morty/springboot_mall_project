@@ -3,6 +3,7 @@ package top.philxin.mapper;
 import org.apache.ibatis.annotations.Param;
 import top.philxin.model.Brand;
 import top.philxin.model.BrandExample;
+import top.philxin.model.GoodsModel.CatAndBrandChildInfoVo;
 
 import java.util.List;
 
@@ -31,4 +32,5 @@ public interface BrandMapper {
 
     void deleteBrandById(Integer id);
 
+    List<CatAndBrandChildInfoVo> selectBrandList();
 }

@@ -88,7 +88,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_goods_product
     where id = #{id,jdbcType=INTEGER}
@@ -104,12 +104,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="top.philxin.model.GoodsProduct">
-    insert into cskaoyan_mall_goods_product (id, goods_id, specifications, 
-      price, number, url, 
+    insert into cskaoyan_mall_goods_product (id, goods_id, specifications,
+      price, number, url,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{specifications,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{number,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{specifications,jdbcType=VARCHAR},
+      #{price,jdbcType=DECIMAL}, #{number,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -272,4 +272,24 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateProductDeletedCondition">
+    update cskaoyan_mall_goods_specification
+    set deleted = true
+    <where>
+      <if test="idList != null and idList.size() != 0">
+        id NOT IN
+        <foreach collection="idList" item="id" separator="," open="(" close=")">
+          #{id}
+        </foreach>
+      </if>
+      AND goods_id = #{goodsId}
+    </where>
+  </update>
+  <insert id="insertProductList" parameterType="java.util.List">
+    insert into cskaoyan_mall_goods_product (goods_id, specifications, price, `number`, url, add_time, update_time, deleted) values
+    <foreach collection="productList" item="product" separator=",">
+      (#{product.goodsId},#{product.specifications},#{product.price},#{product.number},#{product.url},#{product.addTime},#{product.updateTime},#{product.deleted})
+    </foreach>
+  </insert>
 </mapper>

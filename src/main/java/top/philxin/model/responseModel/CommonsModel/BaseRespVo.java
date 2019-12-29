@@ -29,6 +29,13 @@ public class BaseRespVo<T>{
         return BaseRespVo;
     }
 
+    public static BaseRespVo success(String errmsg) {
+        BaseRespVo BaseRespVo = new BaseRespVo();
+        BaseRespVo.setErrno(0);
+        BaseRespVo.setErrmsg(errmsg);
+        return BaseRespVo;
+    }
+
     public static <V> BaseRespVo<V> success(V data) {
         BaseRespVo<V> BaseRespVo = new BaseRespVo<>();
         BaseRespVo.setErrno(0);

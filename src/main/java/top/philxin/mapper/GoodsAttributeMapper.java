@@ -28,4 +28,10 @@ public interface GoodsAttributeMapper {
     int updateByPrimaryKeySelective(GoodsAttribute record);
 
     int updateByPrimaryKey(GoodsAttribute record);
+
+    int insertAttributeList(@Param("attributes") List<GoodsAttribute> attributesToInsert);
+
+    int updateAttributeList(@Param("attributes") List<GoodsAttribute> attributesToUpdate, @Param("idStr") String idStr,@Param("goodId") Integer id);
+
+    int updateAttributeDeletedCondition(@Param("idList") List<Integer> idList, @Param("goodId") Integer id);
 }
