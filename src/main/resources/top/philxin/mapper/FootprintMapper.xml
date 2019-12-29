@@ -36,6 +36,7 @@
           </trim>
         </if>
       </foreach>
+      and deleted=0
     </where>
   </sql>
   <sql id="Update_By_Example_Where_Clause">
@@ -95,7 +96,8 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="top.philxin.model.FootprintExample">
-    delete from cskaoyan_mall_footprint
+    update cskaoyan_mall_footprint
+    set deleted = 1
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -190,6 +190,11 @@ public class FootprintExample {
             return (Criteria) this;
         }
 
+        public  Criteria andUserIdLike(String value){
+            addCriterion("user_id like", value, "userId");
+            return (Criteria) this;
+        }
+
         public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
@@ -277,6 +282,11 @@ public class FootprintExample {
 
         public Criteria andGoodsIdBetween(Integer value1, Integer value2) {
             addCriterion("goods_id between", value1, value2, "goodsId");
+            return (Criteria) this;
+        }
+
+        public  Criteria andGoodsIdLike(String value){
+            addCriterion("goods_id like", value, "goodId");
             return (Criteria) this;
         }
 
