@@ -3,9 +3,12 @@ package top.philxin.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.Admin;
+import top.philxin.model.AdminModel.ChangePermission;
 import top.philxin.model.AdminModel.RoleOptionsVo;
+import top.philxin.model.Permission;
 import top.philxin.model.Role;
 import top.philxin.model.Storage;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
@@ -14,6 +17,7 @@ import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.AdminService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xqs
@@ -148,6 +152,24 @@ public class AdminController {
     @RequestMapping("role/update")
     public BaseRespVo changeRole(@RequestBody Role role){
         adminService.changeRoleMsg(role);
+        return BaseRespVo.success();
+    }
+
+    /**
+     * 获得选中对象的权限
+     * @param roleId
+     * @return
+     */
+    @RequestMapping(value = "role/permissions",method = RequestMethod.GET)
+    public BaseRespVo getAllAuth(Integer roleId){
+        Map map = adminService.querySelectetAuth(roleId);
+        return BaseRespVo.success(map);
+    }
+
+
+    @RequestMapping(value = "role/permissions",method = RequestMethod.POST)
+    public BaseRespVo changeAuth(@RequestBody ChangePermission changePermission){
+        adminService.changeAuth(changePermission);
         return BaseRespVo.success();
     }
 

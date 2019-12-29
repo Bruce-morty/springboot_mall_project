@@ -1,13 +1,16 @@
 package top.philxin.service;
 
 import top.philxin.model.Admin;
+import top.philxin.model.AdminModel.ChangePermission;
 import top.philxin.model.AdminModel.RoleOptionsVo;
+import top.philxin.model.Permission;
 import top.philxin.model.Role;
 import top.philxin.model.Storage;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xqs
@@ -45,6 +48,13 @@ public interface AdminService {
 
     //更改选中role的信息
     void changeRoleMsg(Role role);
+
+    //获得当前对象的权限
+    Map querySelectetAuth(Integer roleId);
+
+    //更改当前对象的权限
+    void changeAuth(ChangePermission changePermission);
+
 
     //获得整个storage表
     BaseDataVo queryStorages(PageHelperVo pageHelperVo,String key,String name);

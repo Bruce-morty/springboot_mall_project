@@ -4,20 +4,17 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.philxin.mapper.AdminMapper;
-import top.philxin.mapper.LogMapper;
-import top.philxin.mapper.RoleMapper;
-import top.philxin.mapper.StorageMapper;
+import top.philxin.mapper.*;
 import top.philxin.mapper.role_mapper.RoleOptionsMapper;
 import top.philxin.model.*;
+import top.philxin.model.AdminModel.ChangePermission;
 import top.philxin.model.AdminModel.RoleOptionsVo;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.service.AdminService;
 
 import java.lang.System;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author xqs
@@ -43,7 +40,15 @@ public class AdminServiceImpl implements AdminService {
     RoleMapper roleMapper;
 
     @Autowired
+    PermissionMapper permissionMapper;
+
+    @Autowired
+    AllAuthMapper allAuthMapper;
+
+    @Autowired
     StorageMapper storageMapper;
+
+    List<AllAuth> outAuths;
     @Override
     public BaseDataVo queryUsers(PageHelperVo pageHelperVo, String username) {
         PageHelper.startPage(pageHelperVo.getPage(),pageHelperVo.getLimit());
@@ -54,6 +59,7 @@ public class AdminServiceImpl implements AdminService {
             criteria.andUsernameLike("%"+username+"%");
         }
         //获得admin的列表
+        criteria.andDeletedEqualTo(false);
         List<Admin> admins = adminMapper.selectByExample(adminExample);
         PageInfo<Admin> adminPageInfo = new PageInfo<>(admins);
         long total = adminPageInfo.getTotal();
@@ -118,6 +124,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void removeAdmin(Admin admin) {
+        admin.setDeleted(true);
         adminMapper.deleteByPrimaryKey(admin.getId());
     }
 
@@ -136,6 +143,7 @@ public class AdminServiceImpl implements AdminService {
         if (name!=null && name.length()!=0){
             criteria.andAdminLike("%"+name+"%");
         }
+        criteria.andDeletedEqualTo(false);
         List<Log> logs = logMapper.selectByExample(logExample);
         PageInfo<Log> pageInfo = new PageInfo<>();
         long total = pageInfo.getTotal();
@@ -159,7 +167,8 @@ public class AdminServiceImpl implements AdminService {
         if (name!=null && name.length()!=0){
             criteria.andNameLike("%"+name+"%");
         }
-        //这里注意它自动生成的sql语句没有没关键字加''
+        //这里注意它自动生成的sql语句没有没关键字加``
+        criteria.andDeletedEqualTo(false);
         List<Role> roles = roleMapper.selectByExample(roleExample);
         PageInfo<Role> pageInfo = new PageInfo<>();
         long total = pageInfo.getTotal();
@@ -185,6 +194,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void removeRole(Role role) {
+        role.setDeleted(true);
         roleMapper.deleteByPrimaryKey(role.getId());
     }
 
@@ -203,6 +213,107 @@ public class AdminServiceImpl implements AdminService {
         roleMapper.updateByExample(role,roleExample);
     }
 
+
+    /**
+     * 获得当前对象的权限
+     * @param roleId
+     * @return
+     */
+    @Override
+    public Map querySelectetAuth(Integer roleId) {
+        Map map = new HashMap();
+        PermissionExample permissionExample = new PermissionExample();
+        PermissionExample.Criteria criteria = permissionExample.createCriteria();
+        criteria.andRoleIdEqualTo(roleId).andDeletedEqualTo(false);
+        List<Permission> permissions = permissionMapper.selectByExample(permissionExample);
+        //这里把当前对象已有权限塞入map
+        List<String> permList = new ArrayList<>();
+        for (Permission permission : permissions) {
+            String perm = permission.getPermission();
+            permList.add(perm);
+        }
+        map.put("assignedPermissions",permList);
+        //这里可节省第二次读取时间
+        if (outAuths!=null){
+            map.put("systemPermissions",outAuths);
+            return map;
+        }
+        //建立最外层
+        outAuths = new ArrayList<>();
+        //建立中间层
+        ArrayList<AllAuth> midAuths = new ArrayList<>();
+        //建立最里层
+        ArrayList<AllAuth> innerAuths = new ArrayList<>();
+
+        //获得最外层
+        List<AllAuth> allAuths = allAuthMapper.selectByExample(new AllAuthExample());
+        for (AllAuth allAuth : allAuths) {
+            if (allAuth.getPid()==0){
+                outAuths.add(allAuth);
+                continue;
+            }
+            if (allAuth.getApi()!=null){
+                innerAuths.add(allAuth);
+                continue;
+            }
+            midAuths.add(allAuth);
+        }
+        for (AllAuth midAuth : midAuths) {
+            List<AllAuth> tempList = new ArrayList<>();
+            for (AllAuth innerAuth : innerAuths) {
+                if (innerAuth.getPid()==midAuth.getPrimaryId()){
+                    tempList.add(innerAuth);
+                }
+            }
+            midAuth.setChildren(tempList);
+        }
+
+        for (AllAuth outAuth : outAuths) {
+            List<AllAuth> tempList = new ArrayList<>();
+            for (AllAuth midAuth : midAuths) {
+                if (outAuth.getPrimaryId()==midAuth.getPid()){
+                    tempList.add(midAuth);
+                }
+            }
+            outAuth.setChildren(tempList);
+        }
+        map.put("systemPermissions",outAuths);
+        return map;
+    }
+
+    /**
+     * 更改当前对象的权限
+     */
+    @Override
+    public void changeAuth(ChangePermission changePermission) {
+        Integer roleId = changePermission.getRoleId();
+        PermissionExample permissionExample = new PermissionExample();
+        PermissionExample.Criteria criteria = permissionExample.createCriteria();
+        criteria.andRoleIdEqualTo(roleId);
+        //获得原先表中存在的列表
+        List<Permission> permissionsPast = permissionMapper.selectByExample(permissionExample);
+        //把原先有的permission存到一个列表中
+        List<String> permList = new ArrayList();
+        for (Permission permission : permissionsPast) {
+            permList.add(permission.getPermission());
+        }
+
+        //这是现在从前端传回来的permission数据
+        List<String> permissions = changePermission.getPermissions();
+        for (String permStr : permissions) {
+            for (String s : permList) {
+                if (s.equals(permStr)){
+                    Date date = new Date();
+                    PermissionExample permissionExample1 = new PermissionExample();
+                    PermissionExample.Criteria criteria1 = permissionExample.createCriteria();
+                    criteria1.andPermissionEqualTo(s);
+
+                }
+            }
+        }
+
+    }
+
     /**
      * 获得整个storage表
      * @param pageHelperVo
@@ -216,12 +327,14 @@ public class AdminServiceImpl implements AdminService {
         StorageExample storageExample = new StorageExample();
         StorageExample.Criteria criteria = storageExample.createCriteria();
         storageExample.setOrderByClause(pageHelperVo.getSort()+" "+pageHelperVo.getOrder());
+        //这里的key要进入example中加``
         if (key!=null && key.length()!=0){
-            criteria.andKeyLike("%"+key+"%");
+            criteria.andKeyEqualTo(key);
         }
         if (name!=null && name.length()!=0){
             criteria.andNameLike("%"+name+"%");
         }
+        criteria.andDeletedEqualTo(false);
         List<Storage> storages = storageMapper.selectByExample(storageExample);
         PageInfo<Storage> pageInfo = new PageInfo<>();
         long total = pageInfo.getTotal();
@@ -250,6 +363,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void removeStorage(Storage storage) {
+        storage.setDeleted(true);
         storageMapper.deleteByPrimaryKey(storage.getId());
     }
 }
