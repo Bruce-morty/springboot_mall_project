@@ -103,8 +103,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.Brand">
-    insert into cskaoyan_mall_brand (id, name, desc,
+
+  <insert id="insert" parameterType="top.philxin.model.Brand" keyProperty="id" useGeneratedKeys="true">
+    insert into cskaoyan_mall_brand (id, name,`desc`,
       pic_url, sort_order, floor_price,
       add_time, update_time, deleted
       )

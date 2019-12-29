@@ -32,9 +32,11 @@ public interface GoodsProductMapper {
 
     int updateByPrimaryKey(GoodsProduct record);
 
-    int updateProductDeletedCondition(@Param("idList") List<Integer> idList, @Param("goodsId") Integer id);
+    int updateProductDeletedCondition(@Param("goodsId") Integer id);
 
     int insertProductList(@Param("productList") List<GoodsProductVo> productListToInsert);
+
+    int updateProductList(@Param("productListToUpdate") List<GoodsProduct> productListToUpdate, @Param("goodsId") Integer id);
 
 //    int updateProductList(@Param("productList") List<GoodsProduct> productListToUpdate, @Param("idStr") String idStr);
 }

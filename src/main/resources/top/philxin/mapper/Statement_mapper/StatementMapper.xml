@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.philxin.mapper.Statement_mapper.StatementMapper">
+    <select id="selectDateUsers" resultType="top.philxin.model.responseModel.StatementModel.StatementUserBean">
+        SELECT COUNT(id) AS users,DATE_FORMAT(last_login_time,'%Y-%m-%d') AS day FROM cskaoyan_mall_user GROUP BY DATE_FORMAT(last_login_time,'%Y-%m-%d')
+    </select>
+    <select id="selectOrders" resultType="top.philxin.model.responseModel.StatementModel.StatementOrderBean">
+        select  order_price as amount,id as orders,count(distinct user_id) as customers,DATE_FORMAT(add_time,'%Y-%m-%d') AS day,order_price as pcr FROM cskaoyan_mall_order GROUP BY DATE_FORMAT(add_time,'%Y-%m-%d')
+    </select>
+    <select id="selectGoods" resultType="top.philxin.model.responseModel.StatementModel.StatementGoodBean">
+        select  sum(retail_price) as amount,count(id) as orders,DATE_FORMAT(add_time,'%Y-%m-%d') AS day,sum(goods_sn) as products FROM cskaoyan_mall_goods GROUP BY DATE_FORMAT(add_time,'%Y-%m-%d')
+    </select>
+</mapper>

@@ -272,18 +272,11 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
   <update id="updateProductDeletedCondition">
     update cskaoyan_mall_goods_specification
     set deleted = true
     <where>
-      <if test="idList != null and idList.size() != 0">
-        id NOT IN
-        <foreach collection="idList" item="id" separator="," open="(" close=")">
-          #{id}
-        </foreach>
-      </if>
-      AND goods_id = #{goodsId}
+       goods_id = #{goodsId}
     </where>
   </update>
   <insert id="insertProductList" parameterType="java.util.List">
@@ -292,4 +285,14 @@
       (#{product.goodsId},#{product.specifications},#{product.price},#{product.number},#{product.url},#{product.addTime},#{product.updateTime},#{product.deleted})
     </foreach>
   </insert>
+  <update id="updateProductList">
+    <foreach collection="productListToUpdate" item="product" open="" close=";">
+      update cskaoyan_mall_goods_product
+      set price = #{product.price},
+      number = #{product.number},
+      pic_url = #{product.url},
+      update_time = #{product.updateTime}
+      where goods_id = #{goodsId}
+    </foreach>
+  </update>
 </mapper>

@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("admin/auth")
 public class AuthController {
 
-    @LogRecordAnno(operateType = "登录")
+    @LogRecordAnno(operateAction = "登录")
     @RequestMapping("login")
     public BaseRespVo adminLogin(@RequestBody LoginVo loginVo) {
         return BaseRespVo.success("455d9fc7-ee3b-45bf-8968-2baa88bef5e8");

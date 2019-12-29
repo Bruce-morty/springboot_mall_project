@@ -204,10 +204,10 @@ public class GoodsServiceImpl implements GoodsService {
         // 更新商品库存信息(前端不支持多个更改)
         List<GoodsProduct> products = goodsInfoDetailVo.getProducts();
         List<GoodsProductVo> productListToInsert = new ArrayList<>();
-        List<Integer> idList3 = new ArrayList();
+        List<GoodsProduct> productListToUpdate = new ArrayList<>();
         for (GoodsProduct product : products) {
             GoodsProductVo productVo = new GoodsProductVo();
-            if(product.getId() == 0) {
+            if(products.get(0).getId() == 0) {
                 productVo.setSpecifications(Arrays.toString(product.getSpecifications()));
                 productVo.setPrice(product.getPrice());
                 productVo.setNumber(product.getNumber());
@@ -219,15 +219,19 @@ public class GoodsServiceImpl implements GoodsService {
                 productListToInsert.add(productVo);
                 continue;
             }
-            idList3.add(product.getId());
             product.setUpdateTime(date);
-            goodsProductMapper.updateByPrimaryKey(product);
+            productListToUpdate.add(product);
         }
         // 更新需要删除的信息
-        goodsProductMapper.updateProductDeletedCondition(idList3,goods.getId());
-        // 更新新增的信息
-        if(!productListToInsert.isEmpty()) {
-            goodsProductMapper.insertProductList(productListToInsert);
+        if(products.get(0).getId() == 0) {
+            goodsProductMapper.updateProductDeletedCondition(goods.getId());
+            // 更新新增的信息
+            if(!productListToInsert.isEmpty()) {
+                goodsProductMapper.insertProductList(productListToInsert);
+            }
+        }else {
+            // 更新已有的库存信息
+            goodsProductMapper.updateProductList(productListToUpdate, goods.getId());
         }
     }
 

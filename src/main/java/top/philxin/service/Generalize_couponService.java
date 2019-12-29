@@ -5,11 +5,12 @@ import top.philxin.model.CouponUser;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Generalize_couponService {
-    List<Coupon> queryCoupon(PageHelperVo pageHelperVo,String name,Integer type,Integer status);
+    Map queryCoupon(PageHelperVo pageHelperVo, String name, Integer type, Integer status);
     Coupon queryCouponById(Integer id);
-    List<CouponUser> queryCouponUser(PageHelperVo pageHelperVo,Integer couponId,Integer userId,Integer status);
+Map queryCouponUser(PageHelperVo pageHelperVo,Integer couponId,Integer userId,Integer status);
 
     int updateCoupon(Coupon coupon);
 

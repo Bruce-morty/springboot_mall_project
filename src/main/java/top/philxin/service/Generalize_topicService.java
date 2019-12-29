@@ -6,15 +6,14 @@ import top.philxin.model.Topic;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Generalize_topicService {
-    List<Topic> queryTopic(PageHelperVo pageHelperVo, String title, String subtitle);
-//    Coupon queryCouponById(Integer id);
-//    List<CouponUser> queryCouponUser(PageHelperVo pageHelperVo, Integer couponId, Integer userId, Integer status);
-//
-//    int updateCoupon(Coupon coupon);
-//
-//    int addCoupon(Coupon coupon);
-//
-//    int deleteCoupon(Coupon coupon);
+    Map queryTopic(PageHelperVo pageHelperVo, String title, String subtitle);
+
+    int deleteTopic(Topic topic);
+
+    Topic addTopic(Topic topic);
+
+    Topic updateTopic(Topic topic);
 }

@@ -3,8 +3,8 @@ package top.philxin.model.MallModel;
 import lombok.Data;
 
 @Data
-public class BrandCondition {
-    String name;
+public class IssueCondition {
+    String question;
 
     Integer page;
 
@@ -13,6 +13,4 @@ public class BrandCondition {
     String sort;
 
     String order;
-
-    Integer id;
 }
