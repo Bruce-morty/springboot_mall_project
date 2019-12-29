@@ -21,7 +21,7 @@ import top.philxin.service.*;
 public class UserController {
     @Autowired
     UserService userService;
-    
+
     @RequestMapping("user/list")
     public BaseRespVo getAllUser(PageHelperVo pageHelperVo,String username,String mobile) {
         BaseDataVo baseDataVo = userService.queryUsers(pageHelperVo, username, mobile);
