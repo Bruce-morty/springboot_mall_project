@@ -21,7 +21,7 @@ import java.util.Map;
 public class Generalize_CouponController {
 
     /**
-     *优惠券模块
+     *  2.优惠券模块
      */
     /**
      * 按条件查询优惠券
@@ -89,7 +89,7 @@ public class Generalize_CouponController {
     }
 
     /**
-     *   专题模块
+     *   3.专题模块
      *
      */
     /**
@@ -146,7 +146,7 @@ public class Generalize_CouponController {
     }
 
     /**
-     *   团购模块
+     *  4. 团购模块
      */
 
     /**
@@ -215,6 +215,23 @@ public class Generalize_CouponController {
           return BaseRespVo.success();
 
     }
+
+
+
+    /**
+     * 5.团购活动模块
+     *
+     * 获取订单商品对应的团购规则以及按商品Id查询对应的规则
+     */
+
+    @RequestMapping("admin/groupon/listRecord")
+    public BaseRespVo getOrderGoodsGrouponRule(PageHelperVo pageHelperVo,Integer goodsId)
+    {
+
+        Map map = grouponService.queryOrderGoodsGrouponRule(pageHelperVo, goodsId);
+        return BaseRespVo.success(map);
+    }
+
 
 
 }

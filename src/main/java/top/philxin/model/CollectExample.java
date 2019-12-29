@@ -72,6 +72,8 @@ public class CollectExample {
             criteria = new ArrayList<Criterion>();
         }
 
+
+
         public boolean isValid() {
             return criteria.size() > 0;
         }
@@ -215,6 +217,11 @@ public class CollectExample {
             return (Criteria) this;
         }
 
+        public  Criteria andUserIdLike(String value){
+            addCriterion("user_id like", value, "userId");
+            return (Criteria) this;
+        }
+
         public Criteria andUserIdBetween(Integer value1, Integer value2) {
             addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
@@ -237,6 +244,11 @@ public class CollectExample {
 
         public Criteria andValueIdEqualTo(Integer value) {
             addCriterion("value_id =", value, "valueId");
+            return (Criteria) this;
+        }
+
+        public  Criteria andValueIdLike(String value){
+            addCriterion("value_id like", value, "valueId");
             return (Criteria) this;
         }
 

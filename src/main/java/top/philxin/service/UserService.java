@@ -13,4 +13,16 @@ import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
  */
 public interface UserService {
     BaseDataVo queryUsers(PageHelperVo pageHelperVo, String username, String mobile);
+
+
+    BaseDataVo queryAddresss(PageHelperVo pageHelperVo, String userId, String name);
+
+    BaseDataVo queryCollects(PageHelperVo pageHelperVo, String userId, String valueId);
+
+    BaseDataVo queryFeedbacks(PageHelperVo pageHelperVo, String username, String id);
+
+    BaseDataVo queryFootprints(PageHelperVo pageHelperVo, String userId, String goodsId);
+
+    BaseDataVo querySearchHistory(PageHelperVo pageHelperVo, String userId, String keyword);
+
 }

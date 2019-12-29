@@ -1,12 +1,16 @@
 package top.philxin.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class Admin {
     private Integer id;
-
+    @Length(min = 6)
     private String username;
-
+    @Length(min = 6)
     private String password;
 
     private String lastLoginIp;
@@ -14,14 +18,14 @@ public class Admin {
     private Date lastLoginTime;
 
     private String avatar;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private Boolean deleted;
 
-    private String roleIds;
+    private int[] roleIds;
 
     public Integer getId() {
         return id;
@@ -95,11 +99,11 @@ public class Admin {
         this.deleted = deleted;
     }
 
-    public String getRoleIds() {
+    public int[] getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(String roleIds) {
-        this.roleIds = roleIds == null ? null : roleIds.trim();
+    public void setRoleIds(int[] roleIds) {
+        this.roleIds = roleIds;
     }
 }

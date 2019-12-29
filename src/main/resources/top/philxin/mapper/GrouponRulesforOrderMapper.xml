@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.philxin.mapper.GrouponRulesforOrderMapper">
+    <resultMap id="BaseResultMap" type="top.philxin.model.GeneralizeModel.GrouponActivities">
+        <id column="id" jdbcType="INTEGER" property="orderId" />
+        <id column="user_id" javaType="INTEGER" property="userId"/>
+        <id column="goods_id"/>
+        <collection property="grouponRulesList"  column="goods_id" select="top.philxin.mapper.GrouponRulesforOrderMapper.selectOrderGoodsGrouponRulerByGoodsId" />
+    </resultMap>
+
+    <select id="queryOrderGoodsGrouponRule" resultMap="BaseResultMap">
+
+       select o.id, o.user_id ,od.goods_id from cskaoyan_mall_order o left join cskaoyan_mall_order_goods od on
+       o.id=od.order_id
+    </select>
+    <select id="selectOrderGoodsGrouponRulerByGoodsId" resultType="top.philxin.model.GrouponRules">
+
+        select * from cskaoyan_mall_groupon_rules where goods_id=#{id}
+
+    </select>
+</mapper>
