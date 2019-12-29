@@ -290,7 +290,7 @@
       update cskaoyan_mall_goods_product
       set price = #{product.price},
       number = #{product.number},
-      pic_url = #{product.url},
+      url = #{product.url},
       update_time = #{product.updateTime}
       where goods_id = #{goodsId}
     </foreach>

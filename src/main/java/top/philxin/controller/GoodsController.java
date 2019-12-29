@@ -5,12 +5,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.annotation.LogRecordAnno;
+import top.philxin.model.Comment;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.model.GoodsModel.CatAndBrandVo;
 import top.philxin.model.GoodsModel.GoodsInfoDetailVo;
 import top.philxin.service.GoodsService;
+
+import java.util.Map;
 
 /**
  * @ClassName: GoodsController
@@ -85,5 +88,45 @@ public class GoodsController {
         return BaseRespVo.success(errmsg);
     }
 
+
+    /**
+     * 显示商品评论 以及按条件查找
+     */
+
+    @RequestMapping("comment/list")
+   public BaseRespVo getComment(PageHelperVo pageHelperVo,Integer userId,Integer valueId)
+    {
+        Map comment = goodsService.getComment(pageHelperVo, userId, valueId);
+        return BaseRespVo.success(comment);
+    }
+
+    /**
+     * 商品回复
+     */
+    @RequestMapping("order/reply")
+    public BaseRespVo OrderReply(@RequestBody  Map map)
+    {
+
+        Comment comment= goodsService.OrderReply(map);
+        if(comment!=null)
+        {
+            return BaseRespVo.success(comment);
+        }
+
+        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
+        baseRespVo.setErrno(622);
+        baseRespVo.setErrmsg("订单商品已回复");
+        return baseRespVo;
+    }
+    /**
+     * 删除商品评论
+     */
+
+    @RequestMapping("comment/delete")
+    public BaseRespVo deleteComment(@RequestBody Comment comment)
+    {
+       goodsService.deleteComment(comment);
+        return BaseRespVo.success();
+    }
 
 }

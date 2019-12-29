@@ -17,16 +17,11 @@ public class Storage {
     private Long size;
 
     private String url;
-<<<<<<< HEAD
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date addTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-=======
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date addTime;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
->>>>>>> 3a183e752bbc41d8ec6b43d9a745181a614d54f3
     private Date updateTime;
 
     private Boolean deleted;
