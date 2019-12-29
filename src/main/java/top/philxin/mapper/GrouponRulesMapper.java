@@ -28,4 +28,6 @@ public interface GrouponRulesMapper {
     int updateByPrimaryKeySelective(GrouponRules record);
 
     int updateByPrimaryKey(GrouponRules record);
+
+
 }

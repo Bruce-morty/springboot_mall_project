@@ -2,6 +2,7 @@ package top.philxin.service.impl;
 
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.CouponMapper;
@@ -12,7 +13,11 @@ import top.philxin.model.CouponUser;
 import top.philxin.model.CouponUserExample;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.service.Generalize_couponService;
+
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -21,7 +26,7 @@ public class Generalize_couponServiceImpl implements Generalize_couponService {
 @Autowired
     CouponMapper couponMapper;
     @Override
-    public List<Coupon> queryCoupon(PageHelperVo pageHelperVo,String name,Integer type,Integer status) {
+    public Map queryCoupon(PageHelperVo pageHelperVo, String name, Integer type, Integer status) {
         PageHelper.startPage(pageHelperVo.getPage(),pageHelperVo.getLimit());
         CouponExample couponExample=new CouponExample();
         CouponExample.Criteria criteria = couponExample.createCriteria();
@@ -38,9 +43,13 @@ public class Generalize_couponServiceImpl implements Generalize_couponService {
       {
           criteria.andStatusEqualTo(status.shortValue());
       }
+        criteria.andDeletedEqualTo(false);
         List<Coupon> coupons = couponMapper.selectByExample(couponExample);
-
-        return coupons;
+        PageInfo<Coupon> couponPageInfo = new PageInfo<>(coupons);
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("items",coupons);
+        map.put("total",couponPageInfo.getTotal());
+        return map;
 
     }
 
@@ -53,7 +62,7 @@ public class Generalize_couponServiceImpl implements Generalize_couponService {
     @Autowired
     CouponUserMapper couponUserMapper;
     @Override
-    public List<CouponUser> queryCouponUser(PageHelperVo pageHelperVo, Integer couponId, Integer userId, Integer status) {
+    public Map queryCouponUser(PageHelperVo pageHelperVo, Integer couponId, Integer userId, Integer status) {
 
         PageHelper.startPage(pageHelperVo.getPage(),pageHelperVo.getLimit());
 
@@ -69,18 +78,25 @@ public class Generalize_couponServiceImpl implements Generalize_couponService {
         {
             criteria.andStatusEqualTo(status.shortValue());
         }
+        criteria.andDeletedEqualTo(false);
         List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
-        return couponUsers;
+        PageInfo<CouponUser> couponUserPageInfo = new PageInfo<>(couponUsers);
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("total",couponUserPageInfo.getTotal());
+        map.put("items",couponUsers);
+        return map;
     }
 
     @Override
     public int updateCoupon(Coupon coupon) {
+        coupon.setUpdateTime(new Date());
         int i = couponMapper.updateByPrimaryKeySelective(coupon);
         return i;
     }
 
     @Override
     public int addCoupon(Coupon coupon) {
+        coupon.setAddTime(new Date());
         int insert = couponMapper.insert(coupon);
         return insert;
     }

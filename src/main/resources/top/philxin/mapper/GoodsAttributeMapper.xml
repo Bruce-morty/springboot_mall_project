@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, goods_id, attribute, value, add_time, update_time, deleted
+    id, goods_id, attribute, `value`, add_time, update_time, deleted
   </sql>
   <select id="selectByExample" parameterType="top.philxin.model.GoodsAttributeExample" resultMap="BaseResultMap">
     select
@@ -86,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_goods_attribute
     where id = #{id,jdbcType=INTEGER}
@@ -102,11 +102,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="top.philxin.model.GoodsAttribute">
-    insert into cskaoyan_mall_goods_attribute (id, goods_id, attribute, 
-      value, add_time, update_time, 
+    insert into cskaoyan_mall_goods_attribute (id, goods_id, attribute,
+      value, add_time, update_time,
       deleted)
-    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{attribute,jdbcType=VARCHAR}, 
-      #{value,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{attribute,jdbcType=VARCHAR},
+      #{value,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="top.philxin.model.GoodsAttribute">
@@ -240,4 +240,36 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="insertAttributeList" parameterType="java.util.List">
+    insert into cskaoyan_mall_goods_attribute (goods_id, attribute, `value`, add_time, update_time, deleted) values
+    <foreach collection="attributes" item="attribute" separator=",">
+      (#{attribute.goodsId},#{attribute.attribute},#{attribute.value},#{attribute.addTime},#{attribute.updateTime},#{attribute.deleted})
+    </foreach>
+  </insert>
+
+  <update id="updateAttributeList" parameterType="java.util.List">
+    <foreach collection="attributes" item="attribute" close="; ">
+      update cskaoyan_mall_goods_attribute
+      set attribute = #{attribute.attribute},
+      `value` = #{attribute.value},
+      update_time = #{attribute.updateTime}
+      where id in ${idStr} and goods_id = #{goodId} and id = #{attribute.id}
+    </foreach>
+  </update>
+
+  <update id="updateAttributeDeletedCondition">
+    update cskaoyan_mall_goods_attribute
+    set deleted = true
+    <where>
+      <if test="idList != null and idList.size() != 0">
+        id NOT IN<foreach collection="idList" item="id" separator="," open="(" close=")">
+        #{id}
+      </foreach>
+      </if>
+       AND goods_id = #{goodId}
+    </where>
+  </update>
+
+
 </mapper>

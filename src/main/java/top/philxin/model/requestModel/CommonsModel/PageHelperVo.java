@@ -2,6 +2,7 @@ package top.philxin.model.requestModel.CommonsModel;
 
 import io.swagger.models.auth.In;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName: PageHelperVo

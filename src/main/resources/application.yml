@@ -10,4 +10,11 @@ spring:
 pagehelper:
   helper-dialect: mysql
 
-
+<<<<<<< HEAD
+=======
+logging:
+  level:
+    top:
+      philxin:
+        mapper: debug
+>>>>>>> 3a183e752bbc41d8ec6b43d9a745181a614d54f3

@@ -540,4 +540,7 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateOrderState">
+    update cskaoyan_mall_order set order_status = #{param2} where id = #{param1}
+  </update>
 </mapper>

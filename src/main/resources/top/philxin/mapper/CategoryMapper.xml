@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.philxin.mapper.CategoryMapper">
-  <resultMap id="BaseResultMap" type="top.philxin.model.MallModel.Category">
+  <resultMap id="BaseResultMap" type="top.philxin.model.Category">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="keywords" jdbcType="VARCHAR" property="keywords" />
@@ -74,11 +74,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, keywords, `desc`, pid, icon_url as iconUrl, pic_url as picUrl, level,
-    sort_order as sortOrder, add_time as addTime, update_time as updateTime,
-    deleted
+    id, `name`, keywords, `desc`, pid, icon_url, pic_url, `level`, sort_order, add_time, update_time,deleted
   </sql>
-  <select id="selectByExample" parameterType="top.philxin.model.MallModel.CategoryExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="top.philxin.model.CategoryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -93,7 +91,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_category
     where id = #{id,jdbcType=INTEGER}
@@ -102,25 +100,25 @@
     delete from cskaoyan_mall_category
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="top.philxin.model.MallModel.CategoryExample">
+  <delete id="deleteByExample" parameterType="top.philxin.model.CategoryExample">
     delete from cskaoyan_mall_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.MallModel.Category">
-    insert into cskaoyan_mall_category (id, name, keywords, 
-      desc, pid, icon_url, 
-      pic_url, level, sort_order, 
+  <insert id="insert" parameterType="top.philxin.model.Category" useGeneratedKeys="true" keyProperty="id">
+    insert into cskaoyan_mall_category (id, name, keywords,
+      `desc`, pid, icon_url,
+      pic_url, `level`, sort_order,
       add_time, update_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
-      #{desc,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, 
-      #{picUrl,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{sortOrder,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR},
+      #{desc,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR},
+      #{picUrl,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{sortOrder,jdbcType=TINYINT},
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="top.philxin.model.MallModel.Category">
+  <insert id="insertSelective" parameterType="top.philxin.model.Category">
     insert into cskaoyan_mall_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -199,7 +197,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="top.philxin.model.MallModel.CategoryExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="top.philxin.model.CategoryExample" resultType="java.lang.Long">
     select count(*) from cskaoyan_mall_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -267,7 +265,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="top.philxin.model.MallModel.Category">
+  <update id="updateByPrimaryKeySelective" parameterType="top.philxin.model.Category">
     update cskaoyan_mall_category
     <set>
       <if test="name != null">
@@ -277,7 +275,7 @@
         keywords = #{keywords,jdbcType=VARCHAR},
       </if>
       <if test="desc != null">
-        desc = #{desc,jdbcType=VARCHAR},
+        `desc` = #{desc,jdbcType=VARCHAR},
       </if>
       <if test="pid != null">
         pid = #{pid,jdbcType=INTEGER},
@@ -306,7 +304,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="top.philxin.model.MallModel.Category">
+  <update id="updateByPrimaryKey" parameterType="top.philxin.model.Category">
     update cskaoyan_mall_category
     set name = #{name,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
@@ -321,12 +319,34 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="getCategoryList" resultType="top.philxin.model.MallModel.Category">
+  <!--分割符-->
+  <select id="selectCategoryIdsByPid" resultType="java.lang.Integer">
+    select id from cskaoyan_mall_category where pid = #{id} and deleted = false
+  </select>
+  <select id="getCategoryList" resultType="top.philxin.model.Category">
     select id,name,keywords,`desc`,pid,icon_url as iconUrl,pic_url as picUrl,
     level,sort_order as sortOrder,add_time as addTime,update_time as updateTime,deleted
     from cskaoyan_mall_category where deleted = 0;
   </select>
-  <select id="selectByLevel" resultType="top.philxin.model.MallModel.CategoryByLevel">
-    select id as value, name as label from cskaoyan_mall_category where level = #{level}
+  <select id="selectByLevel" resultType="top.philxin.model.CategoryByLevel">
+    select id as value, name as label from cskaoyan_mall_category where level = #{level} and deleted = 0
+  </select>
+  <update id="deleteCategory">
+    update cskaoyan_mall_category set deleted = 1 where id = #{id}
+  </update>
+  <select id="getPidById" resultType="java.lang.Integer">
+    select pid from cskaoyan_mall_category where id = #{categoryId}
+  </select>
+  <!--获取catList-->
+  <resultMap id="catListResultMap" type="top.philxin.model.GoodsModel.CatAndBrandInfoVo">
+    <result column="id" property="value"/>
+    <result column="name" property="label"/>
+    <collection property="children" column="id" select="selectCategoryInfoByPid"/>
+  </resultMap>
+  <select id="selectCategoryList" resultMap="catListResultMap">
+      SELECT id,name FROM cskaoyan_mall_category where pid = 0 and deleted = false
+  </select>
+  <select id="selectCategoryInfoByPid" resultType="top.philxin.model.GoodsModel.CatAndBrandChildInfoVo">
+      SELECT id as value,name as label FROM cskaoyan_mall_category where pid = #{id} and deleted = false
   </select>
 </mapper>

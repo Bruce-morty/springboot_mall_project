@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
         if(mobile != null && mobile.length() != 0) {
             criteria.andMobileLike("%" + mobile + "%");
         }
+        criteria.andDeletedEqualTo(false);
         List<User> userList = userMapper.selectByExample(userExample);
         // 存入 items
         baseDataVo.setItems(userList);

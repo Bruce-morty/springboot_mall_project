@@ -28,4 +28,10 @@ public interface GoodsSpecificationMapper {
     int updateByPrimaryKeySelective(GoodsSpecification record);
 
     int updateByPrimaryKey(GoodsSpecification record);
+
+    Integer updateSpecificationDeletedCondition(@Param("idList") List<Integer> idList, @Param("goodsId") Integer id);
+
+    Integer insertSpecificationList(@Param("specificationList") List<GoodsSpecification> specificationListToInsert);
+
+    int updateSpecificationList(@Param("specificationList") List<GoodsSpecification> specificationListToUpdate, @Param("idStr") String idStr,@Param("goodsId") Integer id);
 }
