@@ -1,5 +1,8 @@
 package top.philxin.model.responseModel.StatementModel;
 
+import lombok.Data;
+
+import java.math.BigDecimal;
 
 /**
  * @ClassName:
@@ -8,12 +11,11 @@ package top.philxin.model.responseModel.StatementModel;
  * @date:
  * @version: v1.0
  */
-@lombok.Data
-public class StatementBean {
 
-//    String data;
-
+@Data
+public class StatementGoodBean {
+    BigDecimal amount;
+    int orders;
     String day;
-    int users;
-
+    int products;
 }
