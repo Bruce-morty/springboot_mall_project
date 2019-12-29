@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import top.philxin.model.Category;
 import top.philxin.model.CategoryByLevel;
 import top.philxin.model.CategoryExample;
+import top.philxin.model.GoodsModel.CatAndBrandInfoVo;
 
 import java.util.List;
 
@@ -38,4 +39,7 @@ public interface CategoryMapper {
 
     int deleteCategory(Integer id);
 
+    Integer getPidById(Integer categoryId);
+
+    List<CatAndBrandInfoVo> selectCategoryList();
 }

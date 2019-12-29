@@ -87,7 +87,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from cskaoyan_mall_goods_specification
     where id = #{id,jdbcType=INTEGER}
@@ -103,11 +103,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="top.philxin.model.GoodsSpecification">
-    insert into cskaoyan_mall_goods_specification (id, goods_id, specification, 
-      value, pic_url, add_time, 
+    insert into cskaoyan_mall_goods_specification (id, goods_id, specification,
+      value, pic_url, add_time,
       update_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
-      #{value,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR},
+      #{value,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="top.philxin.model.GoodsSpecification">
@@ -254,5 +254,35 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateSpecificationDeletedCondition">
+    update cskaoyan_mall_goods_specification
+    set deleted = true
+    <where>
+      <if test="idList != null and idList.size() != 0">
+        id NOT IN
+        <foreach collection="idList" item="id" separator="," open="(" close=")">
+          #{id}
+        </foreach>
+      </if>
+      AND goods_id = #{goodsId}
+    </where>
+  </update>
+  <select id="insertSpecificationList" resultType="Integer">
+    insert into cskaoyan_mall_goods_specification (goods_id, specification, `value`, pic_url, add_time, update_time, deleted) values
+    <foreach collection="specificationList" item="specification" separator=",">
+      (#{specification.goodsId},#{specification.specification},#{specification.value},#{specification.picUrl},#{specification.addTime},#{specification.updateTime},#{specification.deleted})
+    </foreach>
+  </select>
+  <update id="updateSpecificationList">
+    <foreach collection="specificationList" item="specification" open="" close=";">
+      update cskaoyan_mall_goods_specification
+      set specification = #{specification.specification},
+      `value` = #{specification.value},
+      pic_url = #{specification.picUrl},
+      update_time = #{specification.updateTime}
+      where id in #{idStr} and goods_id = #{goodsId} and id = #{specification.id}
+    </foreach>
   </update>
 </mapper>

@@ -1,11 +1,9 @@
 package top.philxin.service;
 
-import com.github.pagehelper.PageHelper;
-import org.springframework.web.multipart.MultipartFile;
-import top.philxin.model.Storage;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
-import top.philxin.model.responseModel.GoodsModel.GoodsInfoDetailVo;
+import top.philxin.model.GoodsModel.CatAndBrandVo;
+import top.philxin.model.GoodsModel.GoodsInfoDetailVo;
 
 /**
  * @ClassName: GoodsService
@@ -18,4 +16,10 @@ public interface GoodsService {
     BaseDataVo queryGoods(PageHelperVo pageHelperVo, String goodsSn, String name);
 
     GoodsInfoDetailVo getGoodDetail(Integer goodsId);
+
+    CatAndBrandVo getCatAndBrand();
+
+    void updateGoodsDetailInfo(GoodsInfoDetailVo goodsInfoDetailVo);
+
+    void createNewGoods(GoodsInfoDetailVo goodsInfoDetailVo);
 }

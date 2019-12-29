@@ -9,8 +9,6 @@ import top.philxin.model.*;
 import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.service.MallService;
-
-import java.lang.System;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +28,11 @@ public class MallServiceImpl implements MallService {
     UserMapper userMapper;
     @Autowired
     OrderGoodsMapper orderGoodsMapper;
+    @Autowired
+    IssueMapper issueMapper;
+    @Autowired
+    KeywordMapper keywordMapper;
+
     /**
      * 获取全部的行政区域并以list的形式返回
      * @return
@@ -76,6 +79,19 @@ public class MallServiceImpl implements MallService {
         return baseDataVo;
     }
 
+    /**
+     *
+     * @param brand
+     * @return
+     */
+    @Override
+    public Brand createBrand(Brand brand) {
+        brand.setDeleted(0);
+        brand.setAddTime(new Date());
+        brand.setUpdateTime(new Date());
+        brandMapper.insert(brand);
+        return brand;
+    }
     /**
      * 此方法为更新品牌商信息的具体实现
      * @param brand
@@ -129,6 +145,21 @@ public class MallServiceImpl implements MallService {
     public List<CategoryByLevel> getCategoryByLevel(String level) {
         return categoryMapper.selectByLevel(level);
     }
+
+    /**
+     * 此方法为新增商品类目的具体实现,并返回新增的商品类目
+     * @param category
+     * @return
+     */
+    @Override
+    public Category createCategory(Category category) {
+        category.setDeleted(false);
+        category.setAddTime(new Date());
+        category.setUpdateTime(new Date());
+        categoryMapper.insert(category);
+        return category;
+    }
+
 
     /**
      * 此方法为删除商品类目的具体实现，假删，将deleted设为1
@@ -230,6 +261,127 @@ public class MallServiceImpl implements MallService {
         order.setOrderStatus((short) 301);
         //数据库中修改
         orderMapper.updateByPrimaryKeySelective(order);
+    }
+
+    /**
+     * 此方法为根据question获得通用问题的具体实现
+     * @param issueCondition
+     * @return
+     */
+    @Override
+    public BaseDataVo<Issue> getIssueListByQuestion(IssueCondition issueCondition) {
+        PageHelper.startPage(issueCondition.getPage(),issueCondition.getLimit());
+
+        IssueExample issueExample = new IssueExample();
+        IssueExample.Criteria criteria = issueExample.createCriteria();
+        criteria.andDeletedEqualTo(false);
+        if(issueCondition.getQuestion() != null){
+            criteria.andQuestionLike("%" + issueCondition.getQuestion() +"%");
+        }
+        List<Issue> issues = issueMapper.selectByExample(issueExample);
+
+        PageInfo<Issue> pageInfo = new PageInfo<>(issues);
+        //封入数据
+        BaseDataVo<Issue> baseDataVo = new BaseDataVo<>();
+        baseDataVo.setTotal((int) pageInfo.getTotal());
+        baseDataVo.setItems(issues);
+        return baseDataVo;
+    }
+
+    /**
+     * 此方法为新增通用问题的具体实现，并将刚插入的问题返回
+     * @param issue
+     * @return
+     */
+    @Override
+    public Issue createIssue(Issue issue) {
+        issue.setUpdateTime(new Date());
+        issue.setAddTime(new Date());
+        issue.setDeleted(false);
+        issueMapper.insert(issue);
+        return issue;
+    }
+
+    /**
+     * 此方法为更新通用问题的具体实现
+     * 更新update时间，并返回
+     * @param issue
+     * @return
+     */
+    @Override
+    public Issue updateIssue(Issue issue) {
+        issue.setUpdateTime(new Date());
+        issueMapper.updateByPrimaryKey(issue);
+        return issue;
+    }
+
+    /**
+     * 此方法用于实现通用问题的删除
+     * 将deleted设置为1
+     * @param id
+     */
+    @Override
+    public void deleteIssue(Integer id) {
+        issueMapper.deleteIssue(id);
+    }
+
+    @Override
+    public BaseDataVo<Keyword> getKeywordListByCondition(KeywordCondition keywordCondition) {
+        PageHelper.startPage(keywordCondition.getPage(),keywordCondition.getLimit());
+        KeywordExample keywordExample = new KeywordExample();
+        KeywordExample.Criteria criteria = keywordExample.createCriteria();
+
+        if(keywordCondition.getKeyword() != null){
+            criteria.andKeywordLike("%" + keywordCondition.getKeyword() +"%");
+        }
+        if(keywordCondition.getUrl() != null){
+            criteria.andUrlLike("%" + keywordCondition.getUrl() +"%");
+        }
+        List<Keyword> keywords = keywordMapper.selectByExample(keywordExample);
+
+        PageInfo<Keyword> pageInfo = new PageInfo<>(keywords);
+        //封入数据
+        BaseDataVo<Keyword> baseDataVo = new BaseDataVo<>();
+        baseDataVo.setTotal((int) pageInfo.getTotal());
+        baseDataVo.setItems(keywords);
+        return baseDataVo;
+    }
+
+    /**
+     * 此方法为新增关键词的具体实现，并将新增的返回
+     * @param keyword
+     * @return
+     */
+    @Override
+    public Keyword createKeyword(Keyword keyword) {
+        keyword.setAddTime(new Date());
+        keyword.setUpdateTime(new Date());
+        keyword.setDeleted(false);
+        keyword.setSortOrder(100);
+        keywordMapper.insert(keyword);
+        return keyword;
+    }
+    /**
+     * 此方法为更新关键词的具体实现
+     * 更新update时间，并返回
+     * @param keyword
+     * @return
+     */
+    @Override
+    public Keyword updateKeyword(Keyword keyword) {
+        keyword.setUpdateTime(new Date());
+        keywordMapper.updateByPrimaryKey(keyword);
+        return keyword;
+    }
+
+    /**
+     * 此方法用于实现关键词的删除
+     * 将deleted设置为1
+     * @param id
+     */
+    @Override
+    public void deleteKeyword(Integer id) {
+        keywordMapper.deleteKeyword(id);
     }
 
 }

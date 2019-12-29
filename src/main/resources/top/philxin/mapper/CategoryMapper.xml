@@ -106,10 +106,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.Category">
+  <insert id="insert" parameterType="top.philxin.model.Category" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_category (id, name, keywords,
-      desc, pid, icon_url,
-      pic_url, level, sort_order,
+      `desc`, pid, icon_url,
+      pic_url, `level`, sort_order,
       add_time, update_time, deleted
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR},
@@ -319,6 +319,7 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--分割符-->
   <select id="selectCategoryIdsByPid" resultType="java.lang.Integer">
     select id from cskaoyan_mall_category where pid = #{id} and deleted = false
   </select>
@@ -333,4 +334,19 @@
   <update id="deleteCategory">
     update cskaoyan_mall_category set deleted = 1 where id = #{id}
   </update>
+  <select id="getPidById" resultType="java.lang.Integer">
+    select pid from cskaoyan_mall_category where id = #{categoryId}
+  </select>
+  <!--获取catList-->
+  <resultMap id="catListResultMap" type="top.philxin.model.GoodsModel.CatAndBrandInfoVo">
+    <result column="id" property="value"/>
+    <result column="name" property="label"/>
+    <collection property="children" column="id" select="selectCategoryInfoByPid"/>
+  </resultMap>
+  <select id="selectCategoryList" resultMap="catListResultMap">
+      SELECT id,name FROM cskaoyan_mall_category where pid = 0 and deleted = false
+  </select>
+  <select id="selectCategoryInfoByPid" resultType="top.philxin.model.GoodsModel.CatAndBrandChildInfoVo">
+      SELECT id as value,name as label FROM cskaoyan_mall_category where pid = #{id} and deleted = false
+  </select>
 </mapper>

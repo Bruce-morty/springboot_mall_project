@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="top.philxin.mapper.Statement_mapper.StatementDateUsersMapper">
-    <select id="selectDateUsers" resultType="top.philxin.model.responseModel.StatementModel.StatementBean">
-        SELECT COUNT(id) AS users,DATE_FORMAT(last_login_time,'%Y-%m-%d') AS day FROM cskaoyan_mall_user GROUP BY DATE_FORMAT(last_login_time,'%Y-%m-%d')
-    </select>
-</mapper>

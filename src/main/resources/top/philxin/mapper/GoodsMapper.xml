@@ -87,7 +87,7 @@
   <sql id="Base_Column_List">
     id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale,
     sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price,
-    add_time, update_time, deleted
+    add_time, update_time, deleted, detail
   </sql>
   <sql id="Blob_Column_List">
     detail
@@ -140,7 +140,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.Goods">
+  <insert id="insert" parameterType="top.philxin.model.Goods" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_goods (id, goods_sn, name,
       category_id, brand_id, gallery,
       keywords, brief, is_on_sale,
@@ -156,7 +156,7 @@
       #{retailPrice,jdbcType=DECIMAL}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{deleted,jdbcType=BIT}, #{detail,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="top.philxin.model.Goods">
+  <insert id="insertSelective" parameterType="top.philxin.model.Goods" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_goods
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -544,5 +544,8 @@
        </if>
           AND deleted = false
     </where>
+  </select>
+  <select id="getCategoryIdByGoodsId" resultType="java.lang.Integer">
+    select category_id from cskaoyan_mall_goods where id = #{id}
   </select>
 </mapper>

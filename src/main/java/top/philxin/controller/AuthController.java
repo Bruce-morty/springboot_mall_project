@@ -3,6 +3,7 @@ package top.philxin.controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.philxin.annotation.LogRecordAnno;
 import top.philxin.model.requestModel.LoginVo;
 import top.philxin.model.responseModel.AdminInfoVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequestMapping("admin/auth")
 public class AuthController {
 
+    @LogRecordAnno(operateAction = "登录")
     @RequestMapping("login")
     public BaseRespVo adminLogin(@RequestBody LoginVo loginVo) {
         return BaseRespVo.success("455d9fc7-ee3b-45bf-8968-2baa88bef5e8");
