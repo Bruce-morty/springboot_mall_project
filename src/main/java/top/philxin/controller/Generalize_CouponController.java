@@ -15,6 +15,7 @@ import top.philxin.service.Generalize_topicService;
 import java.lang.System;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class Generalize_CouponController {
@@ -28,13 +29,11 @@ public class Generalize_CouponController {
      */
     @Autowired
     Generalize_couponService couponService;
-@RequestMapping("admin/coupon/list")
+    @RequestMapping("admin/coupon/list")
     public BaseRespVo getCoupon(PageHelperVo pageHelperVo,String name,Integer type,Integer status )
    {
-      List<Coupon> couponList= couponService.queryCoupon(pageHelperVo,name,type,status);
-       HashMap<Object, Object> map = new HashMap<>();
-       map.put("items",couponList);
-       map.put("total",couponList.size());
+       Map map = couponService.queryCoupon(pageHelperVo, name, type, status);
+
        return BaseRespVo.success(map);
    }
     /**
@@ -52,11 +51,7 @@ public class Generalize_CouponController {
     @RequestMapping("admin/coupon/listuser")
     public BaseRespVo getCouponUser(PageHelperVo pageHelperVo,Integer couponId,Integer userId,Integer status)
     {
-        List<CouponUser> couponUsers = couponService.queryCouponUser(pageHelperVo, couponId, userId, status);
-
-        HashMap<Object, Object> map = new HashMap<>();
-        map.put("total",couponUsers.size());
-        map.put("items",couponUsers);
+        Map map= couponService.queryCouponUser(pageHelperVo, couponId, userId, status);
        return BaseRespVo.success(map);
     }
     /**
@@ -106,10 +101,9 @@ public class Generalize_CouponController {
     public BaseRespVo getTopic(PageHelperVo pageHelperVo,String title,String subtitle)
     {
 
-        List<Topic> topics = topicService.queryTopic(pageHelperVo, title, subtitle);
-        HashMap<Object, Object> map = new HashMap<>();
-        map.put("items",topics);
-        map.put("total",topics.size());
+
+        Map map = topicService.queryTopic(pageHelperVo, title, subtitle);
+
         return BaseRespVo.success(map);
     }
 
@@ -164,10 +158,8 @@ public class Generalize_CouponController {
     @RequestMapping("admin/groupon/list")
     public BaseRespVo getGroupOn(PageHelperVo pageHelperVo,Integer goodsId)
     {
-        List<GrouponRules> grouponRules = grouponService.queryGroupon(pageHelperVo, goodsId);
-        HashMap<Object, Object> map = new HashMap<>();
-        map.put("items",grouponRules);
-        map.put("total",grouponRules.size());
+      Map map = grouponService.queryGroupon(pageHelperVo, goodsId);
+
         return BaseRespVo.success(map);
 
     }

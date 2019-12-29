@@ -13,6 +13,7 @@ import top.philxin.service.Generalize_couponService;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class Generalize_AdController {
@@ -31,11 +32,9 @@ public class Generalize_AdController {
     @RequestMapping("admin/ad/list")
     public BaseRespVo getAd(PageHelperVo pageHelperVo,String name,String content)
     {
-        List<Ad> ad = adService.getAd(pageHelperVo,name,content);
-        HashMap<Object, Object> map = new HashMap<>();
-        map.put("items",ad);
-        map.put("total",ad.size());
-        return BaseRespVo.success(map);
+        Map adMap = adService.getAd(pageHelperVo, name, content);
+
+        return BaseRespVo.success(adMap);
 
     }
     /**
