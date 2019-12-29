@@ -280,7 +280,7 @@
       update cskaoyan_mall_goods_specification
       set specification = #{specification.specification},
       `value` = #{specification.value},
-      pic_url = #{specification.picUrl},
+      url = #{specification.picUrl},
       update_time = #{specification.updateTime}
       where id in #{idStr} and goods_id = #{goodsId} and id = #{specification.id}
     </foreach>

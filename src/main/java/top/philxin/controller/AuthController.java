@@ -1,5 +1,9 @@
 package top.philxin.controller;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,6 +12,7 @@ import top.philxin.model.requestModel.LoginVo;
 import top.philxin.model.responseModel.AdminInfoVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +27,23 @@ import java.util.List;
 @RequestMapping("admin/auth")
 public class AuthController {
 
+    @RequestMapping("unAuthc")
+    public BaseRespVo unAuthc(){
+        return BaseRespVo.error(502,"请登录后访问");
+    }
+
     @LogRecordAnno(operateAction = "登录")
     @RequestMapping("login")
     public BaseRespVo adminLogin(@RequestBody LoginVo loginVo) {
-        return BaseRespVo.success("455d9fc7-ee3b-45bf-8968-2baa88bef5e8");
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.login(new UsernamePasswordToken(loginVo.getUsername(),loginVo.getPassword()));
+        } catch (AuthenticationException e) {
+            return BaseRespVo.error(502,"请登录后访问");
+            //e.printStackTrace();
+        }
+        Serializable id = subject.getSession().getId();
+        return BaseRespVo.success(id);
     }
 
     @RequestMapping("info")

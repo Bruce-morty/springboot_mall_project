@@ -19,6 +19,10 @@ public interface AddressMapper {
 
     List<Address> selectByExample(AddressExample example);
 
+    //List<Address> selectAddressByExample(AddressExample example);
+
+    String selectById(Integer id);
+
     Address selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Address record, @Param("example") AddressExample example);

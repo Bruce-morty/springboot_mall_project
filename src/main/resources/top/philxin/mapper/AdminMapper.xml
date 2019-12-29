@@ -288,4 +288,10 @@
       role_ids = #{roleIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectRoleIdsByUsername" resultType="java.lang.String">
+    select role_ids from cskaoyan_mall_admin where username = #{username}
+  </select>
+  <select id="selectAdminByUsername" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from cskaoyan_mall_admin where username = #{username} and deleted = false
+  </select>
 </mapper>

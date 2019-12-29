@@ -125,6 +125,11 @@ public class FeedbackExample {
             return (Criteria) this;
         }
 
+        public Criteria andIdLike(String value) {
+            addCriterion("id >", value, "id");
+            return (Criteria) this;
+        }
+
         public Criteria andIdGreaterThan(Integer value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
@@ -881,6 +886,8 @@ public class FeedbackExample {
         protected Criteria() {
             super();
         }
+
+
     }
 
     public static class Criterion {

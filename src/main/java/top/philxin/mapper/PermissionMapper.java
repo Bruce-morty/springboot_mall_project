@@ -28,4 +28,6 @@ public interface PermissionMapper {
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
+
+    List<String> selectPermissionsInRoleIds(@Param("roleIds") String roleIds);
 }

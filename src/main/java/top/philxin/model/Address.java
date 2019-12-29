@@ -1,9 +1,34 @@
 package top.philxin.model;
 
+
 import java.util.Date;
 
 public class Address {
     private Integer id;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 
     private String name;
 
@@ -11,9 +36,15 @@ public class Address {
 
     private Integer provinceId;
 
+    private String province;
+
     private Integer cityId;
 
+    private String city;
+
     private Integer areaId;
+
+    private String area;
 
     private String address;
 
@@ -26,6 +57,7 @@ public class Address {
     private Date updateTime;
 
     private Boolean deleted;
+
 
     public Integer getId() {
         return id;
