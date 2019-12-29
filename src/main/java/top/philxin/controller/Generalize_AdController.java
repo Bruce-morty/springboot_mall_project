@@ -5,14 +5,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.Ad;
-import top.philxin.model.Coupon;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.Generalize_AdService;
-import top.philxin.service.Generalize_couponService;
-
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,7 +17,7 @@ public class Generalize_AdController {
   Generalize_AdService adService;
 
     /**
-     *
+     *  1.广告模块
      * 按条件查询广告消息
      * @param pageHelperVo
      * @param name
