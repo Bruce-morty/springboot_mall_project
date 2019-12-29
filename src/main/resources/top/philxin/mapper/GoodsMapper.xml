@@ -140,11 +140,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-<<<<<<< HEAD
   <insert id="insert" parameterType="top.philxin.model.Goods" useGeneratedKeys="true" keyProperty="id">
-=======
-  <insert id="insert" parameterType="top.philxin.model.Goods">
->>>>>>> ad1a3abb815937a11531787980c4facbe69acc0c
     insert into cskaoyan_mall_goods (id, goods_sn, name,
       category_id, brand_id, gallery,
       keywords, brief, is_on_sale,
@@ -160,11 +156,7 @@
       #{retailPrice,jdbcType=DECIMAL}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{deleted,jdbcType=BIT}, #{detail,jdbcType=LONGVARCHAR})
   </insert>
-<<<<<<< HEAD
   <insert id="insertSelective" parameterType="top.philxin.model.Goods" useGeneratedKeys="true" keyProperty="id">
-=======
-  <insert id="insertSelective" parameterType="top.philxin.model.Goods">
->>>>>>> ad1a3abb815937a11531787980c4facbe69acc0c
     insert into cskaoyan_mall_goods
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
