@@ -38,4 +38,6 @@ public interface GoodsMapper {
     List<Goods> selectGoods(@Param("goodsSn") String goodsSn, @Param("name") String name);
 
     Integer getCategoryIdByGoodsId(Integer id);
+
+    Integer countGoods();
 }

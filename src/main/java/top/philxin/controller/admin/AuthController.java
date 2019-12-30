@@ -1,4 +1,4 @@
-package top.philxin.controller;
+package top.philxin.controller.admin;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;

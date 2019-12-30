@@ -1,7 +1,6 @@
-package top.philxin.controller;
+package top.philxin.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.UsesSunHttpServer;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -32,6 +32,8 @@ public class ShiroConfig {
         filterMap.put("classpath:/static/img","anon");
         // 放开登录的url过滤
         filterMap.put("/admin/auth/login","anon");
+        //开放微信
+        filterMap.put("/wx/**","anon");
         // 需要认证才能访问的路径
         filterMap.put("/**","authc");
 
