@@ -44,11 +44,19 @@ public class BaseRespVo<T>{
         return BaseRespVo;
     }
 
+<<<<<<< HEAD
     public static <V> BaseRespVo<V> success(V data,String errmsg){
         BaseRespVo<V> BaseRespVo = new BaseRespVo<>();
         BaseRespVo.setErrno(0);
         BaseRespVo.setData(data);
         BaseRespVo.setErrmsg(errmsg);
+=======
+    public static <V> BaseRespVo<V> success(V data, String errmsg) {
+        BaseRespVo<V> BaseRespVo = new BaseRespVo<>();
+        BaseRespVo.setErrno(0);
+        BaseRespVo.setErrmsg(errmsg);
+        BaseRespVo.setData(data);
+>>>>>>> 99334930b83fa635ad5a5497bf52a68d6057b9b4
         return BaseRespVo;
     }
 }
