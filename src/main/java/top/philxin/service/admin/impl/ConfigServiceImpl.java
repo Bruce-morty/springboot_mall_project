@@ -1,15 +1,13 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.philxin.mapper.SystemMapper;
 import top.philxin.mapper.config_mapper.ConfigMapper;
 import top.philxin.model.ConfigModel.ConfigExpressVo;
 import top.philxin.model.ConfigModel.ConfigMallVo;
 import top.philxin.model.ConfigModel.ConfigOrderVo;
 import top.philxin.model.ConfigModel.ConfigWxVo;
-import top.philxin.model.SystemExample;
-import top.philxin.service.ConfigService;
+import top.philxin.service.admin.ConfigService;
 
 /**
  * @author xqs

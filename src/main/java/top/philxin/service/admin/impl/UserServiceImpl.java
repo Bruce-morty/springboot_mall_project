@@ -1,8 +1,7 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.omg.CORBA.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.*;
@@ -10,7 +9,7 @@ import top.philxin.mapper.*;
 import top.philxin.model.*;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
-import top.philxin.service.UserService;
+import top.philxin.service.admin.UserService;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     AddressMapper addressMapper;
-    
+
     @Autowired
     CollectMapper collectMapper;
 
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     SearchHistoryMapper searchHistoryMapper;
-    
+
     @Autowired
     BaseDataVo baseDataVo;
 

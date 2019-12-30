@@ -11,7 +11,7 @@ import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.model.GoodsModel.CatAndBrandVo;
 import top.philxin.model.GoodsModel.GoodsInfoDetailVo;
-import top.philxin.service.GoodsService;
+import top.philxin.service.admin.GoodsService;
 
 import java.util.Map;
 

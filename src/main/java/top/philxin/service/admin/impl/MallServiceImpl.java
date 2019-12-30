@@ -1,4 +1,4 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -8,7 +8,7 @@ import top.philxin.mapper.*;
 import top.philxin.model.*;
 import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
-import top.philxin.service.MallService;
+import top.philxin.service.admin.MallService;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

@@ -10,7 +10,7 @@ import top.philxin.model.ConfigModel.ConfigMallVo;
 import top.philxin.model.ConfigModel.ConfigOrderVo;
 import top.philxin.model.ConfigModel.ConfigWxVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
-import top.philxin.service.ConfigService;
+import top.philxin.service.admin.ConfigService;
 
 /**
  * @author xqs

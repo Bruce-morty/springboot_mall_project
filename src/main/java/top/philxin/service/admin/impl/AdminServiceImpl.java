@@ -1,4 +1,4 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -11,7 +11,7 @@ import top.philxin.model.AdminModel.ChangePermission;
 import top.philxin.model.AdminModel.RoleOptionsVo;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
-import top.philxin.service.AdminService;
+import top.philxin.service.admin.AdminService;
 
 import java.lang.System;
 import java.util.*;

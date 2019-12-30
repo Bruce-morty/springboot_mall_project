@@ -1,4 +1,4 @@
-package top.philxin.service;
+package top.philxin.service.admin;
 
 import org.springframework.web.multipart.MultipartFile;
 import top.philxin.model.Storage;

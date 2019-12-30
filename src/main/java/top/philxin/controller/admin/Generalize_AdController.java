@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.Ad;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
-import top.philxin.service.Generalize_AdService;
+import top.philxin.service.admin.Generalize_AdService;
 import java.util.Map;
 
 @RestController

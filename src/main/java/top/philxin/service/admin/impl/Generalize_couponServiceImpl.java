@@ -1,4 +1,4 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 
 import com.github.pagehelper.PageHelper;
@@ -12,7 +12,7 @@ import top.philxin.model.CouponExample;
 import top.philxin.model.CouponUser;
 import top.philxin.model.CouponUserExample;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
-import top.philxin.service.Generalize_couponService;
+import top.philxin.service.admin.Generalize_couponService;
 
 import java.util.Date;
 import java.util.HashMap;

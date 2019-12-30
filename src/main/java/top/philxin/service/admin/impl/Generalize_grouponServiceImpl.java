@@ -1,4 +1,4 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -10,7 +10,7 @@ import top.philxin.mapper.GrouponRulesforOrderMapper;
 import top.philxin.model.*;
 import top.philxin.model.GeneralizeModel.GrouponActivities;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
-import top.philxin.service.Generalize_grouponService;
+import top.philxin.service.admin.Generalize_grouponService;
 
 import java.util.Date;
 import java.util.HashMap;

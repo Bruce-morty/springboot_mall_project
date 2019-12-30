@@ -1,10 +1,10 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.LogMapper;
 import top.philxin.model.Log;
-import top.philxin.service.LogRecordService;
+import top.philxin.service.admin.LogRecordService;
 
 
 /**

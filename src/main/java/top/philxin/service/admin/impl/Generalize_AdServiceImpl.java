@@ -1,4 +1,4 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 
 import com.github.pagehelper.PageHelper;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import top.philxin.mapper.AdMapper;
 import top.philxin.model.*;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
-import top.philxin.service.Generalize_AdService;
+import top.philxin.service.admin.Generalize_AdService;
 
 import java.util.Date;
 import java.util.HashMap;

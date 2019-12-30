@@ -1,11 +1,11 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.philxin.mapper.StorageMapper;
 import top.philxin.model.Storage;
-import top.philxin.service.StorageService;
+import top.philxin.service.admin.StorageService;
 import top.philxin.util.FileUploadUtils;
 
 /**

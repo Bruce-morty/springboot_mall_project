@@ -1,4 +1,4 @@
-package top.philxin.service;
+package top.philxin.service.admin;
 
 import top.philxin.model.Comment;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;

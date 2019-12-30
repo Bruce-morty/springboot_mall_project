@@ -1,4 +1,4 @@
-package top.philxin.service.impl;
+package top.philxin.service.admin.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import top.philxin.mapper.Statement_mapper.StatementMapper;
 import top.philxin.model.responseModel.StatementModel.StatementGoodBean;
 import top.philxin.model.responseModel.StatementModel.StatementOrderBean;
 import top.philxin.model.responseModel.StatementModel.StatementUserBean;
-import top.philxin.service.StatementService;
+import top.philxin.service.admin.StatementService;
 
 import java.util.List;
 

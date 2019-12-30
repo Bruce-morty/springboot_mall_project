@@ -1,4 +1,4 @@
-package top.philxin.service;
+package top.philxin.service.admin;
 
 import top.philxin.model.ConfigModel.ConfigExpressVo;
 import top.philxin.model.ConfigModel.ConfigMallVo;
