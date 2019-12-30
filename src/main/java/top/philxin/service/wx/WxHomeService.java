@@ -1,4 +1,4 @@
-package top.philxin.service;
+package top.philxin.service.wx;
 
 import java.util.Map;
 

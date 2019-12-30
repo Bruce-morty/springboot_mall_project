@@ -1,10 +1,10 @@
-package top.philxin.service.impl;
+package top.philxin.service.wx.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.*;
 import top.philxin.model.*;
-import top.philxin.service.WxHomeService;
+import top.philxin.service.wx.WxHomeService;
 
 import java.util.HashMap;
 import java.util.List;
