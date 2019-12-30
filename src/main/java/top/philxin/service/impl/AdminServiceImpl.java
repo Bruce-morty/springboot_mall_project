@@ -87,6 +87,7 @@ public class AdminServiceImpl implements AdminService {
     public void addOneAdmin(Admin admin) {
         Date date = new Date();
         admin.setAddTime(date);
+        admin.setDeleted(false);
         adminMapper.insert(admin);
     }
 
@@ -185,6 +186,7 @@ public class AdminServiceImpl implements AdminService {
     public void addOneRole(Role role) {
         Date date = new Date();
         role.setAddTime(date);
+        role.setDeleted(false);
         roleMapper.insert(role);
     }
 
@@ -290,8 +292,20 @@ public class AdminServiceImpl implements AdminService {
         PermissionExample permissionExample = new PermissionExample();
         PermissionExample.Criteria criteria = permissionExample.createCriteria();
         criteria.andRoleIdEqualTo(roleId);
+        permissionMapper.deleteByExample(permissionExample);
+        List<String> permissions = changePermission.getPermissions();
+        for (String perm : permissions) {
+            Date date = new Date();
+            Permission permission = new Permission();
+            permission.setRoleId(roleId);
+            permission.setPermission(perm);
+            permission.setAddTime(date);
+            permission.setUpdateTime(date);
+            permission.setDeleted(false);
+            permissionMapper.insert(permission);
+        }
         //获得原先表中存在的列表
-        List<Permission> permissionsPast = permissionMapper.selectByExample(permissionExample);
+        /*List<Permission> permissionsPast = permissionMapper.selectByExample(permissionExample);
         //把原先有的permission存到一个列表中
         List<String> permList = new ArrayList();
         for (Permission permission : permissionsPast) {
@@ -310,7 +324,7 @@ public class AdminServiceImpl implements AdminService {
 
                 }
             }
-        }
+        }*/
 
     }
 

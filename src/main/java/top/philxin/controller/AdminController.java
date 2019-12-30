@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import top.philxin.annotation.LogRecordAnno;
 import top.philxin.model.Admin;
 import top.philxin.model.AdminModel.ChangePermission;
 import top.philxin.model.AdminModel.RoleOptionsVo;
@@ -59,6 +60,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("admin/create")
+    @LogRecordAnno(operateAction = "新增管理员")
     public BaseRespVo addAdmin(@RequestBody Admin admin){
         String username = admin.getUsername();
         String password = admin.getPassword();
@@ -73,7 +75,9 @@ public class AdminController {
             return BaseRespVo.error(601,"管理员名称不符合规定");
         }
         adminService.addOneAdmin(admin);
-        return BaseRespVo.success(admin);
+        Integer id = admin.getId();
+        String msg = "新增管理员编号：" + id;
+        return BaseRespVo.success(admin,msg);
     }
 
     /**
@@ -93,9 +97,12 @@ public class AdminController {
      * @return
      */
     @RequestMapping("admin/delete")
+    @LogRecordAnno(operateAction = "删除管理员")
     public BaseRespVo removeAdmin(@RequestBody Admin admin){
         adminService.removeAdmin(admin);
-        return BaseRespVo.success();
+        Integer id = admin.getId();
+        String msg = "删除管理员编号：" + id;
+        return BaseRespVo.success(msg);
     }
 
     /**
@@ -128,9 +135,12 @@ public class AdminController {
      * @return
      */
     @RequestMapping("role/create")
+    @LogRecordAnno(operateAction = "增加角色")
     public BaseRespVo addRole(@RequestBody Role role){
         adminService.addOneRole(role);
-        return BaseRespVo.success(role);
+        Integer id = role.getId();
+        String msg = "新增角色编号：" + id;
+        return BaseRespVo.success(role,msg);
     }
 
     /**
@@ -139,9 +149,12 @@ public class AdminController {
      * @return
      */
     @RequestMapping("role/delete")
+    @LogRecordAnno(operateAction = "删除角色")
     public BaseRespVo removeRole(@RequestBody Role role){
         adminService.removeRole(role);
-        return BaseRespVo.success();
+        Integer id = role.getId();
+        String msg = "删除角色编号：" + id;
+        return BaseRespVo.success(msg);
     }
 
     /**
@@ -204,9 +217,12 @@ public class AdminController {
      * @return
      */
     @RequestMapping("storage/delete")
+    @LogRecordAnno(operateAction = "删除对象")
     public BaseRespVo removeStorage(@RequestBody Storage storage){
         adminService.removeStorage(storage);
-        return BaseRespVo.success();
+        Integer id = storage.getId();
+        String msg = "删除对象编号：" + id;
+        return BaseRespVo.success(msg);
     }
 
 }
