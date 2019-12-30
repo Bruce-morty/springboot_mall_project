@@ -296,4 +296,65 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
 
+    /**
+     * 商品评论
+     */
+    @Autowired
+    CommentMapper commentMapper;
+    @Override
+    public Map getComment(PageHelperVo pageHelperVo, Integer userId, Integer valueId) {
+          PageHelper.startPage(pageHelperVo.getPage(),pageHelperVo.getLimit());
+        CommentExample commentExample = new CommentExample();
+        CommentExample.Criteria criteria = commentExample.createCriteria();
+        if(userId!=null)
+        {
+            criteria.andUserIdEqualTo(userId);
+        }
+        if(valueId!=null)
+        {
+            criteria.andValueIdEqualTo(valueId);
+        }
+        List<Comment> comments = commentMapper.selectByExample(commentExample);
+        PageInfo<Comment> commentPageInfo = new PageInfo<>(comments);
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("items",comments);
+        map.put("total",commentPageInfo.getTotal());
+
+       return map;
+
+
+    }
+
+    /**
+     * 商品回复
+     *
+     */
+    @Override
+    public Comment OrderReply(Map map) {
+        Integer commentId = (Integer) map.get("commentId");
+        String content = (String) map.get("content");
+        Comment comment = commentMapper.selectByPrimaryKey(commentId);
+
+        if(comment.getContent().equals(""))
+        {
+            Comment comment1 = new Comment();
+            comment1.setId(commentId);
+            comment1.setContent(content);
+            commentMapper.updateByPrimaryKeySelective(comment1);
+            return comment1;
+        }
+        return null;
+    }
+
+    /**
+     * 删除商品评论
+     * @param comment
+     */
+    @Override
+    public void deleteComment(Comment comment) {
+        comment.setDeleted(true);
+        commentMapper.updateByPrimaryKeySelective(comment);
+    }
+
+
 }

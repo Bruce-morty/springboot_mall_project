@@ -1,6 +1,7 @@
 package top.philxin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,7 +58,7 @@ public class Generalize_CouponController {
     /**
      * 更新编辑优惠券
      */
-
+    @Transactional
     @RequestMapping("admin/coupon/update")
     public  BaseRespVo getCouponUpdate(@RequestBody Coupon coupon)
     {
@@ -69,6 +70,7 @@ public class Generalize_CouponController {
     /**
      * 添加优惠券
      */
+    @Transactional
     @RequestMapping("admin/coupon/create")
 
     public BaseRespVo CreateCoupon(@RequestBody Coupon coupon)
@@ -110,6 +112,7 @@ public class Generalize_CouponController {
     /**
      * 增加专题
      */
+    @Transactional
  @RequestMapping("admin/topic/create")
     public BaseRespVo addTopic(@RequestBody Topic topic)
     {
@@ -124,6 +127,7 @@ public class Generalize_CouponController {
 /**
  * 更新专题
  */
+@Transactional
 @RequestMapping("admin/topic/update")
   public BaseRespVo updateTopic(@RequestBody Topic topic)
 {
@@ -167,6 +171,7 @@ public class Generalize_CouponController {
     /**
      * 商品团购规则编辑
      */
+    @Transactional
     @RequestMapping("admin/groupon/update")
     public BaseRespVo updateGroupOn(@RequestBody GrouponRules grouponRules)
     {
@@ -185,6 +190,7 @@ public class Generalize_CouponController {
     /**
      * 商品团购规则增加
      */
+    @Transactional
     @RequestMapping("admin/groupon/create")
     public BaseRespVo createGroupon(@RequestBody GrouponRules grouponRules)
     {

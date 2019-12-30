@@ -1,6 +1,7 @@
 package top.philxin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,15 +36,18 @@ public class Generalize_AdController {
     /**
      * 添加广告
      */
+    @Transactional
      @RequestMapping("admin/ad/create")
     public BaseRespVo addAd(@RequestBody Ad ad)
     {
         Ad ad1 = adService.addAd(ad);
         return BaseRespVo.success(ad1);
     }
+
     /**
      * 更新广告
      */
+    @Transactional
     @RequestMapping("admin/ad/update")
      public BaseRespVo updateAd(@RequestBody Ad ad)
     {

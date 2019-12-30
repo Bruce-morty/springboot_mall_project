@@ -1,9 +1,12 @@
 package top.philxin.service;
 
+import top.philxin.model.Comment;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.GoodsModel.CatAndBrandVo;
 import top.philxin.model.GoodsModel.GoodsInfoDetailVo;
+
+import java.util.Map;
 
 /**
  * @ClassName: GoodsService
@@ -22,4 +25,11 @@ public interface GoodsService {
     void updateGoodsDetailInfo(GoodsInfoDetailVo goodsInfoDetailVo);
 
     void createNewGoods(GoodsInfoDetailVo goodsInfoDetailVo);
+
+    Map getComment(PageHelperVo pageHelperVo, Integer userId, Integer valueId);
+
+    Comment OrderReply(Map map);
+
+    void deleteComment(Comment comment);
 }
+
