@@ -43,4 +43,12 @@ public class BaseRespVo<T>{
         BaseRespVo.setData(data);
         return BaseRespVo;
     }
+
+    public static <V> BaseRespVo<V> success(V data, String errmsg) {
+        BaseRespVo<V> BaseRespVo = new BaseRespVo<>();
+        BaseRespVo.setErrno(0);
+        BaseRespVo.setErrmsg(errmsg);
+        BaseRespVo.setData(data);
+        return BaseRespVo;
+    }
 }
