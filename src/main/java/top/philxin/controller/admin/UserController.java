@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
-import top.philxin.service.*;
-
+import top.philxin.service.admin.UserService;
 
 /**
  * @ClassName: UserController

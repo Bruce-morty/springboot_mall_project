@@ -12,7 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import top.philxin.annotation.LogRecordAnno;
 import top.philxin.model.Log;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
-import top.philxin.service.LogRecordService;
+import top.philxin.service.admin.LogRecordService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;

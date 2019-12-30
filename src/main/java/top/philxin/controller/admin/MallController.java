@@ -8,7 +8,7 @@ import top.philxin.model.*;
 import top.philxin.model.MallModel.*;
 import top.philxin.model.responseModel.CommonsModel.BaseDataVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
-import top.philxin.service.MallService;
+import top.philxin.service.admin.MallService;
 
 import java.util.List;
 import java.util.Map;
