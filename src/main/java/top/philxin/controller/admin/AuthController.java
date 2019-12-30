@@ -60,4 +60,11 @@ public class AuthController {
         adminInfoVo.setRoles(roleList);
         return BaseRespVo.success(adminInfoVo);
     }
+
+    @RequestMapping("logout")
+    public BaseRespVo adminLogout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return BaseRespVo.success();
+    }
 }
