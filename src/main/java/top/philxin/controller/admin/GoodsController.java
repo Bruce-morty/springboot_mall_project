@@ -1,4 +1,4 @@
-package top.philxin.controller;
+package top.philxin.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

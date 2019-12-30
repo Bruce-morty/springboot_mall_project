@@ -1,4 +1,4 @@
-package top.philxin.controller;
+package top.philxin.controller.admin;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -59,5 +59,12 @@ public class AuthController {
         adminInfoVo.setPerms(permList);
         adminInfoVo.setRoles(roleList);
         return BaseRespVo.success(adminInfoVo);
+    }
+
+    @RequestMapping("logout")
+    public BaseRespVo adminLogout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return BaseRespVo.success();
     }
 }
