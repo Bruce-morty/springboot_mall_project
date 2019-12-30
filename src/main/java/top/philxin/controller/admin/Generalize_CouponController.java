@@ -8,14 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.*;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
-import top.philxin.service.Generalize_AdService;
-import top.philxin.service.Generalize_couponService;
-import top.philxin.service.Generalize_grouponService;
-import top.philxin.service.Generalize_topicService;
+import top.philxin.service.admin.Generalize_couponService;
+import top.philxin.service.admin.Generalize_grouponService;
+import top.philxin.service.admin.Generalize_topicService;
 
-import java.lang.System;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController

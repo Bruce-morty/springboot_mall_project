@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.model.responseModel.DashboardVo;
-import top.philxin.service.DashboardService;
+import top.philxin.service.admin.DashboardService;
 
 /**
  * @ClassName: DashboardController

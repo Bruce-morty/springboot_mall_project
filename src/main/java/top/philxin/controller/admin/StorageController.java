@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import top.philxin.model.Storage;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
-import top.philxin.service.StorageService;
+import top.philxin.service.admin.StorageService;
 
 /**
  * @ClassName: StorageController
