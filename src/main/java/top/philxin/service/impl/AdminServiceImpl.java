@@ -87,6 +87,7 @@ public class AdminServiceImpl implements AdminService {
     public void addOneAdmin(Admin admin) {
         Date date = new Date();
         admin.setAddTime(date);
+        admin.setDeleted(false);
         adminMapper.insert(admin);
     }
 
@@ -185,6 +186,7 @@ public class AdminServiceImpl implements AdminService {
     public void addOneRole(Role role) {
         Date date = new Date();
         role.setAddTime(date);
+        role.setDeleted(false);
         roleMapper.insert(role);
     }
 
@@ -290,28 +292,18 @@ public class AdminServiceImpl implements AdminService {
         PermissionExample permissionExample = new PermissionExample();
         PermissionExample.Criteria criteria = permissionExample.createCriteria();
         criteria.andRoleIdEqualTo(roleId);
-        //获得原先表中存在的列表
-        List<Permission> permissionsPast = permissionMapper.selectByExample(permissionExample);
-        //把原先有的permission存到一个列表中
-        List<String> permList = new ArrayList();
-        for (Permission permission : permissionsPast) {
-            permList.add(permission.getPermission());
-        }
-
-        //这是现在从前端传回来的permission数据
+        permissionMapper.deleteByExample(permissionExample);
         List<String> permissions = changePermission.getPermissions();
-        for (String permStr : permissions) {
-            for (String s : permList) {
-                if (s.equals(permStr)){
-                    Date date = new Date();
-                    PermissionExample permissionExample1 = new PermissionExample();
-                    PermissionExample.Criteria criteria1 = permissionExample.createCriteria();
-                    criteria1.andPermissionEqualTo(s);
-
-                }
-            }
+        for (String perm : permissions) {
+            Date date = new Date();
+            Permission permission = new Permission();
+            permission.setRoleId(roleId);
+            permission.setPermission(perm);
+            permission.setAddTime(date);
+            permission.setUpdateTime(date);
+            permission.setDeleted(false);
+            permissionMapper.insert(permission);
         }
-
     }
 
     /**

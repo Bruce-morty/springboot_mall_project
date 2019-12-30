@@ -48,6 +48,7 @@ public class AuthController {
 
     @RequestMapping("info")
     public BaseRespVo adminInfo() {
+        Subject subject = SecurityUtils.getSubject();
         AdminInfoVo adminInfoVo = new AdminInfoVo();
         adminInfoVo.setName("admin123");
         adminInfoVo.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
@@ -58,5 +59,12 @@ public class AuthController {
         adminInfoVo.setPerms(permList);
         adminInfoVo.setRoles(roleList);
         return BaseRespVo.success(adminInfoVo);
+    }
+
+    @RequestMapping("logout")
+    public BaseRespVo adminLogout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return BaseRespVo.success();
     }
 }
