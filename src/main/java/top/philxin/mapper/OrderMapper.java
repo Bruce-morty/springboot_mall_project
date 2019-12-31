@@ -34,4 +34,8 @@ public interface OrderMapper {
     void updateOrderState(int orderId, int status);
 
     List<Integer> selectOrderStatusByUserId(@Param("userId") int userId);
+
+    List<Order> selectByStatus(@Param("status") Integer showType,@Param("userId") Integer id);
+
+    void deleteOrder(Integer orderId);
 }
