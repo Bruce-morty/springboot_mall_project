@@ -33,4 +33,6 @@ public interface BrandMapper {
     void deleteBrandById(Integer id);
 
     List<CatAndBrandChildInfoVo> selectBrandList();
+
+    List<Brand> selectBrandForHome();
 }

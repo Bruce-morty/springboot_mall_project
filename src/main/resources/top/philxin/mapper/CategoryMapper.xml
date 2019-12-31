@@ -349,4 +349,16 @@
   <select id="selectCategoryInfoByPid" resultType="top.philxin.model.GoodsModel.CatAndBrandChildInfoVo">
       SELECT id as value,name as label FROM cskaoyan_mall_category where pid = #{id} and deleted = false
   </select>
+  <resultMap id="floorGoods" type="top.philxin.model.WxHomeModel.FloorGoods">
+    <result column="name" property="name"/>
+    <collection property="goodsList" column="id" select="top.philxin.mapper.CategoryMapper.selectGoods"/>
+  </resultMap>
+  <select id="selectFloorGoods" resultMap="floorGoods">
+    select name, id from cskaoyan_mall_category where pid = 0 and deleted = 0
+  </select>
+  <select id="selectGoods" resultType="top.philxin.model.Goods">
+    select id,name,brief,pic_url as picUrl, is_new as isNew,is_hot as isHot,
+    counter_price as counterPrice, retail_price as retailPrice from cskaoyan_mall_goods
+    where deleted = 0 and category_id = #{id} order by retailPrice limit 4 offset 0
+  </select>
 </mapper>
