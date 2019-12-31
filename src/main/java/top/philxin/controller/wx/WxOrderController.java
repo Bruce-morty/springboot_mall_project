@@ -20,8 +20,8 @@ public class WxOrderController {
      * @return
      */
     @RequestMapping("order/list")
-    public BaseRespVo getOrderList(){
-        Map map = wxOrderService.getOrderListByStatus();
+    public BaseRespVo getOrderList(Map param){
+        Map map = wxOrderService.getOrderListByStatus(param);
         return BaseRespVo.success(map);
 
     }
