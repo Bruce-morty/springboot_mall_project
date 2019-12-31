@@ -5,7 +5,7 @@ spring:
   profiles:
     active: druid,mybatis
   resources:
-    static-locations: classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, classpath:/public/, classpath:/static/img/
+    static-locations: classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, classpath:/public/
 
 pagehelper:
   helper-dialect: mysql
