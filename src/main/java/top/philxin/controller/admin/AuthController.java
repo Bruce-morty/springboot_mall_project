@@ -11,6 +11,7 @@ import top.philxin.annotation.LogRecordAnno;
 import top.philxin.model.requestModel.LoginVo;
 import top.philxin.model.responseModel.AdminInfoVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
+import top.philxin.shiro.MallToken;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class AuthController {
     public BaseRespVo adminLogin(@RequestBody LoginVo loginVo) {
         Subject subject = SecurityUtils.getSubject();
         try {
-            subject.login(new UsernamePasswordToken(loginVo.getUsername(),loginVo.getPassword()));
+            subject.login(new MallToken(loginVo.getUsername(),loginVo.getPassword(),"admin"));
         } catch (AuthenticationException e) {
             return BaseRespVo.error(502,"请登录后访问");
             //e.printStackTrace();
