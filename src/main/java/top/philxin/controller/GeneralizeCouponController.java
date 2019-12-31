@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class Generalize_CouponController {
+public class GeneralizeCouponController {
 
     /**
      *  2.优惠券模块

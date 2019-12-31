@@ -12,7 +12,7 @@ import top.philxin.service.Generalize_AdService;
 import java.util.Map;
 
 @RestController
-public class Generalize_AdController {
+public class GeneralizeAdController {
 
   @Autowired
   Generalize_AdService adService;
