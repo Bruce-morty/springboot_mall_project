@@ -40,7 +40,7 @@ public class FileUploadUtils {
         for(char aChar : chars) {
             base = base + "/" + aChar;
         }
-        fileName = base + fileName;
+        fileName ="img/" + base + fileName;
         // 获取out目录路径
         File path = null;
         try {
@@ -49,11 +49,11 @@ public class FileUploadUtils {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        File fileTo = new File(path,"static/img/" + fileName);
+        File fileTo = new File(path,"static/" + fileName);
         if(!fileTo.getParentFile().exists()) {
             fileTo.getParentFile().mkdirs();
         }
-        storage.setUrl("http://localhost:8080" + fileName);
+        storage.setUrl("http://localhost:8080/" + fileName);
         try {
             file.transferTo(fileTo);
         } catch (IOException e) {
