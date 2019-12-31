@@ -1,7 +1,7 @@
 package top.philxin.service.wx;
 
 import top.philxin.model.User;
-import top.philxin.model.responseModel.WxUserModel.WxUserInfoVo;
+import top.philxin.model.responseModel.WxUserModel.WxUserIndexOrderStatusInfoVo;
 
 /**
  * @ClassName: WxUserService
@@ -12,4 +12,6 @@ import top.philxin.model.responseModel.WxUserModel.WxUserInfoVo;
  */
 public interface WxUserService {
     User getUserInfoByName(String username);
+
+    WxUserIndexOrderStatusInfoVo getUserIndexInfo(int userId);
 }
