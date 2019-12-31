@@ -42,8 +42,10 @@ public class WxHomeServiceImpl implements WxHomeService {
         List<Coupon> couponList = couponMapper.selectByExample(couponExample);
         map.put("couponList",couponList);
 
-        //构建channel(category)并封装入bean中
-        List<Category> channel = categoryMapper.getCategoryList();
+        //构建channel(category)并封装入bean中,只显示pid为0的数据
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.createCriteria().andPidEqualTo(0).andDeletedEqualTo(false);
+        List<Category> channel = categoryMapper.selectByExample(categoryExample);
         map.put("channel", channel);
 
         //构建banner(ad)并封装入bean中,enabled为true且deleted为false

@@ -64,7 +64,7 @@ public class ShiroConfig {
         realmList.add(adminRealm);
         realmList.add(wxRealm);
         defaultWebSecurityManager.setRealms(realmList);
-//        defaultWebSecurityManager.setSessionManager(webSessionManager());
+//      defaultWebSecurityManager.setSessionManager(webSessionManager());
         defaultWebSecurityManager.setSessionManager(webSessionManager);
         defaultWebSecurityManager.setAuthenticator(authenticator);
         return defaultWebSecurityManager;
