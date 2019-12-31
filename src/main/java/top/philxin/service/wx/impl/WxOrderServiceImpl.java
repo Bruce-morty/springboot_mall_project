@@ -1,9 +1,9 @@
-package top.philxin.service.impl;
+package top.philxin.service.wx.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.OrderMapper;
-import top.philxin.service.WxOrderService;
+import top.philxin.service.wx.WxOrderService;
 
 import java.util.Map;
 

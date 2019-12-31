@@ -1,8 +1,14 @@
 package top.philxin.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
     private Integer id;
 
@@ -51,12 +57,14 @@ public class Address {
     private String mobile;
 
     private Boolean isDefault;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private Boolean deleted;
+
+
 
 
     public Integer getId() {
