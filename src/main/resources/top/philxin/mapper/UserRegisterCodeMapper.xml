@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.philxin.mapper.UserRegisterCodeMapper">
+
+    <insert id="setRegisterCodeInfo">
+        insert into cskaoyan_mall_user_register_code (mobile,code,expired_time,nonrepeat_time)
+        values(#{userRegisterCode.mobile},#{userRegisterCode.code},#{userRegisterCode.expiredTime},#{userRegisterCode.nonrepeatTime})
+    </insert>
+    <update id="updateRegisterCodeInfo">
+        update cskaoyan_mall_user_register_code
+        set code = #{userRegisterCode.code}, expired_time = #{userRegisterCode.expiredTime}, nonrepeat_time = #{userRegisterCode.nonrepeatTime}
+        where mobile = #{userRegisterCode.mobile}
+    </update>
+    <select id="selectInfoByMobile" resultType="top.philxin.model.UserRegisterCode">
+        select id,mobile,code,expired_time as expiredTime,nonrepeat_time as nonrepeatTime from cskaoyan_mall_user_register_code
+        where mobile = #{mobile}
+    </select>
+</mapper>

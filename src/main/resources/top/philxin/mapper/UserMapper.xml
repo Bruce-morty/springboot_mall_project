@@ -113,7 +113,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.User">
+  <insert id="insert" parameterType="top.philxin.model.User" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_user (id, username, password,
       gender, birthday, last_login_time,
       last_login_ip, user_level, nickname,

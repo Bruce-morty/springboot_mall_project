@@ -6,8 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.philxin.component.AliyunComponent;
+import top.philxin.exception.CodeExpiredException;
+import top.philxin.exception.CodeMessageException;
+import top.philxin.exception.UnPairedCodeException;
+import top.philxin.exception.UsernameExistException;
 import top.philxin.model.User;
 import top.philxin.model.requestModel.LoginVo;
+import top.philxin.model.requestModel.WxUserRegisterVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.model.responseModel.WxUserModel.WxUserIndexOrderStatusInfoVo;
 import top.philxin.model.responseModel.WxUserModel.WxUserInfoVo;
@@ -32,6 +38,9 @@ public class WxAuthController {
 
     @Autowired
     WxUserService wxUserService;
+
+    @Autowired
+    AliyunComponent aliyunComponent;
 
     /**
      * 用户登录
@@ -89,6 +98,43 @@ public class WxAuthController {
         WxUserIndexOrderStatusInfoVo info = wxUserService.getUserIndexInfo(userId);
         Map<String,Object> map = new HashMap<>();
         map.put("order",info);
+        return BaseRespVo.success(map);
+    }
+
+    /**
+     * 发送验证码
+     * @param map
+     * @return
+     */
+    @RequestMapping("auth/regCaptcha")
+    public BaseRespVo regCaptcha(@RequestBody Map<String,String> map) throws CodeMessageException {
+        wxUserService.sendMessage(map);
+        return BaseRespVo.success();
+    }
+
+    /**
+     * 用户注册
+     * @param wxUserRegisterVo
+     * @return
+     * @throws UnPairedCodeException
+     */
+    @RequestMapping("auth/register")
+    public BaseRespVo userRegister(@RequestBody WxUserRegisterVo wxUserRegisterVo) throws UnPairedCodeException, UsernameExistException, CodeExpiredException {
+        User user = wxUserService.userRegister(wxUserRegisterVo);
+        WxUserInfoVo wxUserInfoVo = new WxUserInfoVo();
+        wxUserInfoVo.setNickName(wxUserRegisterVo.getUsername());
+        wxUserInfoVo.setAvatarUrl(user.getAvatar());
+
+        Subject subject = SecurityUtils.getSubject();
+        Serializable id = subject.getSession().getId();
+        subject.getSession().setAttribute("userId",user.getId());
+
+        Map<String,Object> map = new HashMap<>();
+        Date date = new Date();
+        date.setTime(date.getTime() + 60*60*24);
+        map.put("token",id);
+        map.put("tokenExpire",date);
+        map.put("userInfo",wxUserInfoVo);
         return BaseRespVo.success(map);
     }
 
