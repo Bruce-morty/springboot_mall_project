@@ -92,11 +92,11 @@ public class UserServiceImpl implements UserService {
         //从addressList中获取省市区id ,foreach
         for (Address address:addressList) {
             //省
-            address.setProvince(addressMapper.selectById(address.getProvinceId()));
+            address.setProvinceName(addressMapper.selectById(address.getProvinceId()));
             //市
-            address.setCity(addressMapper.selectById(address.getCityId()));
+            address.setCityName(addressMapper.selectById(address.getCityId()));
             //区
-            address.setArea(addressMapper.selectById(address.getAreaId()));
+            address.setAreaName(addressMapper.selectById(address.getAreaId()));
         }
         // 存入 items
         baseDataVo.setItems(addressList);

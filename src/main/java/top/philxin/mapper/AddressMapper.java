@@ -11,11 +11,16 @@ public interface AddressMapper {
 
     int deleteByExample(AddressExample example);
 
+    int deleteById(Integer id);
+
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Address record);
 
     int insertSelective(Address record);
+
+    int insertWX(Address address);
 
     List<Address> selectByExample(AddressExample example);
 

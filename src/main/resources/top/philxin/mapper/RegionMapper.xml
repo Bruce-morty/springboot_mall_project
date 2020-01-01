@@ -212,4 +212,8 @@
     select id, pid, name, type, code from cskaoyan_mall_region
     where type = #{type} and pid = #{pid}
   </select>
+  <select id="selectByPid" resultType="top.philxin.model.Region">
+    select id, pid, `name`, `type`, code from cskaoyan_mall_region
+    where  pid = #{pid}
+  </select>
 </mapper>

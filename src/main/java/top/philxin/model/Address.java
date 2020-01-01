@@ -1,34 +1,13 @@
 package top.philxin.model;
 
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class Address {
     private Integer id;
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
 
     private String name;
 
@@ -36,15 +15,17 @@ public class Address {
 
     private Integer provinceId;
 
-    private String province;
+    private String provinceName;
 
     private Integer cityId;
 
-    private String city;
+    private String cityName;
 
     private Integer areaId;
 
-    private String area;
+    private String areaName;
+
+    private StringBuffer detailedAddress;
 
     private String address;
 
@@ -58,6 +39,21 @@ public class Address {
 
     private Boolean deleted;
 
+    public StringBuffer getDetailedAddress() {
+        return detailedAddress;
+    }
+
+    public void setDetailedAddress(StringBuffer detailedAddress) {
+        this.detailedAddress = detailedAddress;
+    }
+
+    public Boolean getDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(Boolean aDefault) {
+        isDefault = aDefault;
+    }
 
     public Integer getId() {
         return id;
