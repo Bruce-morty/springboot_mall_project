@@ -3,7 +3,6 @@ package top.philxin.controller.wx;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +12,6 @@ import top.philxin.exception.CodeMessageException;
 import top.philxin.exception.UnPairedCodeException;
 import top.philxin.exception.UsernameExistException;
 import top.philxin.model.User;
-import top.philxin.model.UserRegisterCode;
 import top.philxin.model.requestModel.LoginVo;
 import top.philxin.model.requestModel.WxUserRegisterVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
@@ -22,10 +20,7 @@ import top.philxin.model.responseModel.WxUserModel.WxUserInfoVo;
 import top.philxin.service.wx.WxUserService;
 import top.philxin.shiro.MallToken;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,7 +65,7 @@ public class WxAuthController {
 
         Map<String,Object> map = new HashMap<>();
         Date date = new Date();
-        date.setTime(date.getTime() + 60*60*24);
+        date.setTime(date.getTime() + 30*60000);
         map.put("token",id);
         map.put("tokenExpire",date);
         map.put("userInfo",wxUserInfoVo);
@@ -125,11 +120,14 @@ public class WxAuthController {
      */
     @RequestMapping("auth/register")
     public BaseRespVo userRegister(@RequestBody WxUserRegisterVo wxUserRegisterVo) throws UnPairedCodeException, UsernameExistException, CodeExpiredException {
-        wxUserService.userRegister(wxUserRegisterVo);
+        User user = wxUserService.userRegister(wxUserRegisterVo);
         WxUserInfoVo wxUserInfoVo = new WxUserInfoVo();
         wxUserInfoVo.setNickName(wxUserRegisterVo.getUsername());
+        wxUserInfoVo.setAvatarUrl(user.getAvatar());
+
         Subject subject = SecurityUtils.getSubject();
         Serializable id = subject.getSession().getId();
+        subject.getSession().setAttribute("userId",user.getId());
 
         Map<String,Object> map = new HashMap<>();
         Date date = new Date();

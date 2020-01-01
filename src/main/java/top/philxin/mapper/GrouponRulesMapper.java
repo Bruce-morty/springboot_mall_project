@@ -3,6 +3,7 @@ package top.philxin.mapper;
 import org.apache.ibatis.annotations.Param;
 import top.philxin.model.GrouponRules;
 import top.philxin.model.GrouponRulesExample;
+import top.philxin.model.WxHomeModel.GrouponList;
 
 import java.util.List;
 
@@ -29,5 +30,5 @@ public interface GrouponRulesMapper {
 
     int updateByPrimaryKey(GrouponRules record);
 
-
+    List<GrouponList> selectGrouponList();
 }

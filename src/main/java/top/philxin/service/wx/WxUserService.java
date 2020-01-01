@@ -24,7 +24,7 @@ public interface WxUserService {
 
     WxUserIndexOrderStatusInfoVo getUserIndexInfo(int userId);
 
-    void userRegister(WxUserRegisterVo wxUserRegisterVo) throws UnPairedCodeException, UsernameExistException, CodeExpiredException;
+    User userRegister(WxUserRegisterVo wxUserRegisterVo) throws UnPairedCodeException, UsernameExistException, CodeExpiredException;
 
     void setRegisterCodeInfo(UserRegisterCode userRegisterCode);
 

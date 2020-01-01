@@ -40,4 +40,6 @@ public interface GoodsMapper {
     Integer getCategoryIdByGoodsId(Integer id);
 
     Integer countGoods();
+
+    List<Goods> selectGoodsForHome();
 }

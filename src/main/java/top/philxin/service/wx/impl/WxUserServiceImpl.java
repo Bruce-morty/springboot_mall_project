@@ -94,7 +94,7 @@ public class WxUserServiceImpl implements WxUserService {
     }
 
     @Override
-    public void userRegister(WxUserRegisterVo wxUserRegisterVo) throws UnPairedCodeException, UsernameExistException, CodeExpiredException {
+    public User userRegister(WxUserRegisterVo wxUserRegisterVo) throws UnPairedCodeException, UsernameExistException, CodeExpiredException {
         // 获取当前时间
         Date date = new Date();
         // 判断验证码是否相同
@@ -127,6 +127,7 @@ public class WxUserServiceImpl implements WxUserService {
         user.setAvatar("http://localhost:8080/img/7/b/0/b/e/a/a2bc986fb-30ce-452b-bbce-686ff755ca27-%E6%86%A8%E6%89%B9%E9%BE%9F.jpg");
         user.setDeleted(false);
         userMapper.insert(user);
+        return user;
     }
 
     @Override

@@ -288,4 +288,16 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap id="grouponList" type="top.philxin.model.WxHomeModel.GrouponList">
+    <result column="groupon_member" property="groupon_member"/>
+    <result column="groupon_price" property="groupon_price"/>
+    <collection property="goods" column="goods_id" select="top.philxin.mapper.GrouponRulesMapper.selectGoods"/>
+  </resultMap>
+  <select id="selectGrouponList" resultMap="grouponList">
+    select discount_member as groupon_member, discount as groupon_price,goods_id from cskaoyan_mall_groupon_rules where deleted = 0
+  </select>
+  <select id="selectGoods" resultType="top.philxin.model.Goods">
+    select id,name,brief,pic_url as picUrl, counter_price as counterPrice,retail_price as retailPrice
+     from cskaoyan_mall_goods where id = #{goodsid}
+  </select>
 </mapper>
