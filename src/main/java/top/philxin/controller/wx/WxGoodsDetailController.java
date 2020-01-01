@@ -1,13 +1,19 @@
 package top.philxin.controller.wx;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.philxin.model.Category;
 import top.philxin.model.WxGoodsModel.WxGoodsDetailVo;
 import top.philxin.model.WxGoodsModel.WxGoodsListVo;
 import top.philxin.model.requestModel.CommonsModel.WxPageHelperVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.wx.WxGoodsService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: WxGoodsDetailController
@@ -46,5 +52,20 @@ public class WxGoodsDetailController {
     public BaseRespVo getGoodsList(WxPageHelperVo wxPageHelperVo, Integer brandId, Integer categoryId, String keyword) {
         WxGoodsListVo wxGoodsListVo = wxGoodsService.getGoodsList(wxPageHelperVo, brandId, categoryId, keyword);
         return BaseRespVo.success(wxGoodsListVo);
+    }
+
+    /**
+     * 获取商品类目
+     * @param id
+     * @return
+     */
+    @RequestMapping("category")
+    public BaseRespVo getCategory(Integer id) {
+        Map<String,Object> map = new HashMap<>();
+        Category currentCategory = wxGoodsService.getCurrentCategory(id);
+        map.put("currentCategory",currentCategory);
+        List<Category> brotherCategory = wxGoodsService.getBrotherCategory(id);
+        map.put("brotherCategory",brotherCategory);
+        return BaseRespVo.success(map);
     }
 }
