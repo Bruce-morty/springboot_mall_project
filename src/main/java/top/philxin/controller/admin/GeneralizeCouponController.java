@@ -15,7 +15,7 @@ import top.philxin.service.admin.Generalize_topicService;
 import java.util.Map;
 
 @RestController
-public class Generalize_CouponController {
+public class GeneralizeCouponController {
 
     /**
      *  2.优惠券模块
@@ -58,6 +58,10 @@ public class Generalize_CouponController {
     @RequestMapping("admin/coupon/update")
     public  BaseRespVo getCouponUpdate(@RequestBody Coupon coupon)
     {
+        if(coupon.getDays()==0)
+        {
+            return BaseRespVo.error(740,"有效期不能为0");
+        }
         int i = couponService.updateCoupon(coupon);
         Coupon coupon1 = couponService.queryCouponById(coupon.getId());
 
@@ -71,8 +75,12 @@ public class Generalize_CouponController {
 
     public BaseRespVo CreateCoupon(@RequestBody Coupon coupon)
     {
-         couponService.addCoupon(coupon);
-        Coupon coupon1 = couponService.queryCouponById(coupon.getId());
+         if(coupon.getDays()==0&&coupon.getStartTime()==null)
+         {
+             return BaseRespVo.error(740,"有效期不能为0");
+         }
+        Coupon coupon1 = couponService.addCoupon(coupon);
+
         return BaseRespVo.success(coupon1);
     }
     /**

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.service.wx.WxCatalogService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -26,8 +27,8 @@ public class WxCatalogController {
      */
     @RequestMapping("catalog/index")
     public BaseRespVo queryAllIndex(){
-    Map map = wxCatalogService.queryAllIndex();
-    return BaseRespVo.success(map);
+        Map map = wxCatalogService.queryAllIndex();
+        return BaseRespVo.success(map);
     }
 
     /**

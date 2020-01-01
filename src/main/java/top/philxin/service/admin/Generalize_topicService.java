@@ -2,6 +2,7 @@ package top.philxin.service.admin;
 
 import top.philxin.model.Coupon;
 import top.philxin.model.CouponUser;
+import top.philxin.model.GeneralizeModel.PageVo;
 import top.philxin.model.Topic;
 import top.philxin.model.requestModel.CommonsModel.PageHelperVo;
 
@@ -16,4 +17,10 @@ public interface Generalize_topicService {
     Topic addTopic(Topic topic);
 
     Topic updateTopic(Topic topic);
+
+    Map WxQueryTopic(PageVo pageVo);
+
+    Map WxQueryTopicById(Integer id);
+
+    List<Topic> WxQueryRelatedTopics(Integer id);
 }

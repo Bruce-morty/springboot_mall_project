@@ -34,11 +34,11 @@ public class ShiroConfig {
         LinkedHashMap<String, String> filterMap = new LinkedHashMap<>();
         // 后台页面访问
         // 放开静态资源访问路径
-        filterMap.put("classpath:/static/img","anon");
+
+        filterMap.put("/img/**","anon");
         // 放开登录的url过滤
+
         filterMap.put("/admin/auth/login","anon");
-        //开放微信
-        filterMap.put("/wx/**","anon");
         // 放开登出的url过滤
         filterMap.put("/admin/auth/logout","anon");
         filterMap.put("/admin/auth/info","anon");
@@ -66,7 +66,7 @@ public class ShiroConfig {
         realmList.add(adminRealm);
         realmList.add(wxRealm);
         defaultWebSecurityManager.setRealms(realmList);
-//        defaultWebSecurityManager.setSessionManager(webSessionManager());
+//      defaultWebSecurityManager.setSessionManager(webSessionManager());
         defaultWebSecurityManager.setSessionManager(webSessionManager);
         defaultWebSecurityManager.setAuthenticator(authenticator);
         return defaultWebSecurityManager;

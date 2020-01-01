@@ -280,4 +280,7 @@
             resultType="top.philxin.model.GoodsModel.CatAndBrandChildInfoVo">
       select id as value,name as label from cskaoyan_mall_brand where deleted = false
     </select>
+  <select id="selectBrandForHome" resultType="top.philxin.model.Brand">
+    select id,name,`desc`,pic_url as picUrl,floor_price as floorPrice from cskaoyan_mall_brand where deleted = 0 order by floorPrice limit 6 offset 0
+  </select>
 </mapper>
