@@ -10,4 +10,8 @@ import java.util.Map;
 public interface WxSearchService {
 
     Map queryHistory();
+
+    int cleanHistorySearch();
+
+    List<String> associationHelper(String keyword);
 }

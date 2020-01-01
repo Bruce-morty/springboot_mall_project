@@ -44,6 +44,9 @@ public class WxCartController {
     @RequestMapping("fastadd")
     public BaseRespVo fastAdd(@RequestBody AddGoodsVo addGoodsVo){
         int i = wxCartService.fastAdd(addGoodsVo);
+        if (i == -1){
+            return BaseRespVo.error(501,"请登录");
+        }
         return BaseRespVo.success(i);
     }
 
