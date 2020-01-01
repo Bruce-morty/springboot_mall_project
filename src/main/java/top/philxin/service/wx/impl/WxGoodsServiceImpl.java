@@ -206,5 +206,20 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         return wxGoodsListVo;
     }
 
+    @Override
+    public Category getCurrentCategory(Integer id) {
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        return category;
+    }
+
+    @Override
+    public List<Category> getBrotherCategory(Integer id) {
+        CategoryExample categoryExample = new CategoryExample();
+        CategoryExample.Criteria criteria = categoryExample.createCriteria();
+        criteria.andPidEqualTo(id);
+        List<Category> categories = categoryMapper.selectByExample(categoryExample);
+        return categories;
+    }
+
 
 }

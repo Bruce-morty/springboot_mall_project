@@ -1,6 +1,7 @@
 package top.philxin.service.wx.impl;
 
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.AddressMapper;
@@ -86,6 +87,11 @@ public class WxAddressServiceImpl implements WxAddressService {
 
     @Override
     public BaseRespVo saveOneAddress(Address address) {
+        if (address.getIsDefault()==true){
+            //使其它地址的isDefault改为false
+            Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+            addressMapper.updateByUserId(userId);
+        }
         if (address.getId()==0){
             //新增
             address.setDeleted(false);

@@ -59,9 +59,8 @@ public class WxCartServiceImpl implements WxCartService {
     @Override
     public int queryCartAfterAdd(AddGoodsVo addGoods) {
         Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        Serializable id = session.getId();
-        if (id==null){
+        Integer userId = (Integer) subject.getSession().getAttribute("userId");
+        if (userId == null){
             return -1;
         }
         Cart cart = null;
@@ -77,7 +76,6 @@ public class WxCartServiceImpl implements WxCartService {
         GoodsProduct goodsProduct = goodsProductMapper.selectByPrimaryKey(productId);
         String[] specifications = goodsProduct.getSpecifications();
         String str = Arrays.toString(specifications);
-        Integer userId = (Integer) session.getAttribute("userId");
         Date date = new Date();
         //判断cart表中是否已经存在该productId的商品
         CartExample cartExample = new CartExample();
@@ -346,7 +344,14 @@ public class WxCartServiceImpl implements WxCartService {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
+<<<<<<< HEAD
         Address address = null;
+=======
+        if(userId == null) {
+            return -1;
+        }
+        queryCartAfterAdd(addGoodsVo);
+>>>>>>> f73cd4cfffd1dff54e8e6a844e40429e814bb5f6
         Integer productId = addGoodsVo.getProductId();
         CartExample cartExample = new CartExample();
         cartExample.createCriteria().andProductIdEqualTo(productId);
