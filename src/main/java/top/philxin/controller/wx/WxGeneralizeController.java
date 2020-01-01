@@ -117,7 +117,7 @@ public class WxGeneralizeController {
         {
             return BaseRespVo.error(501,"请登录");
         }
-        return BaseRespVo.success(map);
+        return BaseRespVo.success(map.get("data"));
     }
 
 

@@ -1,9 +1,11 @@
 package top.philxin.model;
 
 import lombok.Data;
+import top.philxin.model.WxOrderModel.HandleOption;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Order {
@@ -56,6 +58,14 @@ public class Order {
     private Date addTime;
 
     private Date updateTime;
+
+    private HandleOption handleOption;
+
+    private String orderStatusText;
+
+    private Boolean isGroupin = false;
+
+    private List<OrderGoods> goodsList;
 
     private Boolean deleted;
 }

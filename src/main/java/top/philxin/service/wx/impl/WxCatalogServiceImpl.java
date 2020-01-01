@@ -29,19 +29,19 @@ public class WxCatalogServiceImpl implements WxCatalogService {
     @Override
     public Map queryAllIndex() {
         Map map = new HashMap();
-        //获取每次初始的餐厨列表
-        Category category = categoryMapper.selectByPrimaryKey(1005001);
+        //获取每次初始的居家列表
+        Category category = categoryMapper.selectByPrimaryKey(1005000);
         map.put("currentCategory",category);
         CategoryExample categoryExample = new CategoryExample();
         CategoryExample.Criteria criteria = categoryExample.createCriteria();
         criteria.andPidEqualTo(0).andDeletedEqualTo(false);
-        //获取和餐厨同级的列表
+        //获取和居家同级的列表
         List<Category> categories = categoryMapper.selectByExample(categoryExample);
         map.put("categoryList",categories);
         //获取当前列表的子列表
         CategoryExample categoryExample2 = new CategoryExample();
         CategoryExample.Criteria criteria2 = categoryExample.createCriteria();
-        criteria2.andPidEqualTo(1005001).andDeletedEqualTo(false);
+        criteria2.andPidEqualTo(1005000).andDeletedEqualTo(false);
         List<Category> categoriesSon = categoryMapper.selectByExample(categoryExample2);
         map.put("currentSubCategory",categoriesSon);
         return map;

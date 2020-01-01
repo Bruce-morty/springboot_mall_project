@@ -1,8 +1,11 @@
 package top.philxin.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
 public class Cart {
     private Integer id;
 
@@ -25,12 +28,30 @@ public class Cart {
     private Boolean checked;
 
     private String picUrl;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private Boolean deleted;
+
+    public Cart() {
+    }
+
+    public Cart(Integer userId, Integer goodsId, String goodsSn, String goodsName, Integer productId, BigDecimal price, Short number, String specifications, Boolean checked, String picUrl, Date addTime, Boolean deleted) {
+        this.userId = userId;
+        this.goodsId = goodsId;
+        this.goodsSn = goodsSn;
+        this.goodsName = goodsName;
+        this.productId = productId;
+        this.price = price;
+        this.number = number;
+        this.specifications = specifications;
+        this.checked = checked;
+        this.picUrl = picUrl;
+        this.addTime = addTime;
+        this.deleted = deleted;
+    }
 
     public Integer getId() {
         return id;

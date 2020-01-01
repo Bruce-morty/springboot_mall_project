@@ -19,7 +19,7 @@ public class WxHomeController {
      * @return
      */
     @RequestMapping("home/index")
-    public BaseRespVo getAllUser(){
+    public BaseRespVo getHomeIndex(){
         Map map = homeService.homeIndex();
         return BaseRespVo.success(map);
     }

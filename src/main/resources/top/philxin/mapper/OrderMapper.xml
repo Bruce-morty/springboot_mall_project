@@ -546,4 +546,48 @@
     <select id="selectOrderStatusByUserId" resultType="java.lang.Integer">
       select order_status from cskaoyan_mall_order where user_id = #{userId}
     </select>
+  <resultMap id="ordermap" type="top.philxin.model.Order">
+    <result column="id" property="id"/>
+    <result column="order_sn" property="orderSn"/>
+    <result property="actualPrice" column="actual_price"/>
+    <result property="orderStatus" column="order_status"/>
+    <collection property="goodsList" column="id" select="top.philxin.mapper.OrderMapper.selectOrderGoods"/>
+  </resultMap>
+  <select id="selectByStatus" resultMap="ordermap">
+    select id,order_sn,actual_price,order_status from cskaoyan_mall_order
+    <where>
+      deleted = 0 and user_id = #{userId}
+      <if test="status == 1">
+        and order_status = 101
+      </if>
+      <if test="status == 2">
+        and order_status = 201
+      </if>
+      <if test="status == 3">
+        and order_status = 301
+      </if>
+      <if test="status == 4">
+        and order_status &gt; 400 and comments != 0
+      </if>
+    </where>
+  </select>
+  <select id="selectOrderGoods" resultType="top.philxin.model.OrderGoods">
+    select id, number, pic_url as picUrl, goods_name as goodsName from cskaoyan_mall_order_goods
+    where order_id = #{id}
+  </select>
+  <update id="deleteOrder">
+    update cskaoyan_mall_order set deleted = 1 where id = #{orderId}
+  </update>
+  <update id="prepayOrder">
+    update cskaoyan_mall_order set order_status = 201, pay_time = #{param2}, update_time = #{param2} where id = #{param1}
+  </update>
+  <update id="cancelOrder">
+    update cskaoyan_mall_order set order_status = 102, end_time = #{param2}, update_time = #{param2} where id = #{param1}
+  </update>
+  <update id="refundOrder">
+    update cskaoyan_mall_order set order_status = 202, end_time = #{param2}, update_time = #{param2} where id = #{param1}
+  </update>
+  <update id="confrimOrder">
+    update cskaoyan_mall_order set order_status = 401, end_time = #{param2}, update_time = #{param2} where id = #{param1}
+  </update>
 </mapper>
