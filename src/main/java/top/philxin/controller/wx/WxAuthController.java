@@ -3,18 +3,29 @@ package top.philxin.controller.wx;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.philxin.component.AliyunComponent;
+import top.philxin.exception.CodeExpiredException;
+import top.philxin.exception.CodeMessageException;
+import top.philxin.exception.UnPairedCodeException;
+import top.philxin.exception.UsernameExistException;
 import top.philxin.model.User;
+import top.philxin.model.UserRegisterCode;
 import top.philxin.model.requestModel.LoginVo;
+import top.philxin.model.requestModel.WxUserRegisterVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
 import top.philxin.model.responseModel.WxUserModel.WxUserIndexOrderStatusInfoVo;
 import top.philxin.model.responseModel.WxUserModel.WxUserInfoVo;
 import top.philxin.service.wx.WxUserService;
 import top.philxin.shiro.MallToken;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +43,9 @@ public class WxAuthController {
 
     @Autowired
     WxUserService wxUserService;
+
+    @Autowired
+    AliyunComponent aliyunComponent;
 
     /**
      * 用户登录
@@ -56,7 +70,7 @@ public class WxAuthController {
 
         Map<String,Object> map = new HashMap<>();
         Date date = new Date();
-        date.setTime(date.getTime() + 30*60);
+        date.setTime(date.getTime() + 60*60*24);
         map.put("token",id);
         map.put("tokenExpire",date);
         map.put("userInfo",wxUserInfoVo);
@@ -89,6 +103,40 @@ public class WxAuthController {
         WxUserIndexOrderStatusInfoVo info = wxUserService.getUserIndexInfo(userId);
         Map<String,Object> map = new HashMap<>();
         map.put("order",info);
+        return BaseRespVo.success(map);
+    }
+
+    /**
+     * 发送验证码
+     * @param map
+     * @return
+     */
+    @RequestMapping("auth/regCaptcha")
+    public BaseRespVo regCaptcha(@RequestBody Map<String,String> map) throws CodeMessageException {
+        wxUserService.sendMessage(map);
+        return BaseRespVo.success();
+    }
+
+    /**
+     * 用户注册
+     * @param wxUserRegisterVo
+     * @return
+     * @throws UnPairedCodeException
+     */
+    @RequestMapping("auth/register")
+    public BaseRespVo userRegister(@RequestBody WxUserRegisterVo wxUserRegisterVo) throws UnPairedCodeException, UsernameExistException, CodeExpiredException {
+        wxUserService.userRegister(wxUserRegisterVo);
+        WxUserInfoVo wxUserInfoVo = new WxUserInfoVo();
+        wxUserInfoVo.setNickName(wxUserRegisterVo.getUsername());
+        Subject subject = SecurityUtils.getSubject();
+        Serializable id = subject.getSession().getId();
+
+        Map<String,Object> map = new HashMap<>();
+        Date date = new Date();
+        date.setTime(date.getTime() + 60*60*24);
+        map.put("token",id);
+        map.put("tokenExpire",date);
+        map.put("userInfo",wxUserInfoVo);
         return BaseRespVo.success(map);
     }
 

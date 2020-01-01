@@ -1,12 +1,15 @@
 package top.philxin.service.wx.impl;
 
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.*;
 import top.philxin.model.*;
 import top.philxin.model.WxGoodsModel.WxGoodsCommentValueVo;
 import top.philxin.model.WxGoodsModel.WxGoodsDetailVo;
+import top.philxin.model.WxGoodsModel.WxGoodsListVo;
 import top.philxin.model.WxGoodsModel.WxSpecificationValueVo;
+import top.philxin.model.requestModel.CommonsModel.WxPageHelperVo;
 import top.philxin.service.wx.WxGoodsService;
 
 import java.util.ArrayList;
@@ -50,7 +53,15 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     @Autowired
     IssueMapper issueMapper;
 
+    @Autowired
+    CategoryMapper categoryMapper;
 
+
+    /**
+     * 获取商品详情
+     * @param goodsId
+     * @return
+     */
     @Override
     public WxGoodsDetailVo getGoodsDetailInfo(Integer goodsId) {
         WxGoodsDetailVo wxGoodsDetailVo = new WxGoodsDetailVo();
@@ -128,4 +139,72 @@ public class WxGoodsServiceImpl implements WxGoodsService {
 
         return wxGoodsDetailVo;
     }
+
+    @Override
+    public WxGoodsListVo getGoodsList(WxPageHelperVo wxPageHelperVo, Integer brandId, Integer categoryId, String keyword) {
+        WxGoodsListVo wxGoodsListVo = new WxGoodsListVo();
+        List<Integer> goodsCategoryIdList = new ArrayList<>();
+        GoodsExample goodsExample = new GoodsExample();
+        GoodsExample.Criteria goodsExampleCriteria = goodsExample.createCriteria();
+        goodsExampleCriteria.andDeletedEqualTo(false);
+
+        // 开启分页
+        PageHelper.startPage(wxPageHelperVo.getPage(),wxPageHelperVo.getSize());
+
+        // 分情况
+        if(keyword == null || keyword.isEmpty()) {
+            if(brandId != null) {
+                goodsExampleCriteria.andBrandIdEqualTo(brandId);
+                List<Goods> goodsList1 = goodsMapper.selectByExample(goodsExample);
+                for (Goods goods : goodsList1) {
+                    goodsCategoryIdList.add(goods.getCategoryId());
+                }
+                wxGoodsListVo.setGoodsList(goodsList1);
+                wxGoodsListVo.setCount(goodsList1.size());
+            }else {
+                goodsExampleCriteria.andCategoryIdEqualTo(categoryId);
+                List<Goods> goodsList2 = goodsMapper.selectByExample(goodsExample);
+                for (Goods goods : goodsList2) {
+                    goodsCategoryIdList.add(goods.getCategoryId());
+                }
+                wxGoodsListVo.setGoodsList(goodsList2);
+                wxGoodsListVo.setCount(goodsList2.size());
+            }
+        }else {
+            goodsExample.setOrderByClause(wxPageHelperVo.getSort() + " " + wxPageHelperVo.getOrder());
+            goodsExampleCriteria.andNameLike("%" + keyword + "%");
+            List<Goods> goodsList3 = goodsMapper.selectByExample(goodsExample);
+            for (Goods goods : goodsList3) {
+                goodsCategoryIdList.add(goods.getCategoryId());
+            }
+            // categoryId为零则搜索全部
+            if(categoryId == 0) {
+                wxGoodsListVo.setGoodsList(goodsList3);
+                wxGoodsListVo.setCount(goodsList3.size());
+            }else {
+                List<Goods> goodsList4 = new ArrayList<>();
+                for (Goods goods : goodsList3) {
+                    if(categoryId.equals(goods.getCategoryId())) {
+                        goodsList4.add(goods);
+                    }
+                }
+                wxGoodsListVo.setGoodsList(goodsList4);
+                wxGoodsListVo.setCount(goodsList4.size());
+            }
+        }
+
+        // 处理category
+        if(goodsCategoryIdList.isEmpty() || goodsCategoryIdList.size() == 0) {
+            return wxGoodsListVo;
+        }
+        CategoryExample categoryExample = new CategoryExample();
+        CategoryExample.Criteria criteria = categoryExample.createCriteria();
+        criteria.andDeletedEqualTo(false);
+        criteria.andIdIn(goodsCategoryIdList);
+        List<Category> categories = categoryMapper.selectByExample(categoryExample);
+        wxGoodsListVo.setFilterCategoryList(categories);
+        return wxGoodsListVo;
+    }
+
+
 }
