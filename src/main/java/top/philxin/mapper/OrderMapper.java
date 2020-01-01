@@ -32,4 +32,6 @@ public interface OrderMapper {
     int updateByPrimaryKey(Order record);
 
     void updateOrderState(int orderId, int status);
+
+    List<Integer> selectOrderStatusByUserId(@Param("userId") int userId);
 }

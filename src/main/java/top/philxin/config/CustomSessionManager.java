@@ -19,10 +19,9 @@ public class CustomSessionManager extends DefaultWebSessionManager {
     @Override
     protected Serializable getSessionId(ServletRequest srequest, ServletResponse response) {
         HttpServletRequest request = (HttpServletRequest) srequest;
-        String sessionId = request.getHeader("X-cskaoyan-mall-Admin-Token");
-        if (sessionId != null && !"".equals(sessionId))
-        {
-            return sessionId;
+        String sessionId = request.getHeader("X-cskaoyan-mall-admin-token");
+        if (sessionId  != null && !"".equals(sessionId )){
+            return sessionId ;
         }
         return super.getSessionId(request, response);
     }

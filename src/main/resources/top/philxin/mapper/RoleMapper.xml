@@ -101,7 +101,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.Role" useGeneratedKeys="true">
+  <insert id="insert" parameterType="top.philxin.model.Role" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_role (id, `name`, `desc`,
       enabled, add_time, update_time,
       deleted)
