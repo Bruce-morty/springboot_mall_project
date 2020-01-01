@@ -5,9 +5,8 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.philxin.mapper.CartMapper;
-import top.philxin.mapper.GoodsMapper;
-import top.philxin.mapper.GoodsProductMapper;
+import top.philxin.mapper.*;
+import top.philxin.mapper.cart.CartFastAddMapper;
 import top.philxin.model.*;
 import top.philxin.model.WxCartModel.*;
 import top.philxin.model.WxCartModel.AddGoodsVo;
@@ -15,6 +14,7 @@ import top.philxin.model.WxCartModel.CartTotalVo;
 import top.philxin.model.WxCartModel.CheckProductVo;
 import top.philxin.service.wx.WxCartService;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -35,6 +35,21 @@ public class WxCartServiceImpl implements WxCartService {
     @Autowired
     CartMapper cartMapper;
 
+    @Autowired
+    AddressMapper addressMapper;
+
+    @Autowired
+    GrouponRulesMapper grouponRulesMapper;
+
+    @Autowired
+    CouponMapper couponMapper;
+
+    @Autowired
+    CouponUserMapper couponUserMapper;
+
+    @Autowired
+    CartFastAddMapper cartFastAddMapper;
+
     /**
      * 添加商品到购物车
      * @param addGoods
@@ -42,6 +57,14 @@ public class WxCartServiceImpl implements WxCartService {
      */
     @Override
     public int queryCartAfterAdd(AddGoodsVo addGoods) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Serializable id = session.getId();
+        if (id==null){
+            return -1;
+        }
+        Cart cart = null;
+
         //获得添加的商品的数量
         Short number = addGoods.getNumber();
         //获得goodsId 来查询goods表
@@ -53,30 +76,47 @@ public class WxCartServiceImpl implements WxCartService {
         GoodsProduct goodsProduct = goodsProductMapper.selectByPrimaryKey(productId);
         String[] specifications = goodsProduct.getSpecifications();
         String str = Arrays.toString(specifications);
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
         Date date = new Date();
-        Cart cart = new Cart(userId,
-                            goodsId,
-                            goods.getGoodsSn(),
-                            goods.getName(),
-                            productId,
-                            goods.getRetailPrice(),
-                            number,
-                            str,
-                            true,
-                            goods.getPicUrl(),
-                            date,
-                            false);
+        //判断cart表中是否已经存在该productId的商品
+        CartExample cartExample = new CartExample();
+        cartExample.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId);
+        List<Cart> carts1 = cartMapper.selectByExample(cartExample);
+        if (carts1.size()==0){
+                cart = new Cart(userId,
+                                goodsId,
+                                goods.getGoodsSn(),
+                                goods.getName(),
+                                productId,
+                                goods.getRetailPrice(),
+                                number,
+                                str,
+                                true,
+                                goods.getPicUrl(),
+                                date,
+                                false);
+        }else {
+            //更新cart表中已存在商品的数量
+            Cart cart1 = carts1.get(0);
+            int i = cart1.getNumber().intValue() + number.intValue();
+            cart1.setNumber((short)i);
+            CartExample cartExample1 = new CartExample();
+            cartExample1.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId);
+            cartMapper.updateByExampleSelective(cart1,cartExample1);
+
+        }
         cartMapper.insert(cart);
         //获取整张cart表
         CartExample example = new CartExample();
-        example.createCriteria().andDeletedEqualTo(false);
+        example.createCriteria().andDeletedEqualTo(false).andUserIdEqualTo(userId);
         List<Cart> carts = cartMapper.selectByExample(example);
-        int size = carts.size();
-        int i = size + addGoods.getNumber();
-        return i;
+        int num = 0;
+        for (Cart cart1 : carts) {
+            num+=cart1.getNumber().intValue();
+        }
+        //获得商品总数
+        Short count = (short)num;
+        return count;
     }
 
     /**
@@ -96,9 +136,11 @@ public class WxCartServiceImpl implements WxCartService {
         int cga = 0;
 
         //遍历整个购物车中的商品
-
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Integer userId = (Integer) session.getAttribute("userId");
         CartExample cartExample1 = new CartExample();
-        cartExample1.createCriteria().andDeletedEqualTo(false);
+        cartExample1.createCriteria().andDeletedEqualTo(false).andUserIdEqualTo(userId);
         List<Cart> carts = cartMapper.selectByExample(cartExample1);
         for (Cart cart : carts) {
             gc += cart.getNumber().intValue();
@@ -107,7 +149,7 @@ public class WxCartServiceImpl implements WxCartService {
         CartExample cartExample2 = new CartExample();
         CartExample.Criteria criteria = cartExample2.createCriteria();
         //遍历选中的购物车中的商品
-        criteria.andCheckedEqualTo(true).andDeletedEqualTo(false);
+        criteria.andCheckedEqualTo(true).andDeletedEqualTo(false).andUserIdEqualTo(userId);
         List<Cart> cartsChecked = cartMapper.selectByExample(cartExample2);
         for (Cart cart : cartsChecked) {
             cgc += cart.getNumber().intValue();
@@ -130,6 +172,9 @@ public class WxCartServiceImpl implements WxCartService {
      */
     @Override
     public Map checkCart(CheckProductVo checkProduct) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Integer userId = (Integer) session.getAttribute("userId");
         int[] productIds = checkProduct.getProductIds();
         Date date = new Date();
         for (int productId : productIds) {
@@ -137,7 +182,7 @@ public class WxCartServiceImpl implements WxCartService {
             cart.setChecked(checkProduct.getIsChecked());
             cart.setUpdateTime(date);
             CartExample cartExample = new CartExample();
-            cartExample.createCriteria().andProductIdEqualTo(productId);
+            cartExample.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId);
             cartMapper.updateByExampleSelective(cart,cartExample);
         }
         return getAllCart();
@@ -149,11 +194,14 @@ public class WxCartServiceImpl implements WxCartService {
      */
     @Override
     public void changeCart(Cart cart) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Integer userId = (Integer) session.getAttribute("userId");
         Date date = new Date();
         cart.setUpdateTime(date);
         CartExample cartExample = new CartExample();
         CartExample.Criteria criteria = cartExample.createCriteria();
-        criteria.andIdEqualTo(cart.getId());
+        criteria.andIdEqualTo(cart.getId()).andUserIdEqualTo(userId);
         cartMapper.updateByExampleSelective(cart,cartExample);
     }
 
@@ -164,11 +212,14 @@ public class WxCartServiceImpl implements WxCartService {
      */
     @Override
     public Map remove(ProductIdsVo productIdsVo) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Integer userId = (Integer) session.getAttribute("userId");
         int[] productIds = productIdsVo.getProductIds();
         for (int productId : productIds) {
             Cart cart = new Cart();
             CartExample cartExample = new CartExample();
-            cartExample.createCriteria().andProductIdEqualTo(productId);
+            cartExample.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId);
             cart.setDeleted(true);
             cartMapper.updateByExampleSelective(cart,cartExample);
         }
@@ -202,6 +253,102 @@ public class WxCartServiceImpl implements WxCartService {
      */
     @Override
     public CheckOutVo checkoutCart(int cartId, int addressId, int couponId, int grouponRulesId) {
-        return null;
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        List<Cart> checkedGoodsList = null;
+                //订单总金额
+        BigDecimal orderTotalPrice = new BigDecimal("0");
+        int otp = 0;
+        //运费
+        BigDecimal freightPrice = new BigDecimal("0");
+        //优惠券优惠金额
+        BigDecimal couponPrice = new BigDecimal("0");
+        //满足优惠券的最低金额要求
+        BigDecimal min = new BigDecimal("0");
+        //团购优惠金额
+        BigDecimal grouponPrice = new BigDecimal("0");
+        //实际金额
+        BigDecimal actualPrice = new BigDecimal("0");
+        //购物车所有商品金额（不含运费）
+        BigDecimal goodsTotalPrice = new BigDecimal("0");
+        //优惠券可用时间
+        Short availableCouponLength = 0;
+        int gtp = 0;
+
+
+        AddressExample addressExample = new AddressExample();
+        addressExample.createCriteria().andUserIdEqualTo(userId).andIsDefaultEqualTo(true);
+        List<Address> addresses = addressMapper.selectByExample(addressExample);
+        Address checkedAddress = addresses.get(0);
+
+
+        /*//团购金额,这里目前还未判断是否符合团购条件
+        GrouponRules grouponRules = grouponRulesMapper.selectByPrimaryKey(grouponRulesId);
+        grouponPrice = grouponRules.getDiscount();*/
+
+        CartExample cartExample = new CartExample();
+        CartExample.Criteria criteria = cartExample.createCriteria();
+        criteria.andCheckedEqualTo(true).andDeletedEqualTo(false).andUserIdEqualTo(userId);
+        //获得选中的商品列表信息
+        if (cartId!=0){
+            Cart cart = cartMapper.selectByPrimaryKey(cartId);
+            gtp=(cart.getPrice().intValue())*(cart.getNumber().intValue());
+            checkedGoodsList.add(cart);
+        }else {
+            checkedGoodsList = cartMapper.selectByExample(cartExample);
+            for (Cart cart : checkedGoodsList) {
+                gtp += (cart.getPrice().intValue()) * (cart.getNumber().intValue());
+            }
+        }
+        goodsTotalPrice = new BigDecimal("" + gtp);
+
+        if (couponId!=0){
+            Coupon coupon = couponMapper.selectByPrimaryKey(couponId);
+            min = coupon.getMin();
+            int i = goodsTotalPrice.compareTo(min);
+            if (i>0){
+                couponPrice = coupon.getDiscount();
+            }
+            availableCouponLength = coupon.getDays();
+        }
+        if (gtp<88){
+            freightPrice = new BigDecimal("10");
+        }
+        //订单金额
+        orderTotalPrice = goodsTotalPrice.add(freightPrice);
+        //实际金额
+        actualPrice=orderTotalPrice.subtract(couponPrice).subtract(grouponPrice);
+        CheckOutVo checkOutVo = new CheckOutVo(grouponPrice,
+                                                grouponRulesId,
+                                                checkedAddress,
+                                                actualPrice,
+                                                orderTotalPrice,
+                                                couponPrice,
+                                                availableCouponLength,
+                                                couponId,
+                                                freightPrice,
+                                                checkedGoodsList,
+                                                goodsTotalPrice,
+                                                addressId);
+        return checkOutVo;
     }
+
+    @Override
+    public int fastAdd(AddGoodsVo addGoodsVo) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Integer userId = (Integer) session.getAttribute("userId");
+        queryCartAfterAdd(addGoodsVo);
+        Integer productId = addGoodsVo.getProductId();
+        int cartId = cartFastAddMapper.selectCartId(productId);
+        AddressExample addressExample = new AddressExample();
+        addressExample.createCriteria().andUserIdEqualTo(userId).andIsDefaultEqualTo(true).andDeletedEqualTo(false);
+        List<Address> addresses = addressMapper.selectByExample(addressExample);
+        Address address = addresses.get(0);
+        checkoutCart(cartId,address.getId(),0,0);
+        return cartId;
+    }
+
 }

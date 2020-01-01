@@ -34,4 +34,7 @@ public interface WxCartService {
 
     //从购物车中提交订单
     CheckOutVo checkoutCart(int cartId,int addressId,int couponId,int grouponRulesId);
+
+    //从商品界面提交订单
+    int fastAdd(AddGoodsVo addGoodsVo);
 }

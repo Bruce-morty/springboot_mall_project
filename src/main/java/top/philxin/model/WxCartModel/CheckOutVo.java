@@ -31,7 +31,7 @@ public class CheckOutVo {
 
     BigDecimal couponPrice;
 
-    int availableCouponLength;
+    Short availableCouponLength;
 
     int couponId;
 

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.philxin.model.WxCartModel.AddGoodsVo;
 import top.philxin.model.Cart;
+import top.philxin.model.WxCartModel.CheckOutVo;
 import top.philxin.model.WxCartModel.CheckProductVo;
 import top.philxin.model.WxCartModel.ProductIdsVo;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
@@ -33,6 +34,15 @@ public class WxCartController {
     @RequestMapping("add")
     public BaseRespVo addCart(@RequestBody AddGoodsVo addGoods){
         int i = wxCartService.queryCartAfterAdd(addGoods);
+        if (i==-1){
+            return BaseRespVo.error(501,"请登录");
+        }
+        return BaseRespVo.success(i);
+    }
+
+    @RequestMapping("fastadd")
+    public BaseRespVo fastAdd(@RequestBody AddGoodsVo addGoodsVo){
+        int i = wxCartService.fastAdd(addGoodsVo);
         return BaseRespVo.success(i);
     }
 
@@ -99,6 +109,7 @@ public class WxCartController {
      */
     @RequestMapping("checkout")
     public BaseRespVo checkoutCart(int cartId,int addressId,int couponId,int grouponRulesId){
-        return null;
+        CheckOutVo checkOutVo = wxCartService.checkoutCart(cartId, addressId, couponId, grouponRulesId);
+        return BaseRespVo.success(checkOutVo);
     }
 }
