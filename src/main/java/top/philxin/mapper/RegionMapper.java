@@ -19,6 +19,8 @@ public interface RegionMapper {
 
     List<Region> selectByExample(RegionExample example);
 
+    List<Region> selectByPid(@Param("pid") Integer pid);
+
     List<Region> selectByTypeAndPid(@Param("type") Integer type, @Param("pid") Integer Pid);
 
     Region selectByPrimaryKey(Integer id);

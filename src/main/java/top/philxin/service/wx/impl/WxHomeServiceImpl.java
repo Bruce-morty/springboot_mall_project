@@ -45,6 +45,7 @@ public class WxHomeServiceImpl implements WxHomeService {
 
         //构建couponList并封装入bean中，查询条件为deleted为0且status为0
         CouponExample couponExample = new CouponExample();
+
         couponExample.createCriteria().andDeletedEqualTo(false).andStatusEqualTo((short) 0).andTypeEqualTo((short) 0);
         List<Coupon> couponList = couponMapper.selectByExample(couponExample);
         map.put("couponList",couponList);
