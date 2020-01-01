@@ -18,9 +18,11 @@ public interface WxOrderService {
 
     void refundOrder(Integer orderId);
 
-    void confrimOrder(Integer orderId);
+    void confirmOrder(Integer orderId);
 
     OrderGoods getOrderGoods(Integer orderId, Integer goodsId);
 
     void commentOrder(Comment comment);
+
+    Map submitOrder(String message);
 }

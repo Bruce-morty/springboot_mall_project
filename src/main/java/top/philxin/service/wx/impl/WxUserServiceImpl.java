@@ -1,7 +1,6 @@
 package top.philxin.service.wx.impl;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.component.AliyunComponent;
@@ -9,9 +8,11 @@ import top.philxin.exception.CodeExpiredException;
 import top.philxin.exception.CodeMessageException;
 import top.philxin.exception.UnPairedCodeException;
 import top.philxin.exception.UsernameExistException;
+import top.philxin.mapper.FeedbackMapper;
 import top.philxin.mapper.OrderMapper;
 import top.philxin.mapper.UserMapper;
 import top.philxin.mapper.UserRegisterCodeMapper;
+import top.philxin.model.Feedback;
 import top.philxin.model.User;
 import top.philxin.model.UserExample;
 import top.philxin.model.UserRegisterCode;
@@ -19,9 +20,6 @@ import top.philxin.model.requestModel.WxUserRegisterVo;
 import top.philxin.model.responseModel.WxUserModel.WxUserIndexOrderStatusInfoVo;
 import top.philxin.service.wx.WxUserService;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +46,9 @@ public class WxUserServiceImpl implements WxUserService {
 
     @Autowired
     AliyunComponent aliyunComponent;
+
+    @Autowired
+    FeedbackMapper feedbackMapper;
 
     /**
      * 通过用户名获取用户信息
@@ -168,5 +169,18 @@ public class WxUserServiceImpl implements WxUserService {
         userRegisterCode.setNonrepeatTime(date1);
         userRegisterCode.setExpiredTime(date2);
         setRegisterCodeInfo(userRegisterCode);
+    }
+
+    @Override
+    public void submitFeedback(Feedback feedback) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        User user = userMapper.selectByPrimaryKey(userId);
+        feedback.setUserId(userId);
+        feedback.setUsername(user.getUsername());
+        feedback.setAddTime(new Date());
+        feedback.setUpdateTime(new Date());
+        feedback.setStatus(0);
+        feedback.setDeleted(false);
+        feedbackMapper.insert(feedback);
     }
 }

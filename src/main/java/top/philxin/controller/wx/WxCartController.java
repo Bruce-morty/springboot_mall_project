@@ -1,5 +1,6 @@
 package top.philxin.controller.wx;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -110,6 +111,8 @@ public class WxCartController {
     @RequestMapping("checkout")
     public BaseRespVo checkoutCart(int cartId,int addressId,int couponId,int grouponRulesId){
         CheckOutVo checkOutVo = wxCartService.checkoutCart(cartId, addressId, couponId, grouponRulesId);
+        //将checkout查询出的数据放入session中以供在orderSubmit中使用
+        SecurityUtils.getSubject().getSession().setAttribute("checkoutData",checkOutVo);
         return BaseRespVo.success(checkOutVo);
     }
 }

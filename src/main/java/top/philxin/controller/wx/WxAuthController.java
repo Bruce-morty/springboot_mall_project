@@ -11,6 +11,7 @@ import top.philxin.exception.CodeExpiredException;
 import top.philxin.exception.CodeMessageException;
 import top.philxin.exception.UnPairedCodeException;
 import top.philxin.exception.UsernameExistException;
+import top.philxin.model.Feedback;
 import top.philxin.model.User;
 import top.philxin.model.requestModel.LoginVo;
 import top.philxin.model.requestModel.WxUserRegisterVo;
@@ -138,5 +139,14 @@ public class WxAuthController {
         return BaseRespVo.success(map);
     }
 
+    /**
+     * 此方法为用户提交意见反馈
+     * @return
+     */
+    @RequestMapping("feedback/submit")
+    public BaseRespVo submitFeedback(@RequestBody Feedback feedback) {
+        wxUserService.submitFeedback(feedback);
+        return BaseRespVo.success();
+    }
 
 }

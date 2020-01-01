@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.philxin.mapper.OrderGoodsMapper;
 import top.philxin.model.Comment;
 import top.philxin.model.OrderGoods;
 import top.philxin.model.responseModel.CommonsModel.BaseRespVo;
@@ -61,7 +60,7 @@ public class WxOrderController {
      */
     @RequestMapping("/order/prepay")
     public BaseRespVo prepayOrder(@RequestBody Map map) {
-        Integer orderId = (Integer) map.get("orderId");
+        Integer orderId = Integer.parseInt((String) map.get("orderId"));
         wxOrderService.prepayOrder(orderId);
         return BaseRespVo.success();
     }
@@ -98,10 +97,10 @@ public class WxOrderController {
      * @param map
      * @return
      */
-    @RequestMapping("order/confrim")
-    public BaseRespVo confrimOrder(@RequestBody Map map) {
+    @RequestMapping("order/confirm")
+    public BaseRespVo confirmOrder(@RequestBody Map map) {
         Integer orderId = (Integer) map.get("orderId");
-        wxOrderService.confrimOrder(orderId);
+        wxOrderService.confirmOrder(orderId);
         return BaseRespVo.success();
     }
 
@@ -126,5 +125,12 @@ public class WxOrderController {
     public BaseRespVo commentOrder(@RequestBody Comment comment) {
         wxOrderService.commentOrder(comment);
         return BaseRespVo.success();
+    }
+
+    @RequestMapping("order/submit")
+    public BaseRespVo submitOrder(@RequestBody Map map){
+        String message = (String) map.get("message");
+        Map data = wxOrderService.submitOrder(message);
+        return BaseRespVo.success(data);
     }
 }

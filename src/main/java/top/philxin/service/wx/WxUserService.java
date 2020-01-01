@@ -4,6 +4,7 @@ import top.philxin.exception.CodeExpiredException;
 import top.philxin.exception.CodeMessageException;
 import top.philxin.exception.UnPairedCodeException;
 import top.philxin.exception.UsernameExistException;
+import top.philxin.model.Feedback;
 import top.philxin.model.User;
 import top.philxin.model.UserRegisterCode;
 import top.philxin.model.requestModel.WxUserRegisterVo;
@@ -29,4 +30,6 @@ public interface WxUserService {
     void setRegisterCodeInfo(UserRegisterCode userRegisterCode);
 
     void sendMessage(Map<String, String> map) throws CodeMessageException;
+
+    void submitFeedback(Feedback feedback);
 }

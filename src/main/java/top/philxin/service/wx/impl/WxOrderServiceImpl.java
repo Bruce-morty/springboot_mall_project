@@ -12,13 +12,13 @@ import top.philxin.model.Comment;
 import top.philxin.model.Order;
 import top.philxin.model.OrderGoods;
 import top.philxin.model.OrderGoodsExample;
+import top.philxin.model.WxCartModel.CheckOutVo;
 import top.philxin.model.WxOrderModel.HandleOption;
 import top.philxin.service.wx.WxOrderService;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class WxOrderServiceImpl implements WxOrderService {
@@ -203,7 +203,7 @@ public class WxOrderServiceImpl implements WxOrderService {
      * @param orderId
      */
     @Override
-    public void confrimOrder(Integer orderId) {
+    public void confirmOrder(Integer orderId) {
         Date date = new Date();
         orderMapper.confrimOrder(orderId,date);
     }
@@ -244,5 +244,45 @@ public class WxOrderServiceImpl implements WxOrderService {
         orderGoodsExample.createCriteria().andIdEqualTo(orderGoodsId);
         orderGoods.setComment(comment.getId());
         orderGoodsMapper.updateByExampleSelective(orderGoods,orderGoodsExample);
+    }
+
+    /**
+     * 此方法为提交订单的具体实现
+     * @param message
+     * @return
+     */
+    @Override
+    public Map submitOrder(String message) {
+        CheckOutVo checkoutData = (CheckOutVo) SecurityUtils.getSubject().getSession().getAttribute("checkoutData");
+        Order order = new Order();
+        //封装order的数据
+        order.setUserId(checkoutData.getCheckedAddress().getUserId());
+        //生成订单编号
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddss");
+        String dateString = formatter.format(new Date());
+        dateString = dateString + UUID.randomUUID().toString().replace("-","").substring(0,5);
+        order.setOrderSn(dateString);
+        order.setOrderStatus((short) 101);
+        order.setConsignee(checkoutData.getCheckedAddress().getName());
+        order.setMobile(checkoutData.getCheckedAddress().getMobile());
+        order.setAddress(checkoutData.getCheckedAddress().getAddress());
+        order.setMessage(message);
+        order.setGoodsPrice(checkoutData.getGoodsTotalPrice());
+        order.setFreightPrice(checkoutData.getFreightPrice());
+        order.setCouponPrice(checkoutData.getCouponPrice());
+        //用户积分减免，暂时设为0
+        order.setIntegralPrice(BigDecimal.valueOf(0));
+        order.setGrouponPrice(checkoutData.getGrouponPrice());
+        order.setOrderPrice(checkoutData.getOrderTotalPrice());
+        order.setActualPrice(checkoutData.getActualPrice());
+        order.setAddTime(new Date());
+        order.setUpdateTime(new Date());
+        order.setDeleted(false);
+        //待评价商品的数量，这里存的种类
+        order.setComments((short) checkoutData.getCheckedGoodsList().size());
+        orderMapper.insert(order);
+        Map map = new HashMap();
+        map.put("orderId",order.getId());
+        return map;
     }
 }
