@@ -106,7 +106,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.Comment">
+  <insert id="insert" parameterType="top.philxin.model.Comment" useGeneratedKeys="true" keyProperty="id">
     insert into cskaoyan_mall_comment (id, value_id, type, 
       content, user_id, has_picture, 
       pic_urls, star, add_time, 

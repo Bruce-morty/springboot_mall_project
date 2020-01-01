@@ -567,7 +567,7 @@
         and order_status = 301
       </if>
       <if test="status == 4">
-        and order_status &gt; 400
+        and order_status &gt; 400 and comments != 0
       </if>
     </where>
   </select>
@@ -577,5 +577,17 @@
   </select>
   <update id="deleteOrder">
     update cskaoyan_mall_order set deleted = 1 where id = #{orderId}
+  </update>
+  <update id="prepayOrder">
+    update cskaoyan_mall_order set order_status = 201, pay_time = #{param2}, update_time = #{param2} where id = #{param1}
+  </update>
+  <update id="cancelOrder">
+    update cskaoyan_mall_order set order_status = 102, end_time = #{param2}, update_time = #{param2} where id = #{param1}
+  </update>
+  <update id="refundOrder">
+    update cskaoyan_mall_order set order_status = 202, end_time = #{param2}, update_time = #{param2} where id = #{param1}
+  </update>
+  <update id="confrimOrder">
+    update cskaoyan_mall_order set order_status = 401, end_time = #{param2}, update_time = #{param2} where id = #{param1}
   </update>
 </mapper>

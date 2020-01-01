@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import top.philxin.model.Order;
 import top.philxin.model.OrderExample;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -38,4 +40,12 @@ public interface OrderMapper {
     List<Order> selectByStatus(@Param("status") Integer showType,@Param("userId") Integer id);
 
     void deleteOrder(Integer orderId);
+
+    void prepayOrder(Integer orderId, Date date);
+
+    void cancelOrder(Integer orderId, Date date);
+
+    void refundOrder(Integer orderId, Date date);
+
+    void confrimOrder(Integer orderId, Date date);
 }

@@ -5,14 +5,17 @@ import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.philxin.mapper.CommentMapper;
 import top.philxin.mapper.OrderGoodsMapper;
 import top.philxin.mapper.OrderMapper;
+import top.philxin.model.Comment;
 import top.philxin.model.Order;
 import top.philxin.model.OrderGoods;
 import top.philxin.model.OrderGoodsExample;
 import top.philxin.model.WxOrderModel.HandleOption;
 import top.philxin.service.wx.WxOrderService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,8 @@ public class WxOrderServiceImpl implements WxOrderService {
     OrderMapper orderMapper;
     @Autowired
     OrderGoodsMapper orderGoodsMapper;
+    @Autowired
+    CommentMapper commentMapper;
 
     /**
      * 此方法为根据状态获取订单列表的具体实现
@@ -155,5 +160,89 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Override
     public void deleteOrder(Integer orderId) {
         orderMapper.deleteOrder(orderId);
+    }
+
+    /**
+     * 此方法为支付订单的具体实现
+     * 更新状态码为201,增加paytime和updatetime
+     * @param orderId
+     */
+    //此方法需扣除库存，逻辑未做
+    @Override
+    public void prepayOrder(Integer orderId) {
+        Date date = new Date();
+        orderMapper.prepayOrder(orderId,date);
+    }
+
+    /**
+     * 此方法为用户取消订单，此时订单未付款
+     * 更新状态码为102,增加endtime和updatetime
+     * @param orderId
+     */
+    @Override
+    public void cancelOrder(Integer orderId) {
+        Date date = new Date();
+        orderMapper.cancelOrder(orderId,date);
+    }
+
+    //此方法需返还库存，逻辑未做
+    /**
+     * 此方法为用户退款取消订单
+     * 更新状态码为202,增加endtime和updatetime
+     * @param orderId
+     */
+    @Override
+    public void refundOrder(Integer orderId) {
+        Date date = new Date();
+        orderMapper.refundOrder(orderId,date);
+    }
+
+    /**
+     * 修改状态码为401
+     * 增加updatetime和endtime
+     * @param orderId
+     */
+    @Override
+    public void confrimOrder(Integer orderId) {
+        Date date = new Date();
+        orderMapper.confrimOrder(orderId,date);
+    }
+
+    /**
+     * 此方法用于根据orderId和goodsId获取orderGoods
+     * @param orderId
+     * @param goodsId
+     * @return
+     */
+    @Override
+    public OrderGoods getOrderGoods(Integer orderId, Integer goodsId) {
+        OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
+        orderGoodsExample.createCriteria().andDeletedEqualTo(false).andOrderIdEqualTo(orderId).andGoodsIdEqualTo(goodsId);
+        List<OrderGoods> orderGoods = orderGoodsMapper.selectByExample(orderGoodsExample);
+        return orderGoods.get(0);
+    }
+
+    /**
+     * 此方法用于对购买商品进行评论的具体实现
+     * @param comment
+     */
+    @Override
+    public void commentOrder(Comment comment) {
+        Integer orderGoodsId = comment.getOrderGoodsId();
+        OrderGoods orderGoods = orderGoodsMapper.selectByPrimaryKey(orderGoodsId);
+        comment.setValueId(orderGoods.getGoodsId());
+        //订单商品评论，设置type为3
+        comment.setType((byte) 3);
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        comment.setUserId(userId);
+        comment.setAddTime(new Date());
+        comment.setUpdateTime(new Date());
+        comment.setDeleted(false);
+        commentMapper.insert(comment);
+        //修改orderGoods中的comments不为0，让商品不可再次被评论
+        OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
+        orderGoodsExample.createCriteria().andIdEqualTo(orderGoodsId);
+        orderGoods.setComment(comment.getId());
+        orderGoodsMapper.updateByExampleSelective(orderGoods,orderGoodsExample);
     }
 }
