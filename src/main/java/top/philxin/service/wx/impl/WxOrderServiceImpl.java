@@ -239,7 +239,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         comment.setUpdateTime(new Date());
         comment.setDeleted(false);
         commentMapper.insert(comment);
-        //修改orderGoods中的comments不为0，让商品不可再次被评论
+        //修改orderGoods中的comments为其在数据库中的编号，让商品不可再次被评论
         OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
         orderGoodsExample.createCriteria().andIdEqualTo(orderGoodsId);
         orderGoods.setComment(comment.getId());

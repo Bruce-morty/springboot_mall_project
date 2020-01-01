@@ -359,6 +359,7 @@
   <select id="selectGoods" resultType="top.philxin.model.Goods">
     select id,name,brief,pic_url as picUrl, is_new as isNew,is_hot as isHot,
     counter_price as counterPrice, retail_price as retailPrice from cskaoyan_mall_goods
-    where deleted = 0 and category_id = #{id} order by retailPrice limit 4 offset 0
+    where deleted = 0 and category_id in (select id from cskaoyan_mall_category where pid = #{id})
+    order by retailPrice limit 4 offset 0
   </select>
 </mapper>
