@@ -5,6 +5,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.philxin.exception.GlobalExceptionHandler;
 import top.philxin.mapper.*;
 import top.philxin.mapper.cart.CartFastAddMapper;
 import top.philxin.model.*;
@@ -258,6 +259,8 @@ public class WxCartServiceImpl implements WxCartService {
         Integer userId = (Integer) session.getAttribute("userId");
 
         List<Cart> checkedGoodsList = null;
+
+        Address checkedAddress = null;
                 //订单总金额
         BigDecimal orderTotalPrice = new BigDecimal("0");
         int otp = 0;
@@ -281,7 +284,9 @@ public class WxCartServiceImpl implements WxCartService {
         AddressExample addressExample = new AddressExample();
         addressExample.createCriteria().andUserIdEqualTo(userId).andIsDefaultEqualTo(true);
         List<Address> addresses = addressMapper.selectByExample(addressExample);
-        Address checkedAddress = addresses.get(0);
+        if (addresses!=null){
+            checkedAddress = addresses.get(0);
+        }
 
 
         /*//团购金额,这里目前还未判断是否符合团购条件
@@ -337,17 +342,27 @@ public class WxCartServiceImpl implements WxCartService {
 
     @Override
     public int fastAdd(AddGoodsVo addGoodsVo) {
+
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-        queryCartAfterAdd(addGoodsVo);
+        Address address = null;
         Integer productId = addGoodsVo.getProductId();
+        CartExample cartExample = new CartExample();
+        cartExample.createCriteria().andProductIdEqualTo(productId);
+        //看购物车是否存在该商品，若存在则不再向购物车添加，否则添加
+        List<Cart> carts = cartMapper.selectByExample(cartExample);
+        if (carts.size()==0){
+            queryCartAfterAdd(addGoodsVo);
+        }
         int cartId = cartFastAddMapper.selectCartId(productId);
         AddressExample addressExample = new AddressExample();
         addressExample.createCriteria().andUserIdEqualTo(userId).andIsDefaultEqualTo(true).andDeletedEqualTo(false);
         List<Address> addresses = addressMapper.selectByExample(addressExample);
-        Address address = addresses.get(0);
-        checkoutCart(cartId,address.getId(),0,0);
+        if (addresses!=null){
+            address = addresses.get(0);
+        }
+
         return cartId;
     }
 

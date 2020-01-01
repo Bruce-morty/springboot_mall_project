@@ -55,4 +55,6 @@ public class GlobalExceptionHandler {
 
         return BaseRespVo.error(402,"参数值不对");
     }
+
+
 }
