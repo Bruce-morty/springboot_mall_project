@@ -16,6 +16,7 @@ import top.philxin.model.WxCartModel.CheckProductVo;
 import top.philxin.service.wx.WxCartService;
 
 import java.io.Serializable;
+import java.lang.System;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -79,7 +80,7 @@ public class WxCartServiceImpl implements WxCartService {
         Date date = new Date();
         //判断cart表中是否已经存在该productId的商品
         CartExample cartExample = new CartExample();
-        cartExample.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId);
+        cartExample.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId).andDeletedEqualTo(false);
         List<Cart> carts1 = cartMapper.selectByExample(cartExample);
         if (carts1.size()==0){
                 cart = new Cart(userId,
@@ -100,7 +101,7 @@ public class WxCartServiceImpl implements WxCartService {
             int i = cart1.getNumber().intValue() + number.intValue();
             cart1.setNumber((short)i);
             CartExample cartExample1 = new CartExample();
-            cartExample1.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId);
+            cartExample1.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId).andDeletedEqualTo(false);
             cartMapper.updateByExampleSelective(cart1,cartExample1);
 
         }
@@ -256,7 +257,7 @@ public class WxCartServiceImpl implements WxCartService {
         Session session = subject.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
 
-        List<Cart> checkedGoodsList = null;
+        List<Cart> checkedGoodsList = new ArrayList<>();
 
         Address checkedAddress = null;
                 //订单总金额
@@ -299,6 +300,7 @@ public class WxCartServiceImpl implements WxCartService {
             Cart cart = cartMapper.selectByPrimaryKey(cartId);
             gtp=(cart.getPrice().intValue())*(cart.getNumber().intValue());
             checkedGoodsList.add(cart);
+            System.out.println(1);
         }else {
             checkedGoodsList = cartMapper.selectByExample(cartExample);
             for (Cart cart : checkedGoodsList) {
@@ -339,34 +341,77 @@ public class WxCartServiceImpl implements WxCartService {
     }
 
     @Override
-    public int fastAdd(AddGoodsVo addGoodsVo) {
+    public int fastAdd(AddGoodsVo addGoods) {
 
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-<<<<<<< HEAD
-        Address address = null;
-=======
+
+        //Address address = null;
+
         if(userId == null) {
             return -1;
         }
-        queryCartAfterAdd(addGoodsVo);
->>>>>>> f73cd4cfffd1dff54e8e6a844e40429e814bb5f6
-        Integer productId = addGoodsVo.getProductId();
-        CartExample cartExample = new CartExample();
-        cartExample.createCriteria().andProductIdEqualTo(productId);
-        //看购物车是否存在该商品，若存在则不再向购物车添加，否则添加
+        queryCartAfterAdd(addGoods);
+        Integer productId = addGoods.getProductId();
+//        CartExample cartExample = new CartExample();
+//        cartExample.createCriteria().andProductIdEqualTo(productId);
+        /*//看购物车是否存在该商品，若存在则不再向购物车添加，否则添加
         List<Cart> carts = cartMapper.selectByExample(cartExample);
         if (carts.size()==0){
             queryCartAfterAdd(addGoodsVo);
+        }*/
+        int cartId = updateAfterFastAdd(addGoods,userId);
+//        AddressExample addressExample = new AddressExample();
+//        addressExample.createCriteria().andUserIdEqualTo(userId).andIsDefaultEqualTo(true).andDeletedEqualTo(false);
+//        List<Address> addresses = addressMapper.selectByExample(addressExample);
+//        if (addresses!=null){
+//            address = addresses.get(0);
+//        }
+        //checkoutCart(cartId,address.getId(),0,0);
+        return cartId;
+    }
+
+    private int updateAfterFastAdd(AddGoodsVo addGoods,int userId){
+
+        Integer productId = addGoods.getProductId();
+        Short number = addGoods.getNumber();
+        //获得goodsId 来查询goods表
+        Integer goodsId = addGoods.getGoodsId();
+        Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+
+
+        GoodsProduct goodsProduct = goodsProductMapper.selectByPrimaryKey(productId);
+        String[] specifications = goodsProduct.getSpecifications();
+        String str = Arrays.toString(specifications);
+        Date date = new Date();
+        CartExample cartExample = new CartExample();
+        cartExample.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId).andDeletedEqualTo(false);
+        List<Cart> carts = cartMapper.selectByExample(cartExample);
+        if (carts.size()==0||carts==null){
+            Cart cart = new Cart(userId,
+                    goodsId,
+                    goods.getGoodsSn(),
+                    goods.getName(),
+                    productId,
+                    goods.getRetailPrice(),
+                    number,
+                    str,
+                    true,
+                    goods.getPicUrl(),
+                    date,
+                    false);
+            cartMapper.insert(cart);
+        } else {
+            Cart cart = new Cart();
+            Date date1 = new Date();
+            cart.setUpdateTime(date1);
+            cart.setNumber(number);
+            CartExample cartExample1 = new CartExample();
+            cartExample1.createCriteria().andProductIdEqualTo(productId).andUserIdEqualTo(userId).andDeletedEqualTo(false);
+            cartMapper.updateByExampleSelective(cart,cartExample1);
         }
         int cartId = cartFastAddMapper.selectCartId(productId);
-        AddressExample addressExample = new AddressExample();
-        addressExample.createCriteria().andUserIdEqualTo(userId).andIsDefaultEqualTo(true).andDeletedEqualTo(false);
-        List<Address> addresses = addressMapper.selectByExample(addressExample);
-        if (addresses!=null){
-            address = addresses.get(0);
-        }
 
         return cartId;
     }
