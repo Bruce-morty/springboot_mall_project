@@ -6,12 +6,10 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.philxin.mapper.CommentMapper;
+import top.philxin.mapper.GrouponRulesMapper;
 import top.philxin.mapper.OrderGoodsMapper;
 import top.philxin.mapper.OrderMapper;
-import top.philxin.model.Comment;
-import top.philxin.model.Order;
-import top.philxin.model.OrderGoods;
-import top.philxin.model.OrderGoodsExample;
+import top.philxin.model.*;
 import top.philxin.model.WxCartModel.CheckOutVo;
 import top.philxin.model.WxOrderModel.HandleOption;
 import top.philxin.service.wx.WxOrderService;
@@ -28,10 +26,12 @@ public class WxOrderServiceImpl implements WxOrderService {
     OrderGoodsMapper orderGoodsMapper;
     @Autowired
     CommentMapper commentMapper;
-
+    @Autowired
+    GrouponRulesMapper grouponRulesMapper;
     /**
      * 此方法为根据状态获取订单列表的具体实现
      *  0表示全部，1表示待付款，2表示待发货，3表示待收货，4表示待评价
+     *  isGroupin根据groupon_rules中是否有订单中的goods来确定，逻辑未做，默认false
      * @return
      */
     @Override
@@ -45,7 +45,6 @@ public class WxOrderServiceImpl implements WxOrderService {
         //设置HandleOption
         for (Order orderList : orderLists) {
             setHandleOption(orderList);
-
         }
         //封入数据
         PageInfo<Order> pageInfo = new PageInfo<>(orderLists);
@@ -240,10 +239,15 @@ public class WxOrderServiceImpl implements WxOrderService {
         comment.setDeleted(false);
         commentMapper.insert(comment);
         //修改orderGoods中的comments为其在数据库中的编号，让商品不可再次被评论
-        OrderGoodsExample orderGoodsExample = new OrderGoodsExample();
-        orderGoodsExample.createCriteria().andIdEqualTo(orderGoodsId);
         orderGoods.setComment(comment.getId());
-        orderGoodsMapper.updateByExampleSelective(orderGoods,orderGoodsExample);
+        orderGoodsMapper.updateByPrimaryKeySelective(orderGoods);
+
+        //修改order表中的comments字段，减少订单中待评价商品
+        Order order = orderMapper.selectByPrimaryKey(orderGoods.getOrderId());
+        if(order.getComments() > 0) {
+            order.setComments((short) (order.getComments()-1));
+        }
+        orderMapper.updateByPrimaryKeySelective(order);
     }
 
     /**

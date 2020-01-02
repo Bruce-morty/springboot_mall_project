@@ -344,14 +344,11 @@ public class WxCartServiceImpl implements WxCartService {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-<<<<<<< HEAD
         Address address = null;
-=======
         if(userId == null) {
             return -1;
         }
         queryCartAfterAdd(addGoodsVo);
->>>>>>> f73cd4cfffd1dff54e8e6a844e40429e814bb5f6
         Integer productId = addGoodsVo.getProductId();
         CartExample cartExample = new CartExample();
         cartExample.createCriteria().andProductIdEqualTo(productId);

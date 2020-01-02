@@ -22,7 +22,6 @@ public class WxOrderController {
      * 0表示全部，1表示待付款，2表示待发货，3表示待收货，4表示待评价
      * @return
      */
-    //团购逻辑未知，目前将isGroupin全部设置为false
     @RequestMapping("order/list")
     public BaseRespVo getOrderList(Integer showType,Integer page, Integer size){
         Map map = wxOrderService.getOrderListByStatus(showType, page, size);
@@ -127,6 +126,11 @@ public class WxOrderController {
         return BaseRespVo.success();
     }
 
+    /**
+     * 此方法用于提交订单
+     * @param map
+     * @return
+     */
     @RequestMapping("order/submit")
     public BaseRespVo submitOrder(@RequestBody Map map){
         String message = (String) map.get("message");
