@@ -109,7 +109,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="top.philxin.model.Cart" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="top.philxin.model.Cart">
     insert into cskaoyan_mall_cart (id, user_id, goods_id,
       goods_sn, goods_name, product_id,
       price, number, specifications,
@@ -121,7 +121,7 @@
       #{checked,jdbcType=BIT}, #{picUrl,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="top.philxin.model.Cart" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="top.philxin.model.Cart">
     insert into cskaoyan_mall_cart
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
