@@ -342,33 +342,14 @@ public class WxCartServiceImpl implements WxCartService {
 
     @Override
     public int fastAdd(AddGoodsVo addGoods) {
-
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-
         //Address address = null;
-
         if(userId == null) {
             return -1;
         }
-        queryCartAfterAdd(addGoods);
-        Integer productId = addGoods.getProductId();
-//        CartExample cartExample = new CartExample();
-//        cartExample.createCriteria().andProductIdEqualTo(productId);
-        /*//看购物车是否存在该商品，若存在则不再向购物车添加，否则添加
-        List<Cart> carts = cartMapper.selectByExample(cartExample);
-        if (carts.size()==0){
-            queryCartAfterAdd(addGoodsVo);
-        }*/
         int cartId = updateAfterFastAdd(addGoods,userId);
-//        AddressExample addressExample = new AddressExample();
-//        addressExample.createCriteria().andUserIdEqualTo(userId).andIsDefaultEqualTo(true).andDeletedEqualTo(false);
-//        List<Address> addresses = addressMapper.selectByExample(addressExample);
-//        if (addresses!=null){
-//            address = addresses.get(0);
-//        }
-        //checkoutCart(cartId,address.getId(),0,0);
         return cartId;
     }
 
